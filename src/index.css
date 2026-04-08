@@ -1,0 +1,87 @@
+@import "tailwindcss";
+
+@theme {
+  --color-calm-primary: var(--calm-primary);
+  --color-calm-primary-hover: var(--calm-primary-hover);
+  --color-calm-secondary: var(--calm-secondary);
+  --color-calm-accent: var(--calm-accent);
+  --color-calm-bg: var(--calm-bg);
+  --color-calm-surface: var(--calm-surface);
+  --color-calm-surface-2: var(--calm-surface-2);
+  --color-calm-text: var(--calm-text);
+  --color-calm-text-muted: var(--calm-text-muted);
+  --color-calm-border: var(--calm-border);
+  --color-calm-success: var(--calm-success);
+  --color-calm-warning: var(--calm-warning);
+  --color-calm-error: var(--calm-error);
+  --color-calm-info: var(--calm-info);
+}
+
+@layer base {
+  :root {
+    --calm-primary: #6F8FAF;
+    --calm-primary-hover: #5D7C99;
+    --calm-secondary: #6FB7B0;
+    --calm-accent: #A88FD8;
+    --calm-bg: #F7F5F1;
+    --calm-surface: #FFFFFF;
+    --calm-surface-2: #F1EEE8;
+    --calm-text: #223042;
+    --calm-text-muted: #5E6B78;
+    --calm-border: #D7DEE6;
+    --calm-success: #78BFA3;
+    --calm-warning: #E8B86D;
+    --calm-error: #D97C7C;
+    --calm-info: #7DA9D8;
+  }
+
+  .dark {
+    --calm-primary: #8FAECC;
+    --calm-primary-hover: #7A9BB8;
+    --calm-secondary: #83C8C2;
+    --calm-accent: #C1AFE8;
+    --calm-bg: #0F1722;
+    --calm-surface: #162130;
+    --calm-surface-2: #1D2A3B;
+    --calm-text: #EAF1F7;
+    --calm-text-muted: #AAB7C4;
+    --calm-border: #304154;
+    --calm-success: #8DD0B2;
+    --calm-warning: #EAC27D;
+    --calm-error: #E08F8F;
+    --calm-info: #92B9E2;
+  }
+}
+
+body {
+  background-color: var(--calm-bg);
+  color: var(--calm-text);
+  font-family: 'Inter', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--calm-border);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--calm-text-muted);
+}
+
+/* AI Glowing Effect */
+@keyframes ai-pulse {
+  0% { box-shadow: 0 0 0 0 rgba(168, 143, 216, 0.2); }
+  70% { box-shadow: 0 0 0 10px transparent; }
+  100% { box-shadow: 0 0 0 0 transparent; }
+}
+.ai-glow {
+  animation: ai-pulse 2s infinite;
+}
