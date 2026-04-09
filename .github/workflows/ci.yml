@@ -1,0 +1,146 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+# Concurrency: cancel superseded runs on the same ref so a PR push
+# doesn't pile up old runs.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  lint-and-typecheck:
+    name: lint + typecheck
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+
+  unit-tests:
+    name: vitest
+    runs-on: ubuntu-latest
+    needs: lint-and-typecheck
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test -- --run
+
+  # Hard guard against re-introducing a banned provider via either
+  # source code or env var. The boot-time check in lib/env.ts catches
+  # env vars; the ESLint rule catches source. This grep is the third
+  # belt: it scans for the literal string anywhere outside the
+  # designated registry file.
+  banned-providers-grep:
+    name: banned providers
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: grep for deepseek
+        run: |
+          set -e
+          ALLOWED='lib/llm/banned.ts|lib/env.ts|tests/lib/llm.banned.test.ts|docs/decisions.md|.github/workflows/ci.yml|.eslintrc.cjs'
+          MATCHES=$(grep -RIin --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=.git "deepseek" . | grep -Ev "($ALLOWED)" || true)
+          if [ -n "$MATCHES" ]; then
+            echo "❌ Found 'deepseek' references outside the allow-list:"
+            echo "$MATCHES"
+            exit 1
+          fi
+          echo "✅ no banned provider references"
+
+  # Same idea as the banned-providers grep, but for posthog imports
+  # outside the wrapped helper. The wrapped helper enforces the
+  # `adie_*` event ban, which is the rule we care about.
+  wrapped-posthog-grep:
+    name: posthog wrapper
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: grep for posthog imports
+        run: |
+          set -e
+          ALLOWED='lib/observability/posthog.ts|lib/observability/index.ts|tests/lib/posthog.banned-events.test.ts|.eslintrc.cjs|docs/decisions.md|README.md|docs/dev-runbook.md|.github/workflows/ci.yml'
+          MATCHES=$(grep -RIin --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=.git "from ['\"]posthog" . | grep -Ev "($ALLOWED)" || true)
+          if [ -n "$MATCHES" ]; then
+            echo "❌ Found 'posthog' imports outside the wrapper:"
+            echo "$MATCHES"
+            exit 1
+          fi
+          echo "✅ all posthog imports go through @/lib/observability"
+
+  # Cross-surface imports are the single most dangerous refactor the
+  # codebase can accept. Anything in `components/admissions/` or
+  # `lib/admissions/` must never be imported from inside
+  # `app/(wellbeing)/` or `components/adie/`. The inverse is also a
+  # bug (admissions pulling in wellbeing-chrome is how PostHog ends
+  # up capturing an `adie_*` event), and this grep catches both
+  # sides.
+  #
+  # The intent: if a wellbeing file ever imports from an admissions
+  # path, fail CI. The grep looks for `@/components/admissions` or
+  # `@/lib/admissions` literals inside any .ts/.tsx file whose path
+  # lives under `app/(wellbeing)/` or `components/adie/`, and
+  # vice-versa for the wellbeing paths inside admissions surfaces.
+  cross-surface-imports:
+    name: cross-surface imports
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: grep wellbeing → admissions leakage
+        run: |
+          set -e
+          # NOTE: Bash parenthesis in path is literal — we match the
+          # Next.js route group folders exactly.
+          PATHS='app/(wellbeing) components/adie lib/wellbeing workers/handlers/adie-message.ts'
+          BAD_PATTERN='@/components/admissions|@/lib/admissions'
+          FOUND=0
+          for p in $PATHS; do
+            [ -e "$p" ] || continue
+            M=$(grep -RIin --include='*.ts' --include='*.tsx' -E "$BAD_PATTERN" "$p" || true)
+            if [ -n "$M" ]; then
+              echo "❌ Wellbeing surface is importing admissions chrome — this leaks PostHog, admissions copy, and the main nav into a mental-health surface:"
+              echo "$M"
+              FOUND=1
+            fi
+          done
+          if [ "$FOUND" -eq 1 ]; then exit 1; fi
+          echo "✅ no admissions→wellbeing leakage"
+      - name: grep admissions → wellbeing chrome leakage
+        run: |
+          set -e
+          PATHS='app/(admissions) components/admissions lib/admissions components/cef'
+          # components/ui is deliberately shared (pure presentational
+          # primitives), so we only flag `components/adie` and
+          # `lib/wellbeing` leaking into the admissions surface.
+          BAD_PATTERN='@/components/adie|@/lib/wellbeing'
+          FOUND=0
+          for p in $PATHS; do
+            [ -e "$p" ] || continue
+            M=$(grep -RIin --include='*.ts' --include='*.tsx' -E "$BAD_PATTERN" "$p" || true)
+            if [ -n "$M" ]; then
+              echo "❌ Admissions surface is importing wellbeing chrome — this puts Adie copy on an admissions page, which is a brand + safety regression:"
+              echo "$M"
+              FOUND=1
+            fi
+          done
+          if [ "$FOUND" -eq 1 ]; then exit 1; fi
+          echo "✅ no wellbeing→admissions leakage"

@@ -1,0 +1,55 @@
+{
+  "name": "admitos-mvp-platform",
+  "version": "0.0.1",
+  "private": true,
+  "description": "AdmitOS MVP — admissions platform for AdropEDU. Monorepo app (Next.js 14 App Router + Supabase + BullMQ workers). Schemas: admissions, wellbeing, commons_db. Wellbeing is physically isolated from admissions.",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint",
+    "typecheck": "tsc --noEmit",
+    "worker": "tsx workers/index.ts",
+    "db:reset": "supabase db reset",
+    "db:push": "supabase db push",
+    "db:diff": "supabase db diff",
+    "db:seed": "tsx scripts/seed.ts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:evals": "tsx scripts/run-evals.ts",
+    "check:isolation": "bash scripts/check-isolation.sh"
+  },
+  "dependencies": {
+    "@supabase/ssr": "^0.5.2",
+    "@supabase/supabase-js": "^2.47.10",
+    "@sentry/nextjs": "^8.45.0",
+    "bullmq": "^5.34.3",
+    "ioredis": "^5.4.2",
+    "langsmith": "^0.2.15",
+    "next": "14.2.18",
+    "posthog-js": "^1.195.0",
+    "posthog-node": "^4.3.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.2",
+    "@types/react": "^18.3.17",
+    "@types/react-dom": "^18.3.5",
+    "@typescript-eslint/eslint-plugin": "^8.18.1",
+    "@typescript-eslint/parser": "^8.18.1",
+    "autoprefixer": "^10.4.20",
+    "eslint": "^9.17.0",
+    "eslint-config-next": "14.2.18",
+    "postcss": "^8.4.49",
+    "tailwindcss": "^3.4.17",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2",
+    "vitest": "^2.1.8",
+    "supabase": "^2.1.1"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

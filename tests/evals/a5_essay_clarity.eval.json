@@ -1,0 +1,23 @@
+{
+  "slot": "a5.essay_clarity",
+  "judgeSlot": "a5.essay_clarity",
+  "namespace": "admissions",
+  "threshold": 0.7,
+  "_comment": "PLACEHOLDER eval suite. Real cases land once Andy ships the rubric in Thread 4 PDF #3 (essay-feedback-rubric.pdf). Until then, the runner finds this file but the judge slot does not exist in the DB and the suite is skipped at load time. The shape is locked here so adding cases later is a single-file diff.",
+  "cases": [
+    {
+      "id": "vague_opening",
+      "vars": {
+        "essay": "I have always loved learning. Ever since I was young, I knew I wanted to pursue this field."
+      },
+      "judgeMinScore": 0.6
+    },
+    {
+      "id": "concrete_opening",
+      "vars": {
+        "essay": "At 2 a.m. on a Tuesday in October, I rebuilt our school's recycling sorter using a Raspberry Pi and a coffee tin lid because the council audit was the next morning."
+      },
+      "judgeMinScore": 0.85
+    }
+  ]
+}

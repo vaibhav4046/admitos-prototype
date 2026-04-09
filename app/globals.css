@@ -1,0 +1,101 @@
+/**
+ * Global stylesheet — wires Tailwind and the small base layer that
+ * every page expects.
+ *
+ * Order matters:
+ *   1. `@tailwind base` — Preflight reset + the variable defaults.
+ *   2. `@tailwind components` — Component-class extraction layer.
+ *   3. `@tailwind utilities` — The actual `text-sm`, `bg-slate-50` etc.
+ *
+ * The `@layer base` block below adds three things on top of Preflight:
+ *   - The semantic CSS variables we used pre-Tailwind, so any inline
+ *     `style={{ color: 'var(--color-muted)' }}` left over in older
+ *     files keeps working until we migrate it.
+ *   - A consistent body type scale (anti-aliased, slate text on white).
+ *   - A high-contrast focus ring on `:focus-visible` for ALL interactive
+ *     elements that don't already supply their own — this is the safety
+ *     net that backs up the explicit focus-visible rings on Button,
+ *     AppHeader nav links, and the CEF wizard nav.
+ *
+ * The `@layer components` block adds two helpers used by multiple
+ * components:
+ *   - `.text-balance` — uses the modern `text-wrap: balance;` for
+ *     headings, falling back silently in browsers without support.
+ *   - `.shimmer` — the gradient sweep used by `<Skeleton>` placeholders.
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: #ffffff;
+    --color-fg: #0f172a;
+    --color-muted: #64748b;
+    --color-border: #e2e8f0;
+    --color-accent: #6366f1;
+    --color-wellbeing: #0ea5a6;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: transparent;
+    text-rendering: optimizeLegibility;
+  }
+
+  html,
+  body {
+    @apply min-h-screen bg-white font-sans text-slate-900 antialiased;
+  }
+
+  /* Tighten the heading scale uniformly so we never have to repeat
+     `tracking-tight` on every <h1>. Components can still override. */
+  h1,
+  h2,
+  h3 {
+    @apply tracking-tight;
+  }
+
+  /* Default focus-visible ring for ANY interactive element that hasn't
+     supplied its own. Most of our components do — Button, Link wrappers,
+     nav items — but if a future contributor adds an unstyled <button>,
+     this catches them. The ring is high-contrast on white. */
+  :where(a, button, input, select, textarea, [role="button"]):focus-visible {
+    outline: none;
+    box-shadow:
+      0 0 0 2px #ffffff,
+      0 0 0 4px #0f172a;
+    border-radius: 0.375rem;
+  }
+
+  /* Respect the user's reduced-motion preference — disable the
+     keyframe animations defined in tailwind.config.ts. */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer components {
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  .shimmer {
+    background: linear-gradient(
+      90deg,
+      rgb(241 245 249) 0%,
+      rgb(226 232 240) 50%,
+      rgb(241 245 249) 100%
+    );
+    background-size: 200% 100%;
+    animation: shimmer 1.6s linear infinite;
+  }
+}
