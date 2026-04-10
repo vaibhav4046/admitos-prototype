@@ -39,12 +39,16 @@ import { handleCefSubmitted } from "./handlers/cef-submitted";
 import { handleEssayUploaded } from "./handlers/essay-uploaded";
 import { handleAuditAlert } from "./handlers/audit-alerts";
 import { handleAdieMessage } from "./handlers/adie-message";
+import { handleAreComputation } from "./handlers/are-computation";
+import { handleExtraction } from "./handlers/extraction";
 
 const HANDLERS: Record<QueueName, Processor> = {
   [QUEUE.CEF_SUBMITTED]: handleCefSubmitted,
   [QUEUE.ESSAY_UPLOADED]: handleEssayUploaded,
   [QUEUE.AUDIT_ALERTS]: handleAuditAlert,
   [QUEUE.ADIE_MESSAGE]: handleAdieMessage,
+  [QUEUE.ARE_COMPUTATION]: handleAreComputation,
+  [QUEUE.EXTRACTION]: handleExtraction,
 };
 
 function spawnWorker(name: QueueName): Worker {

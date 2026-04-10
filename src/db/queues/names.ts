@@ -33,6 +33,12 @@ export const QUEUE = {
 
   /** Emitted on every message sent to the Adie wellbeing assistant. Wellbeing schema only. */
   ADIE_MESSAGE: "adie_message",
+
+  /** Runs the ARE prediction pipeline for a (user, school) pair. */
+  ARE_COMPUTATION: "are_computation",
+
+  /** Runs profile extraction from scraped content via Claude Haiku. 🚦-gated. */
+  EXTRACTION: "extraction",
 } as const;
 
 export type QueueName = (typeof QUEUE)[keyof typeof QUEUE];
@@ -48,4 +54,6 @@ export const QUEUE_SCHEMA: Record<QueueName, "admissions" | "wellbeing"> = {
   [QUEUE.ESSAY_UPLOADED]: "admissions",
   [QUEUE.AUDIT_ALERTS]: "admissions",
   [QUEUE.ADIE_MESSAGE]: "wellbeing",
+  [QUEUE.ARE_COMPUTATION]: "admissions",
+  [QUEUE.EXTRACTION]: "admissions",
 };

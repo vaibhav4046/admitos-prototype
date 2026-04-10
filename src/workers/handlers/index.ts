@@ -11,3 +11,5 @@ export { handleCefSubmitted } from "./cef-submitted";
 export { handleEssayUploaded } from "./essay-uploaded";
 export { handleAuditAlert } from "./audit-alerts";
 export { handleAdieMessage } from "./adie-message";
+export { handleAreComputation } from "./are-computation";
+export { handleExtraction } from "./extraction";

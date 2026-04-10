@@ -23,7 +23,7 @@ import {
 } from "@/db/queues/names";
 
 describe("QUEUE constants", () => {
-  it("has the four exact names locked by V2", () => {
+  it("has the six exact names locked by V2", () => {
     // Don't rename or add without updating the worker registration
     // and telling Andy. These strings MUST match the PRD and the
     // worker process-queues list verbatim.
@@ -32,6 +32,8 @@ describe("QUEUE constants", () => {
       ESSAY_UPLOADED: "essay_uploaded",
       AUDIT_ALERTS: "audit_alerts",
       ADIE_MESSAGE: "adie_message",
+      ARE_COMPUTATION: "are_computation",
+      EXTRACTION: "extraction",
     });
   });
 
@@ -62,10 +64,12 @@ describe("QUEUE_SCHEMA routing", () => {
     expect(QUEUE_SCHEMA[QUEUE.ADIE_MESSAGE]).toBe("wellbeing");
   });
 
-  it("routes cef_submitted, essay_uploaded, audit_alerts to admissions", () => {
+  it("routes cef_submitted, essay_uploaded, audit_alerts, are_computation, extraction to admissions", () => {
     expect(QUEUE_SCHEMA[QUEUE.CEF_SUBMITTED]).toBe("admissions");
     expect(QUEUE_SCHEMA[QUEUE.ESSAY_UPLOADED]).toBe("admissions");
     expect(QUEUE_SCHEMA[QUEUE.AUDIT_ALERTS]).toBe("admissions");
+    expect(QUEUE_SCHEMA[QUEUE.ARE_COMPUTATION]).toBe("admissions");
+    expect(QUEUE_SCHEMA[QUEUE.EXTRACTION]).toBe("admissions");
   });
 
   it("covers every queue name — no orphans", () => {

@@ -126,6 +126,36 @@ export async function enqueueAdieMessage(
   await enqueue(QUEUE.ADIE_MESSAGE, "adie:message", payload, ctx);
 }
 
+// ─── are_computation ────────────────────────────────────────────────────────
+
+export interface AreComputationPayload {
+  userId: string;
+  schoolSlug: string;
+  cefVersion: number;
+}
+
+export async function enqueueAreComputation(
+  payload: AreComputationPayload,
+  ctx: { requestId: string; cause: string }
+): Promise<void> {
+  await enqueue(QUEUE.ARE_COMPUTATION, "are:compute", payload, ctx);
+}
+
+// ─── extraction ─────────────────────────────────────────────────────────────
+
+export interface ExtractionPayload {
+  sourceUrl: string;
+  sourcePlatform: string;
+  sourceHash: string;
+}
+
+export async function enqueueExtraction(
+  payload: ExtractionPayload,
+  ctx: { requestId: string; cause: string }
+): Promise<void> {
+  await enqueue(QUEUE.EXTRACTION, "extraction:run", payload, ctx);
+}
+
 // ─── shared internal ─────────────────────────────────────────────────────────
 
 async function enqueue<T>(

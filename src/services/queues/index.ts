@@ -11,11 +11,15 @@ export {
   enqueueEssayUploaded,
   enqueueAuditAlert,
   enqueueAdieMessage,
+  enqueueAreComputation,
+  enqueueExtraction,
 } from "./enqueue";
 export type {
   CefSubmittedPayload,
   EssayUploadedPayload,
   AuditAlertPayload,
   AdieMessagePayload,
+  AreComputationPayload,
+  ExtractionPayload,
   JobEnvelope,
 } from "./enqueue";
