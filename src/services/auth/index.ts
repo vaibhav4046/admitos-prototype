@@ -16,3 +16,11 @@ export {
   type AuthUser,
   type UserRole,
 } from "./types";
+
+export {
+  decodeJwtPayload,
+  extractBearerToken,
+  extractRole,
+  isExpired,
+  type JwtPayload,
+} from "./jwt";

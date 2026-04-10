@@ -29,6 +29,12 @@
 import { NextResponse, type NextRequest } from "next/server";
 
 import { generateRequestId } from "@/lib/utils/request-id";
+import {
+  decodeJwtPayload,
+  extractBearerToken,
+  extractRole,
+  isExpired,
+} from "@/services/auth/jwt";
 
 export type Namespace = "admissions" | "wellbeing" | "commons" | "public";
 
@@ -71,6 +77,34 @@ export function middleware(req: NextRequest) {
     });
   }
 
+  // --- JWT decode (fast-path, no signature verification) ---
+  // Decode the bearer token to extract the user's role for coarse-grained
+  // isolation checks. The authoritative verification happens in
+  // getCurrentUser() inside route handlers — this is belt-and-braces.
+  const bearerToken =
+    extractBearerToken(req.headers.get("authorization")) ??
+    extractBearerFromCookie(req);
+  let roleHint: string | null = null;
+
+  if (bearerToken) {
+    const payload = decodeJwtPayload(bearerToken);
+    if (payload) {
+      if (isExpired(payload)) {
+        // Don't hard-reject — let the route handler's getUser() call
+        // return null and produce a clean 401. We just skip stamping
+        // the role hint so downstream checks see "unauthenticated".
+      } else {
+        roleHint = extractRole(payload);
+        if (roleHint) {
+          requestHeaders.set("X-Admitos-Role-Hint", roleHint);
+        }
+        if (payload.sub) {
+          requestHeaders.set("X-Admitos-User-Id", payload.sub);
+        }
+      }
+    }
+  }
+
   // The wellbeing namespace is also protected against being hit with
   // an admissions-origin referer. This is belt-and-braces on top of
   // the JWT role check that happens inside the route handler.
@@ -84,12 +118,11 @@ export function middleware(req: NextRequest) {
     }
   }
 
-  // Admissions namespace must never be hit with a wellbeing role header.
-  // The actual role claim is read server-side in the route handler — this
-  // is just a fast-path rejection for anything obviously wrong.
+  // Admissions namespace must never be hit with a wellbeing-only token.
+  // If the JWT decodes to a role that shouldn't access admissions, reject early.
   if (ns === "admissions") {
-    const roleHint = req.headers.get("X-Admitos-Role-Hint");
-    if (roleHint === "wellbeing-only") {
+    const incomingRoleHint = roleHint ?? req.headers.get("X-Admitos-Role-Hint");
+    if (incomingRoleHint === "wellbeing-only") {
       return jsonError(403, "admissions_forbidden_for_wellbeing_role", {
         requestId,
       });
@@ -120,6 +153,26 @@ function jsonError(
       headers: { "content-type": "application/json" },
     }
   );
+}
+
+/**
+ * Extract the Supabase access token from the cookie jar. Supabase
+ * stores its session as `sb-<ref>-auth-token` in a JSON-encoded
+ * cookie. We look for any cookie matching `sb-*-auth-token` and
+ * parse the access_token out of it.
+ */
+function extractBearerFromCookie(req: NextRequest): string | null {
+  for (const cookie of req.cookies.getAll()) {
+    if (cookie.name.startsWith("sb-") && cookie.name.endsWith("-auth-token")) {
+      try {
+        const parsed = JSON.parse(cookie.value) as { access_token?: string };
+        if (parsed.access_token) return parsed.access_token;
+      } catch {
+        // Malformed cookie — skip
+      }
+    }
+  }
+  return null;
 }
 
 // Only run the middleware on API routes. Static assets and pages go straight
