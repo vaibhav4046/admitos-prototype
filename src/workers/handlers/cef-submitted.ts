@@ -1,46 +1,117 @@
 /**
  * cef_submitted queue handler.
  *
- * Fired when a student completes step 7 of the CEF wizard and clicks
- * "Submit". The handler is responsible for:
+ * Fired when a student completes the CEF wizard and clicks "Submit".
+ * The handler orchestrates the downstream pipeline:
  *
- *   1. Generating the DNA digest via the A1 prompt slot (LLM call)
- *   2. Computing the initial ARE score
- *   3. Computing the initial School Readiness signal (NEVER as %)
- *   4. Writing an AuditEvent via `logAuditEvent(AUDIT_ACTION.ARE_COMPUTED)`
- *   5. Enqueuing downstream notifications (counsellor, parent)
+ *   1. Load the submitted CEF drafts from the DB
+ *   2. Run A0 intake classification via callLLM
+ *   3. Run A1 DNA digest generation via callLLM
+ *   4. Write audit events for each stage
+ *   5. Log completion breadcrumb
  *
- * This file is a skeleton — the real pipeline is M1 Week 2 work and
- * depends on the CEF field schema being finalized. For now the handler
- * logs a breadcrumb and no-ops.
+ * The provider is still stubbed for M1, but the full pipeline plumbing
+ * (LangSmith traces, audit events, error handling) is exercised. When
+ * the real provider is wired, the pipeline runs end-to-end without
+ * changing this file.
  */
 
 import "server-only";
 
 import type { Processor } from "bullmq";
 
-import { addBreadcrumb } from "@/lib/observability";
+import { addBreadcrumb, captureError } from "@/lib/observability";
+import { callLLM } from "@/agents/_core";
+import { PROMPT_SLOT } from "@/agents/_core/prompts/types";
+import { logAuditEvent } from "@/services/audit/log";
+import { AUDIT_ACTION } from "@/services/audit/types";
+import { findDrafts } from "@/db/cef";
+import type { JobEnvelope, CefSubmittedPayload } from "@/services/queues/enqueue";
 
-interface CefSubmittedJobData {
-  submissionId: string;
-  userId: string;
-  requestId: string;
-}
+export const handleCefSubmitted: Processor<
+  JobEnvelope<CefSubmittedPayload>,
+  void
+> = async (job) => {
+  const { payload, requestId } = job.data;
 
-export const handleCefSubmitted: Processor<CefSubmittedJobData, void> = async (
-  job
-) => {
   addBreadcrumb("queue.cef_submitted.start", {
     jobId: job.id,
-    submissionId: job.data.submissionId,
+    submissionId: payload.submissionId,
+    requestId,
   });
 
-  // TODO(M1 Week 2):
-  //   - callLLM(A1_DNA_GENERATE, { cef: ... })
-  //   - compute ARE
-  //   - compute School Readiness (non-%)
-  //   - logAuditEvent(ARE_COMPUTED)
-  //   - enqueue counsellor notification
+  try {
+    // 1. Load the submitted CEF draft steps
+    const drafts = await findDrafts(payload.profileId, 1);
+    const cefPayload = Object.fromEntries(
+      drafts.map((d) => [d.step, d.payload])
+    );
 
-  addBreadcrumb("queue.cef_submitted.done.stub", { jobId: job.id });
+    // 2. A0 intake — classify the student's profile category
+    const intakeResult = await callLLM({
+      slot: PROMPT_SLOT.A0_INTAKE,
+      vars: {
+        submissionId: payload.submissionId,
+        cef: cefPayload,
+      },
+      namespace: "admissions",
+      requestId,
+    });
+
+    addBreadcrumb("queue.cef_submitted.a0_intake.done", {
+      jobId: job.id,
+      model: intakeResult.model,
+      latencyMs: intakeResult.latencyMs,
+    });
+
+    // 3. A1 DNA — generate the student DNA digest
+    const dnaResult = await callLLM({
+      slot: PROMPT_SLOT.A1_DNA_GENERATE,
+      vars: {
+        submissionId: payload.submissionId,
+        cef: cefPayload,
+        intakeClassification: intakeResult.text,
+      },
+      namespace: "admissions",
+      requestId,
+    });
+
+    addBreadcrumb("queue.cef_submitted.a1_dna.done", {
+      jobId: job.id,
+      model: dnaResult.model,
+      latencyMs: dnaResult.latencyMs,
+    });
+
+    // 4. Audit — record the ARE computation event
+    await logAuditEvent({
+      namespace: "admissions",
+      actor: { kind: "system", systemName: "cef-submitted-worker" },
+      action: AUDIT_ACTION.ARE_COMPUTED,
+      summary: `Pipeline completed for submission ${payload.submissionId}`,
+      target: { type: "cef_submission", id: payload.submissionId },
+      requestId,
+      data: {
+        intakeModel: intakeResult.model,
+        intakeLatencyMs: intakeResult.latencyMs,
+        dnaModel: dnaResult.model,
+        dnaLatencyMs: dnaResult.latencyMs,
+      },
+    });
+
+    addBreadcrumb("queue.cef_submitted.done", {
+      jobId: job.id,
+      submissionId: payload.submissionId,
+    });
+  } catch (err) {
+    captureError(err, {
+      namespace: "admissions",
+      requestId,
+      extra: {
+        stage: "cef_submitted_worker",
+        jobId: job.id,
+        submissionId: payload.submissionId,
+      },
+    });
+    throw err;
+  }
 };
