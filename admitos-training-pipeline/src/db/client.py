@@ -58,3 +58,63 @@ def count_profiles() -> int:
         .execute()
     )
     return result.count or 0
+
+
+def check_source_uri_exists(source_uri: str) -> bool:
+    """Check if a source_uri already exists in scrape_requests."""
+    client = _get_client()
+    result = (
+        client.schema("admissions")
+        .table("scrape_requests")
+        .select("id", count="exact")
+        .eq("source_uri", source_uri)
+        .execute()
+    )
+    return (result.count or 0) > 0
+
+
+def insert_scrape_request(
+    *, source_uri: str, subreddit: str, status: str
+) -> str:
+    """Insert a scrape_request row and return its id."""
+    client = _get_client()
+    result = (
+        client.schema("admissions")
+        .table("scrape_requests")
+        .insert({
+            "source_uri": source_uri,
+            "subreddit": subreddit,
+            "status": status,
+        })
+        .execute()
+    )
+    return result.data[0]["id"] if result.data else ""
+
+
+def update_scrape_request_status(request_id: str, status: str) -> None:
+    """Update the status of a scrape_request."""
+    client = _get_client()
+    (
+        client.schema("admissions")
+        .table("scrape_requests")
+        .update({"status": status})
+        .eq("id", request_id)
+        .execute()
+    )
+
+
+def insert_extraction_audit(
+    *, source_uri: str, status: str, reason: str | None
+) -> None:
+    """Insert an extraction_audit row."""
+    client = _get_client()
+    (
+        client.schema("admissions")
+        .table("extraction_audit")
+        .insert({
+            "source_uri": source_uri,
+            "status": status,
+            "reason": reason,
+        })
+        .execute()
+    )
