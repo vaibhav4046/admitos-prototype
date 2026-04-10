@@ -11,7 +11,7 @@
  * surface per-field issues to the UI without re-running the parse.
  */
 
-import { z } from "zod";
+import type { z } from "zod";
 
 import { ok, err, type Result } from "./result";
 

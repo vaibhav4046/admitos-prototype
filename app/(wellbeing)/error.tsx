@@ -19,8 +19,8 @@
  *     already in a fragile state, the error UI should be calm.
  *
  * Sentry has already captured the error by the time this component
- * renders (the wrapper in `lib/api/instrumented-route.ts` does that
- * server-side, and Sentry's client SDK does it for client errors).
+ * renders (the wrapper in `src/api/_core/instrumented-route.ts` does
+ * that server-side, and Sentry's client SDK does it for client errors).
  */
 
 import { useEffect } from "react";

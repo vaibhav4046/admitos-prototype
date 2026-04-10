@@ -23,7 +23,11 @@
       "@/lib/*": ["./lib/*"],
       "@/app/*": ["./app/*"],
       "@/components/*": ["./components/*"],
-      "@/workers/*": ["./workers/*"]
+      "@/workers/*": ["./src/workers/*"],
+      "@/api/*": ["./src/api/*"],
+      "@/services/*": ["./src/services/*"],
+      "@/agents/*": ["./src/agents/*"],
+      "@/db/*": ["./src/db/*"]
     }
   },
   "include": [

@@ -26,9 +26,9 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 
-import { callLLM } from "@/lib/llm";
+import { callLLM } from "@/agents/_core";
 import { logEval } from "@/lib/observability";
-import type { PromptSlot } from "@/lib/prompts";
+import type { PromptSlot } from "@/agents/_core/prompts";
 
 interface EvalCase {
   id: string;

@@ -4,7 +4,7 @@
  * M1 placeholder. The real Adie chat surface is a client component with
  * a streaming message feed, a crisis-flag listener, and a "talk to a
  * human" escalation button. That ships in M2 once the Adie persona
- * prompt is loaded via `lib/prompts/` and the `adie.crisis_check` slot
+ * prompt is loaded via `@/agents/_core/prompts` and the `adie.crisis_check` slot
  * is registered.
  *
  * Hard rules for anything imported from this file:

@@ -1,46 +1,15 @@
 /**
- * Wellbeing health route.
+ * App Router shim for GET /api/wellbeing/health.
  *
- * Mirror of the admissions health route, but against the wellbeing
- * service client. The middleware guard in `middleware.ts` already
- * checks that the referer starts with `/wellbeing/` for this path,
- * so if a request reaches this handler the isolation invariants are
- * already in place.
+ * The actual handler lives under `src/api/wellbeing/health.ts`.
+ * Wellbeing stays physically isolated from admissions — `src/api/
+ * wellbeing/` is its own subtree and the cross-surface CI grep
+ * extends into `src/` so a leak trips CI.
  *
- * We do NOT use PostHog, LangSmith, or any admissions-scope
- * observability in this handler. Sentry breadcrumbs are allowed via
- * the `instrumentedRoute` wrapper, and even those must not include
- * any user content (the `wellbeing.content` extra key is scrubbed
- * by the `beforeSend` hook in sentry.*.config.ts).
+ * Do not add logic here — the whole file should be imports + exports.
  */
 
-import { wellbeingDb } from "@/lib/supabase";
-import { instrumentedRoute } from "@/lib/api";
+export { GET } from "@/api/wellbeing/health";
 
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
-
-export const GET = instrumentedRoute(
-  { namespace: "wellbeing", route: "/api/wellbeing/health" },
-  async (ctx) => {
-    let dbOk = false;
-    let dbError: string | null = null;
-
-    try {
-      const client = wellbeingDb();
-      const { error } = await client.rpc("now_utc");
-      if (error && error.code !== "PGRST202") throw error;
-      dbOk = true;
-    } catch (err) {
-      dbError = err instanceof Error ? err.message : String(err);
-    }
-
-    return {
-      ok: dbOk,
-      namespace: "wellbeing",
-      requestId: ctx.requestId,
-      startedAt: ctx.request.headers.get("x-admitos-started-at"),
-      db: dbOk ? "ok" : { status: "error", message: dbError },
-    };
-  }
-);

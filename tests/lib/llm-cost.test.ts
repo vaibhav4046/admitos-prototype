@@ -5,7 +5,7 @@
 
 import { describe, it, expect } from "vitest";
 
-import { estimateCostUsd, totalCostUsd } from "@/lib/observability/llm-cost";
+import { estimateCostUsd, totalCostUsd } from "@/agents/_core/observability/llm-cost";
 
 describe("estimateCostUsd", () => {
   it("computes Sonnet cost for a typical essay-clarity call", () => {

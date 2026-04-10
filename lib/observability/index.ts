@@ -11,4 +11,3 @@ export { captureError, addBreadcrumb } from "./sentry";
 export { traced, logEval, langsmithEnabled } from "./langsmith";
 export { capture, shutdown as posthogShutdown } from "./posthog";
 export { EVENT, type EventName } from "./event-names";
-export { estimateCostUsd, totalCostUsd } from "./llm-cost";

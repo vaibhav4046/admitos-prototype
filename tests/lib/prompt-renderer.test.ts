@@ -11,8 +11,8 @@
 
 import { describe, it, expect } from "vitest";
 
-import { renderPrompt } from "@/lib/prompts/renderer";
-import type { PromptVersion } from "@/lib/prompts/types";
+import { renderPrompt } from "@/agents/_core/prompts/renderer";
+import type { PromptVersion } from "@/agents/_core/prompts/types";
 
 function makePrompt(
   system: string,

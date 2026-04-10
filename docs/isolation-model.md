@@ -100,7 +100,7 @@ can't leak the chat body into observability.
 schema and read back by the worker using the wellbeing service client.
 
 **Where to look:** `sentry.*.config.ts`, `lib/log/index.ts`,
-`lib/queues/names.ts`, `workers/handlers/adie-message.ts`.
+`src/db/queues/names.ts`, `src/workers/handlers/adie-message.ts`.
 
 ## Layer 6 — Cross-surface import ban (CI + local)
 
@@ -119,9 +119,9 @@ deliberately shared because its primitives are pure presentational
 ## What is allowed to be shared
 
 Only `components/ui/` and the pure-utility modules in `lib/utils/`,
-`lib/api/` (the response envelopes), `lib/observability/` (through
-its wrapped helpers), and `lib/audit/` (when the `namespace` field
-is explicitly passed). Everything else — copy, chrome, service
+`src/api/_core/` (the response envelopes), `lib/observability/`
+(through its wrapped helpers), and `src/services/audit/` (when the
+`namespace` field is explicitly passed). Everything else — copy, chrome, service
 clients, hooks, types that reference DB shapes — lives under either
 `admissions` or `wellbeing` and does not cross the line.
 

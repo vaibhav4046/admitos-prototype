@@ -25,8 +25,12 @@ import { useEffect, useState } from "react";
 import type { AutosaveStatus as Status } from "@/lib/cef/use-cef-autosave";
 
 interface AutosaveStatusProps {
-  status: Status;
-  lastSavedAt: Date | null;
+  // Props are optional so the server-rendered `CefStepShell` can mount
+  // this component without knowing the autosave state. Once the CEF
+  // wizard is wired to `useCefAutosave`, the hook output is passed in
+  // explicitly from a client wrapper. Defaults render the "idle" dash.
+  status?: Status;
+  lastSavedAt?: Date | null;
   errorMessage?: string | null;
 }
 
@@ -42,8 +46,8 @@ function relative(from: Date | null): string {
 }
 
 export function AutosaveStatus({
-  status,
-  lastSavedAt,
+  status = "idle",
+  lastSavedAt = null,
   errorMessage,
 }: AutosaveStatusProps) {
   // Tick every 30s so the relative-time string keeps refreshing.

@@ -29,7 +29,7 @@
 import type { ReactNode } from "react";
 
 import { AdmissionsHeader } from "@/components/admissions";
-import { getCurrentUser } from "@/lib/auth/server";
+import { getCurrentUser } from "@/services/auth/server";
 import { displayNameFromEmail } from "@/lib/utils";
 
 /**

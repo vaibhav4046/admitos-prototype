@@ -18,7 +18,12 @@ import * as Sentry from "@sentry/nextjs";
 export function captureError(
   error: unknown,
   context?: {
-    namespace?: "admissions" | "wellbeing" | "commons";
+    // Accept the raw schema namespace used by `AuditNamespace` / the
+    // per-schema service clients so callers don't have to remap
+    // `"commons_db"` → `"commons"` at every call site. Sentry tags are
+    // plain strings — no value in narrowing this further than the
+    // actual set of schemas.
+    namespace?: "admissions" | "wellbeing" | "commons_db";
     requestId?: string;
     userId?: string;
     extra?: Record<string, unknown>;

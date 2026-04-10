@@ -36,10 +36,10 @@ const SECURITY_HEADERS = [
 const nextConfig = {
   reactStrictMode: true,
   poweredByHeader: false,
-  experimental: {
-    // Ensure server-only modules never leak into the client bundle.
-    serverComponentsExternalPackages: ["bullmq", "ioredis", "@sentry/nextjs"],
-  },
+  // Ensure server-only modules never leak into the client bundle.
+  // Renamed from `experimental.serverComponentsExternalPackages` in
+  // Next 15 — the new key is top-level and no longer experimental.
+  serverExternalPackages: ["bullmq", "ioredis", "@sentry/nextjs"],
   // Route-group isolation is enforced at the middleware layer, not via rewrites.
   // See middleware.ts.
   async headers() {

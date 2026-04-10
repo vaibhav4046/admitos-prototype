@@ -43,7 +43,7 @@ describe("log", () => {
   it("emits valid JSON with the expected fields", () => {
     log.warn("test.event", { foo: 1, bar: "baz" });
     expect(warnSpy).toHaveBeenCalledTimes(1);
-    const payload = JSON.parse(warnSpy.mock.calls[0][0] as string);
+    const payload = JSON.parse(warnSpy.mock.calls[0]![0] as string);
     expect(payload).toMatchObject({
       level: "warn",
       event: "test.event",
@@ -71,7 +71,7 @@ describe("log", () => {
       "ok.field": "fine",
     });
     expect(errorSpy).toHaveBeenCalledTimes(1);
-    const payload = JSON.parse(errorSpy.mock.calls[0][0] as string);
+    const payload = JSON.parse(errorSpy.mock.calls[0]![0] as string);
     expect(payload["wellbeing.content"]).toBe("[REDACTED]");
     expect(payload["adie.message.body"]).toBe("[REDACTED]");
     expect(payload["message.body"]).toBe("[REDACTED]");

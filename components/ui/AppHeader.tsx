@@ -8,7 +8,7 @@
  *     the counsellor layout can pass different lists.
  *   - Accepts an `onSignOut` callback — the caller wires it to the
  *     actual `/api/admissions/auth/signout` POST. This component
- *     never imports `@/lib/supabase` or `@/lib/auth` so it can be
+ *     never imports `@/db/supabase` or `@/services/auth` so it can be
  *     rendered in a story, a test, or a Storybook-like preview
  *     without dragging the server runtime in.
  *

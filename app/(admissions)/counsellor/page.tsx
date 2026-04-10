@@ -33,6 +33,8 @@
  * reach into the wellbeing schema directly.
  */
 
+import Link from "next/link";
+
 import {
   Badge,
   Card,
@@ -40,7 +42,7 @@ import {
   EmptyState,
   PageHeader,
 } from "@/components/ui";
-import { AuthError, requireRole } from "@/lib/auth/server";
+import { AuthError, requireRole } from "@/services/auth/server";
 
 export const metadata = {
   title: "Counsellor — AdmitOS",
@@ -102,12 +104,12 @@ export default async function CounsellorPage() {
             <CardBody className="px-6 py-6">
               <p className="text-sm leading-relaxed text-slate-600">
                 You can still continue your application from the{" "}
-                <a
+                <Link
                   href="/"
                   className="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500"
                 >
                   admissions home page
-                </a>
+                </Link>
                 .
               </p>
             </CardBody>

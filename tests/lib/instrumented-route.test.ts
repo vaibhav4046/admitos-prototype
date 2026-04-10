@@ -7,8 +7,8 @@
  * lock the behaviour down.
  *
  * Mocks:
- *   - @/lib/auth → no current user (so audit() falls back to service actor)
- *   - @/lib/audit/log → noop (we don't need to assert audit writes here)
+ *   - @/services/auth → no current user (so audit() falls back to service actor)
+ *   - @/services/audit/log → noop (we don't need to assert audit writes here)
  *   - @/lib/observability → captureError + addBreadcrumb both spy-able
  */
 
@@ -23,11 +23,11 @@ vi.mock("@/lib/observability", () => ({
   addBreadcrumb: (...a: unknown[]) => breadcrumbSpy(...a),
 }));
 
-vi.mock("@/lib/audit/log", () => ({
+vi.mock("@/services/audit/log", () => ({
   logAuditEvent: (...a: unknown[]) => auditSpy(...a),
 }));
 
-vi.mock("@/lib/auth", async () => {
+vi.mock("@/services/auth", async () => {
   class AuthError extends Error {
     status: 401 | 403;
     constructor(message: string, status: 401 | 403) {
@@ -42,8 +42,8 @@ vi.mock("@/lib/auth", async () => {
   };
 });
 
-import { instrumentedRoute } from "@/lib/api/instrumented-route";
-import { AuthError } from "@/lib/auth";
+import { instrumentedRoute } from "@/api/_core/instrumented-route";
+import { AuthError } from "@/services/auth";
 
 function makeRequest(opts: { headers?: Record<string, string> } = {}): Request {
   return new Request("https://app.test/api/admissions/whatever", {

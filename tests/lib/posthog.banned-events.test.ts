@@ -13,7 +13,7 @@
 
 import { describe, it, expect, vi } from "vitest";
 
-vi.mock("@/lib/env", () => ({
+vi.mock("@/services/env", () => ({
   env: {
     APP_ENV: "test",
     NEXT_PUBLIC_POSTHOG_KEY: "phc_dummy",

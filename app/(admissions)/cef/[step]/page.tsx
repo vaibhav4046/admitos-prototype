@@ -33,15 +33,22 @@ function parseStep(raw: string): number | null {
   return n;
 }
 
-export default function CefStepPage({
+export default async function CefStepPage({
   params,
 }: {
-  params: { step: string };
+  // Next 15 delivers `params` as a Promise in dynamic segments. We
+  // await it once at the top of the component and use the resolved
+  // shape everywhere else — no shim.
+  params: Promise<{ step: string }>;
 }) {
-  const step = parseStep(params.step);
+  const { step: rawStep } = await params;
+  const step = parseStep(rawStep);
   if (step === null) notFound();
 
-  const meta = STEP_TITLES[step];
+  // `STEP_TITLES` is defined above for every valid step 1..TOTAL_STEPS,
+  // and `parseStep` rejects anything outside that range — the lookup
+  // is therefore total. The `!` silences `noUncheckedIndexedAccess`.
+  const meta = STEP_TITLES[step]!;
 
   return (
     <CefStepShell step={step} title={meta.title} description={meta.description}>

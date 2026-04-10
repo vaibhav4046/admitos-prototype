@@ -20,7 +20,7 @@ import {
   QUEUE,
   QUEUE_SCHEMA,
   type QueueName,
-} from "@/lib/queues/names";
+} from "@/db/queues/names";
 
 describe("QUEUE constants", () => {
   it("has the four exact names locked by V2", () => {

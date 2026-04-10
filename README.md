@@ -58,7 +58,7 @@ lib/
   audit/                        # AuditEvent append-only helper (with rollback pattern)
   prompts/                      # DB-backed prompt versioning abstraction
   cef/                          # CEF wizard state machine (fields TBD from PRD V2 PDF)
-workers/                        # BullMQ worker processes
+src/workers/                    # BullMQ worker processes
 supabase/migrations/            # SQL migrations — DDL lives here ONLY
 scripts/                        # seed, evals runner, one-off utilities
 tests/                          # vitest unit + integration tests

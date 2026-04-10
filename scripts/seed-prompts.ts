@@ -13,8 +13,8 @@
  * Run with: `pnpm db:seed:prompts`
  */
 
-import { admissionsDb, wellbeingDb } from "@/lib/supabase";
-import { PROMPT_SLOT } from "@/lib/prompts";
+import { admissionsDb, wellbeingDb } from "@/db/supabase";
+import { PROMPT_SLOT, type PromptStatus } from "@/agents/_core/prompts";
 
 interface SeedRow {
   slot: string;
@@ -23,6 +23,9 @@ interface SeedRow {
   config: Record<string, unknown>;
   model: string;
   schema: "admissions" | "wellbeing";
+  /** Defaults to `active`. Use `shadow` for experiments and for prompts
+   *  whose downstream callsite is behind a feature gate. */
+  status?: PromptStatus;
 }
 
 const ADMISSIONS_PLACEHOLDER_SYSTEM =
@@ -96,6 +99,42 @@ const SEED_ROWS: SeedRow[] = [
     model: "claude-sonnet-4-6",
     schema: "wellbeing",
   },
+  // ---------------------------------------------------------------------------
+  // Training-data profile extractor — SHADOW ONLY.
+  //
+  // This row exists so the offline eval harness and prompt-renderer tests
+  // can resolve `training.extract_profile_v1` without crashing. There is
+  // no production callsite for it yet — the training_data schema (drafts
+  // 7/8/9) is 🚦-gated on Andy's training-data sign-off.
+  //
+  // Seeding it as `shadow` rather than `active` means:
+  //   1. `getActivePrompt(slot)` throws, matching the "not yet live" state
+  //   2. `getShadowPrompt(slot)` returns this row, so eval tooling works
+  //   3. The partial unique index on (slot) WHERE status='active' stays
+  //      available for a real active version when the gate lifts
+  // ---------------------------------------------------------------------------
+  {
+    slot: PROMPT_SLOT.TRAINING_EXTRACT_PROFILE,
+    system:
+      "You are an information extraction system. Read the provided raw " +
+      "admissions anecdote and return a single JSON object matching the " +
+      "training-data profile schema. Do not editorialize. If a field is " +
+      "not present in the source, set it to null. Never invent values.",
+    user_template:
+      "SOURCE_URL: {{source_url}}\n" +
+      "ANECDOTE:\n{{anecdote}}\n\n" +
+      "Return a JSON object with the following keys: country, school_slug, " +
+      "program, intake_year, gpa_gpa4, sat_composite, act_composite, " +
+      "ielts_overall, toefl_total, ecs, essay_themes, outcome.",
+    config: {
+      maxTokens: 2000,
+      temperature: 0.0,
+      responseFormat: "json_object",
+    },
+    model: "claude-sonnet-4-6",
+    schema: "admissions",
+    status: "shadow",
+  },
 ];
 
 async function main(): Promise<void> {
@@ -111,7 +150,7 @@ async function main(): Promise<void> {
         {
           slot: row.slot,
           version: 1,
-          status: "active",
+          status: row.status ?? "active",
           system: row.system,
           user_template: row.user_template,
           config: row.config,
@@ -126,7 +165,9 @@ async function main(): Promise<void> {
       process.exit(1);
     }
     // eslint-disable-next-line no-console
-    console.log(`[seed-prompts] OK ${row.slot} (${row.schema})`);
+    console.log(
+      `[seed-prompts] OK ${row.slot} (${row.schema}, ${row.status ?? "active"})`
+    );
   }
 }
 

@@ -14,9 +14,14 @@
 
 import "server-only";
 
+// This wrapper file is the one place in the codebase where direct
+// `posthog-node` imports are allowed — everything else must route
+// through `@/lib/observability` so the banned-event guard below
+// runs on every capture.
+// eslint-disable-next-line no-restricted-imports
 import { PostHog } from "posthog-node";
 
-import { env } from "@/lib/env";
+import { env } from "@/services/env";
 
 let _client: PostHog | null = null;
 

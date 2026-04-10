@@ -7,7 +7,7 @@
 
 import { describe, it, expect } from "vitest";
 
-import { assertModelAllowed, BANNED_MODEL_PATTERNS } from "@/lib/llm/banned";
+import { assertModelAllowed, BANNED_MODEL_PATTERNS } from "@/agents/_core/banned";
 
 describe("assertModelAllowed", () => {
   it("rejects deepseek by name", () => {

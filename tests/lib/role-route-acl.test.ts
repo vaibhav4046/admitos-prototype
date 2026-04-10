@@ -1,7 +1,7 @@
 /**
  * tests/lib/role-route-acl.test.ts
  *
- * Pins `ROLE_ROUTE_ACL` from `lib/auth/types.ts`. This map is the
+ * Pins `ROLE_ROUTE_ACL` from `src/services/auth/types.ts`. This map is the
  * second-to-last line of defence in AdmitOS's permission model:
  *
  *   1. `middleware.ts`    — physical namespace isolation (admissions
@@ -20,7 +20,7 @@
 
 import { describe, expect, it } from "vitest";
 
-import { ROLE_ROUTE_ACL, type UserRole } from "@/lib/auth/types";
+import { ROLE_ROUTE_ACL, type UserRole } from "@/services/auth/types";
 
 const ALL_ROLES: readonly UserRole[] = [
   "student",

@@ -12,7 +12,7 @@ import { describe, expect, it } from "vitest";
 import { z } from "zod";
 import { NextResponse } from "next/server";
 
-import { parseJsonBody } from "@/lib/api";
+import { parseJsonBody } from "@/api/_core";
 
 const REQ_ID = "req_0123456789abcdef";
 

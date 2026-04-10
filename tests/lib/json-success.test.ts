@@ -8,7 +8,7 @@
 
 import { describe, expect, it } from "vitest";
 
-import { jsonSuccess } from "@/lib/api";
+import { jsonSuccess } from "@/api/_core";
 
 const REQ_ID = "req_0123456789abcdef";
 

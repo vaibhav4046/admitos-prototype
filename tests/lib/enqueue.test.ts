@@ -12,7 +12,7 @@
  *   - The DEFAULT_JOB_OPTS (attempts: 3, exponential backoff) flow through
  *   - The Adie payload only ever carries `messageLength`, never a body
  *
- * `@/lib/queues` is mocked at the module level so `getQueue` returns a
+ * `@/db/queues` is mocked at the module level so `getQueue` returns a
  * stub that records every `.add(...)` call. We mock `@/lib/observability`
  * the same way so `addBreadcrumb` doesn't hit Sentry in tests.
  */
@@ -21,9 +21,9 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 
 const addMock = vi.fn().mockResolvedValue(undefined);
 
-vi.mock("@/lib/queues", async () => {
-  const actual = await vi.importActual<typeof import("@/lib/queues")>(
-    "@/lib/queues"
+vi.mock("@/db/queues", async () => {
+  const actual = await vi.importActual<typeof import("@/db/queues")>(
+    "@/db/queues"
   );
   return {
     ...actual,
@@ -43,7 +43,7 @@ import {
   enqueueEssayUploaded,
   enqueueAuditAlert,
   enqueueAdieMessage,
-} from "@/lib/queues/enqueue";
+} from "@/services/queues";
 
 const REQ_ID = "req_0123456789abcdef";
 

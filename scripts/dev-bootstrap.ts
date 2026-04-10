@@ -35,7 +35,7 @@ async function checkEnv(): Promise<CheckResult> {
   try {
     // Importing the env module triggers the Zod validation. Any
     // missing or malformed var will throw here.
-    await import("../lib/env");
+    await import("../src/services/env");
     return { name: "env", ok: true, detail: "all required vars present" };
   } catch (err) {
     return {

@@ -25,7 +25,7 @@
 
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
-import { AUDIT_ACTION } from "@/lib/audit";
+import { AUDIT_ACTION } from "@/services/audit";
 
 // ---- mocks ----------------------------------------------------------------
 
@@ -37,7 +37,7 @@ const serviceClientMock = vi.fn().mockImplementation((_ns: string) => ({
   from: fromMock,
 }));
 
-vi.mock("@/lib/supabase", () => ({
+vi.mock("@/db/supabase", () => ({
   serviceClient: (ns: string) => serviceClientMock(ns),
 }));
 
@@ -48,7 +48,7 @@ vi.mock("@/lib/observability", () => ({
 }));
 
 // Import AFTER mocks are registered.
-import { auditedMutation, logAuditEvent } from "@/lib/audit/log";
+import { auditedMutation, logAuditEvent } from "@/services/audit/log";
 
 const REQ_ID = "req_0123456789abcdef";
 

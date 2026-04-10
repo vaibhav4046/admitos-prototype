@@ -16,7 +16,7 @@
 
 import { describe, expect, it } from "vitest";
 
-import { AUDIT_ACTION } from "@/lib/audit";
+import { AUDIT_ACTION } from "@/services/audit";
 
 describe("AUDIT_ACTION", () => {
   const entries = Object.entries(AUDIT_ACTION);

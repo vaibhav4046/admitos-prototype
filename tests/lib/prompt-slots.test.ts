@@ -1,7 +1,7 @@
 /**
  * tests/lib/prompt-slots.test.ts
  *
- * Pins the `PROMPT_SLOT` registry in `lib/prompts/types.ts`. Prompt slot
+ * Pins the `PROMPT_SLOT` registry in `src/agents/_core/prompts/types.ts`. Prompt slot
  * identifiers are *load-bearing strings* — they are written into the
  * `admissions.prompt_version.slot` column (and the wellbeing-schema
  * equivalent) and indexed by the loader cache key. Renaming one silently
@@ -15,7 +15,7 @@
 
 import { describe, expect, it } from "vitest";
 
-import { PROMPT_SLOT, type PromptSlot } from "@/lib/prompts/types";
+import { PROMPT_SLOT, type PromptSlot } from "@/agents/_core/prompts/types";
 
 describe("PROMPT_SLOT registry", () => {
   it("pins every slot to its exact dotted identifier", () => {
@@ -31,6 +31,7 @@ describe("PROMPT_SLOT registry", () => {
       ARE_NARRATIVE: "are.narrative",
       ADIE_CHAT: "adie.chat",
       ADIE_CRISIS_CHECK: "adie.crisis_check",
+      TRAINING_EXTRACT_PROFILE: "training.extract_profile",
     });
   });
 

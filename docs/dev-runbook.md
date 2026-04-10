@@ -131,7 +131,7 @@ admitos-mvp-platform/
 │   ├── prompts/                  ← prompt versioning
 │   ├── queues/                   ← BullMQ queue names + ioredis singleton
 │   └── supabase/                 ← service clients
-├── workers/                      ← BullMQ worker registry + handlers
+├── src/workers/                  ← BullMQ worker registry + handlers
 ├── scripts/                      ← evals runner, dev tooling
 ├── supabase/migrations/          ← schema DDL (Week 2)
 ├── tests/                        ← vitest + eval fixtures

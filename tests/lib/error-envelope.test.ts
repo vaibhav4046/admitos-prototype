@@ -14,7 +14,7 @@ import {
   jsonValidationError,
   jsonRateLimited,
   jsonCsrfFailure,
-} from "@/lib/api";
+} from "@/api/_core";
 
 const REQ_ID = "req_0123456789abcdef";
 

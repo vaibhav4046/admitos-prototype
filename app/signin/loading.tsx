@@ -14,14 +14,14 @@ export default function SignInLoading() {
           <Skeleton className="h-5 w-40" />
         </CardHeader>
         <CardBody>
-          <SkeletonLines lines={2} />
+          <SkeletonLines count={2} />
           <div className="mt-6 space-y-3">
             <Skeleton className="h-9 w-full" />
             <Skeleton className="h-9 w-full" />
           </div>
         </CardBody>
         <CardFooter>
-          <SkeletonLines lines={2} />
+          <SkeletonLines count={2} />
         </CardFooter>
       </Card>
     </div>

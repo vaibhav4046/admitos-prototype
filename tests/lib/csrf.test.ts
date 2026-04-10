@@ -3,14 +3,14 @@
  *
  * Unit tests for the signed double-submit CSRF primitive.
  *
- * We mock `@/lib/env` to inject a stable CSRF_SECRET so the tests
- * don't depend on a real .env.local. The mock pattern matches what
- * `tests/lib/posthog.banned-events.test.ts` does.
+ * We mock `@/services/env` to inject a stable CSRF_SECRET so the
+ * tests don't depend on a real .env.local. The mock pattern matches
+ * what `tests/lib/posthog.banned-events.test.ts` does.
  */
 
 import { describe, expect, it, vi, beforeEach, afterEach } from "vitest";
 
-vi.mock("@/lib/env", () => ({
+vi.mock("@/services/env", () => ({
   env: {
     CSRF_SECRET: "test-csrf-secret-must-be-at-least-32-chars-long",
     APP_ENV: "test",
@@ -21,7 +21,7 @@ import {
   issueCsrfToken,
   verifyCsrf,
   methodRequiresCsrf,
-} from "@/lib/security/csrf";
+} from "@/services/security/csrf";
 
 function buildRequest(opts: {
   cookie?: string;
@@ -121,7 +121,7 @@ describe("verifyCsrf", () => {
     const { token } = issueCsrfToken();
     const parts = token.split(".");
     // flip one char in the signature
-    const tamperedSig = parts[3].slice(0, -1) + (parts[3].endsWith("A") ? "B" : "A");
+    const tamperedSig = parts[3]!.slice(0, -1) + (parts[3]!.endsWith("A") ? "B" : "A");
     const tampered = `${parts[0]}.${parts[1]}.${parts[2]}.${tamperedSig}`;
     const req = buildRequest({
       cookie: `__Host-csrf=${encodeURIComponent(tampered)}`,

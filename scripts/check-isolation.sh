@@ -31,9 +31,14 @@ WELLBEING_PATHS=(
   "app/(wellbeing)"
   "components/adie"
   "lib/wellbeing"
-  "workers/handlers/adie-message.ts"
+  "src/workers/handlers/adie-message.ts"
 )
-BAD_ADMISSIONS_PATTERN='@/components/admissions|@/lib/admissions'
+# Match only actual ES import statements — `from "@/..."` or
+# `import "@/..."` — so the script ignores files that merely
+# mention the forbidden path in a comment (e.g. "this file must
+# not import from @/components/admissions"). Without this guard
+# the check was fooled by its own documentation.
+BAD_ADMISSIONS_PATTERN='(from|import)[[:space:]]+["'\'']@/(components/admissions|lib/admissions)'
 
 for p in "${WELLBEING_PATHS[@]}"; do
   [ -e "$p" ] || continue
@@ -55,7 +60,9 @@ ADMISSIONS_PATHS=(
   "components/cef"
   "lib/admissions"
 )
-BAD_WELLBEING_PATTERN='@/components/adie|@/lib/wellbeing'
+# Same "import statement only" constraint as the wellbeing→admissions
+# check above — see the comment there for rationale.
+BAD_WELLBEING_PATTERN='(from|import)[[:space:]]+["'\'']@/(components/adie|lib/wellbeing)'
 
 for p in "${ADMISSIONS_PATHS[@]}"; do
   [ -e "$p" ] || continue

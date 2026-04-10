@@ -17,7 +17,7 @@
  */
 
 import type { AppHeaderNavItem } from "@/components/ui";
-import type { UserRole } from "@/lib/auth/types";
+import type { UserRole } from "@/services/auth/types";
 
 /**
  * Base nav items every signed-in admissions user sees. In the same

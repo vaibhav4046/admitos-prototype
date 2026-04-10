@@ -24,7 +24,7 @@ import { describe, expect, it } from "vitest";
 import {
   ROUTE_GROUP_ALLOWED_SCHEMAS,
   SCHEMA_NAMESPACES,
-} from "@/lib/supabase";
+} from "@/db/supabase";
 
 describe("SCHEMA_NAMESPACES", () => {
   it("contains exactly the three V2 schemas in canonical order", () => {

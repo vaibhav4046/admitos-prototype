@@ -34,7 +34,7 @@
 import Link from "next/link";
 
 import { Button, Card, CardBody, PageHeader } from "@/components/ui";
-import { getCurrentUser } from "@/lib/auth/server";
+import { getCurrentUser } from "@/services/auth/server";
 import { displayNameFromEmail } from "@/lib/utils";
 
 export default async function AdmissionsIndexPage() {
@@ -98,7 +98,7 @@ export default async function AdmissionsIndexPage() {
             id="next-up-heading"
             className="text-lg font-semibold text-slate-900"
           >
-            What's coming next
+            What&apos;s coming next
           </h2>
           <p className="mt-1 text-sm text-slate-600">
             These surfaces light up as your application progresses.

@@ -4,7 +4,7 @@
  * The interesting bits — beyond the Next.js + TypeScript defaults —
  * are the custom restricted-syntax rules that enforce Thread 4 invariants
  * at lint time. These are the second line of defence behind the runtime
- * checks in `lib/env.ts` and `lib/llm/banned.ts`.
+ * checks in `src/services/env.ts` and `src/agents/_core/banned.ts`.
  */
 
 /** @type {import("eslint").Linter.Config} */
@@ -30,13 +30,13 @@ module.exports = {
         selector: "Literal[value=/deepseek/i]",
         message:
           "DeepSeek is permanently banned as a model provider on AdmitOS. " +
-          "See lib/llm/banned.ts and Thread 4.",
+          "See src/agents/_core/banned.ts and Thread 4.",
       },
       {
         selector:
           "ImportDeclaration[source.value='@anthropic-ai/sdk'], ImportDeclaration[source.value='openai']",
         message:
-          "Don't import provider SDKs directly. Go through `callLLM` from `@/lib/llm`.",
+          "Don't import provider SDKs directly. Go through `callLLM` from `@/agents/_core`.",
       },
       {
         selector:
@@ -69,7 +69,7 @@ module.exports = {
         ],
         patterns: [
           {
-            group: ["**/lib/supabase/browser-client*"],
+            group: ["**/src/db/supabase/browser-client*"],
             message:
               "browser-client.ts is client-only. Importing from server " +
               "code leaks the anon key into the server bundle.",
@@ -91,7 +91,7 @@ module.exports = {
     {
       // Allow the banned-list file itself to mention "deepseek" — it's
       // the registry that *defines* the ban.
-      files: ["lib/llm/banned.ts", "lib/env.ts", "tests/**/*.test.ts"],
+      files: ["src/agents/_core/banned.ts", "src/services/env.ts", "tests/**/*.test.ts"],
       rules: { "no-restricted-syntax": "off" },
     },
   ],

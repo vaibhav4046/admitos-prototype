@@ -16,7 +16,7 @@ const breadcrumbs: Array<{ event: string; fields: unknown }> = [];
 let pipelineExecResult: unknown[] | null = null;
 let shouldThrowOnConnect = false;
 
-vi.mock("@/lib/queues/connection", () => {
+vi.mock("@/db/queues/connection", () => {
   return {
     getRedisConnection: () => {
       if (shouldThrowOnConnect) throw new Error("redis_unreachable");
@@ -55,7 +55,7 @@ vi.mock("@/lib/observability", () => ({
   },
 }));
 
-import { rateLimit } from "@/lib/security/rate-limit";
+import { rateLimit } from "@/services/security/rate-limit";
 
 describe("rateLimit", () => {
   beforeEach(() => {
@@ -113,7 +113,7 @@ describe("rateLimit", () => {
     expect(result.allowed).toBe(true);
     expect(result.degraded).toBe(true);
     expect(breadcrumbs.length).toBe(1);
-    expect(breadcrumbs[0].event).toBe("rate_limit.degraded");
+    expect(breadcrumbs[0]!.event).toBe("rate_limit.degraded");
   });
 
   it("fails closed when failClosed: true and Redis throws", async () => {
