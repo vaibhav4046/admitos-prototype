@@ -1,0 +1,197 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex,nofollow" />
+    <title>AdmitOS — M1 visual mockups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              wellbeing: {
+                50: "#ecfeff",
+                100: "#cffafe",
+                200: "#a5f3fc",
+                500: "#0ea5a6",
+                700: "#0e7490",
+                900: "#164e63",
+              },
+            },
+            boxShadow: {
+              card: "0 1px 2px 0 rgb(15 23 42 / 0.04), 0 1px 3px 0 rgb(15 23 42 / 0.06)",
+              cardHover:
+                "0 4px 12px -2px rgb(15 23 42 / 0.08), 0 2px 4px -1px rgb(15 23 42 / 0.04)",
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      body {
+        font-family:
+          ui-sans-serif,
+          system-ui,
+          -apple-system,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        -webkit-font-smoothing: antialiased;
+      }
+    </style>
+  </head>
+  <body class="min-h-screen bg-slate-50 text-slate-900">
+    <div class="mx-auto max-w-4xl px-6 py-12">
+      <header class="border-b border-slate-200 pb-6">
+        <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+          AdmitOS · M1 visual pass · 2026-04-09
+        </p>
+        <h1 class="mt-2 text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+          Mockup index
+        </h1>
+        <p class="mt-3 max-w-2xl text-sm leading-relaxed text-slate-600">
+          Static HTML previews of every M1 surface, rendered with the same
+          Tailwind classes the real Next.js components use. Click any link
+          to open that surface in your browser — no <code>pnpm install</code>,
+          no dev server, no Supabase keys required.
+        </p>
+        <p class="mt-3 max-w-2xl text-xs leading-relaxed text-slate-500">
+          These mockups are <strong>visually identical</strong> to what the
+          real components render once Tailwind is installed in
+          <code>node_modules</code> and <code>app/page.tsx</code> is removed
+          on the host (see <code>docs/dev-runbook.md</code>). They're the
+          fastest way to preview the polished UI without leaving the file
+          system.
+        </p>
+      </header>
+
+      <section class="mt-10 grid gap-3 sm:grid-cols-2">
+        <a
+          href="./signin.html"
+          class="group rounded-xl border border-slate-200 bg-white p-5 shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-cardHover"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            /signin
+          </p>
+          <h2 class="mt-1 text-base font-semibold text-slate-900">
+            Sign-in page
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            Cold-start surface. Lives outside both route groups so no
+            PostHog provider, no admissions chrome.
+          </p>
+          <p class="mt-3 text-xs font-medium text-slate-900 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-4">
+            Open mockup →
+          </p>
+        </a>
+
+        <a
+          href="./admissions-index.html"
+          class="group rounded-xl border border-slate-200 bg-white p-5 shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-cardHover"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            / (admissions)
+          </p>
+          <h2 class="mt-1 text-base font-semibold text-slate-900">
+            Admissions index — student landing
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            First screen after sign-in. One primary CTA (start CEF), a
+            secondary "go to dashboard" link, and a quiet "what's next"
+            preview.
+          </p>
+          <p class="mt-3 text-xs font-medium text-slate-900 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-4">
+            Open mockup →
+          </p>
+        </a>
+
+        <a
+          href="./dashboard.html"
+          class="group rounded-xl border border-slate-200 bg-white p-5 shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-cardHover"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            /dashboard
+          </p>
+          <h2 class="mt-1 text-base font-semibold text-slate-900">
+            Student dashboard
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            Three-tile dashboard with status badges, hover lift, featured
+            CEF tile, and the wellbeing-isolation footer.
+          </p>
+          <p class="mt-3 text-xs font-medium text-slate-900 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-4">
+            Open mockup →
+          </p>
+        </a>
+
+        <a
+          href="./cef-step.html"
+          class="group rounded-xl border border-slate-200 bg-white p-5 shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-cardHover"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            /cef/[step]
+          </p>
+          <h2 class="mt-1 text-base font-semibold text-slate-900">
+            CEF wizard step
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            One step of the seven-step Candidate Engagement Form, with
+            progress bar, autosave footer, and back/next nav.
+          </p>
+          <p class="mt-3 text-xs font-medium text-slate-900 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-4">
+            Open mockup →
+          </p>
+        </a>
+
+        <a
+          href="./counsellor.html"
+          class="group rounded-xl border border-slate-200 bg-white p-5 shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-cardHover"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wider text-slate-500">
+            /counsellor
+          </p>
+          <h2 class="mt-1 text-base font-semibold text-slate-900">
+            Counsellor dashboard
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            Role-gated to counsellor + admin. Roster, HITL queue, and
+            wellbeing signals (with the isolation contract spelled out).
+          </p>
+          <p class="mt-3 text-xs font-medium text-slate-900 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-4">
+            Open mockup →
+          </p>
+        </a>
+
+        <a
+          href="./adie.html"
+          class="group rounded-xl border border-wellbeing-200 bg-wellbeing-50 p-5 shadow-card transition-all duration-200 ease-out hover:-translate-y-0.5 hover:shadow-cardHover"
+        >
+          <p class="text-xs font-semibold uppercase tracking-wider text-wellbeing-700">
+            /adie (wellbeing surface)
+          </p>
+          <h2 class="mt-1 text-base font-semibold text-slate-900">
+            Adie wellbeing companion
+          </h2>
+          <p class="mt-2 text-sm leading-relaxed text-slate-600">
+            Calmer chrome. No nav bar, no PostHog, no progress bars,
+            no urgency. Visually distinct from admissions on purpose.
+          </p>
+          <p class="mt-3 text-xs font-medium text-slate-900 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-4">
+            Open mockup →
+          </p>
+        </a>
+      </section>
+
+      <footer class="mt-12 border-t border-slate-200 pt-6 text-xs leading-relaxed text-slate-500">
+        <p>
+          These mockups are static HTML rendered with Tailwind via CDN. They
+          don't represent live data or live state — they're a faithful
+          visual preview of what each Next.js route renders. To run the real
+          app: see <code>docs/dev-runbook.md</code>.
+        </p>
+      </footer>
+    </div>
+  </body>
+</html>

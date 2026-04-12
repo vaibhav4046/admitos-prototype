@@ -1,0 +1,13 @@
+slug,display_name,country,region,institution_type,tier_band,admit_rate,median_sat_25th,median_sat_75th,median_gpa_25th,median_gpa_75th,source_dataset_year
+university-of-oxford,University of Oxford,uk,England,university,u1,0.1500,1480,1570,3.90,4.00,2024
+university-of-cambridge,University of Cambridge,uk,England,university,u1,0.1800,1490,1580,3.90,4.00,2024
+imperial-college-london,Imperial College London,uk,England,university,u2,0.2500,1420,1540,3.80,4.00,2024
+ucl,University College London,uk,England,university,u2,0.3000,1380,1520,3.80,4.00,2024
+lse,London School of Economics,uk,England,university,u2,0.2200,1440,1560,3.85,4.00,2024
+university-of-edinburgh,University of Edinburgh,uk,Scotland,university,u3,0.3500,1350,1490,3.75,4.00,2024
+kings-college-london,King's College London,uk,England,university,u3,0.3200,1350,1500,3.75,4.00,2024
+university-of-manchester,University of Manchester,uk,England,university,u3,0.4500,1300,1470,3.70,3.95,2024
+university-of-warwick,University of Warwick,uk,England,university,u3,0.4000,1320,1480,3.70,3.95,2024
+university-of-bristol,University of Bristol,uk,England,university,u3,0.3800,1310,1470,3.70,3.95,2024
+university-of-st-andrews,University of St Andrews,uk,Scotland,university,u4,0.3000,1340,1490,3.75,4.00,2024
+durham-university,Durham University,uk,England,university,u4,0.4500,1300,1460,3.70,3.95,2024

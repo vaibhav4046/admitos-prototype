@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "admitos://gold-set-v1",
+  "title": "Training Data Extraction Gold Set",
+  "description": "Hand-labelled reference rows used to calibrate the Haiku 4.5 extraction prompt for AdmitOS training data. One row per line in gold-set-v1.jsonl. Never contains raw post bodies.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "gold_id",
+    "source_platform",
+    "source_uri",
+    "source_hash",
+    "expected",
+    "difficulty",
+    "labelled_at",
+    "labelled_by"
+  ],
+  "properties": {
+    "gold_id": {
+      "type": "string",
+      "pattern": "^gold-(a2c|chanceme|cc|tsr|6thform|ukuni)-[0-9]{3}$",
+      "description": "Opaque stratified ID. Format: gold-{source-code}-{3-digit-sequence}."
+    },
+    "source_platform": {
+      "type": "string",
+      "enum": [
+        "reddit_a2c",
+        "reddit_chanceme",
+        "reddit_6thform",
+        "reddit_ukuniversities",
+        "cc",
+        "tsr"
+      ]
+    },
+    "source_uri": {
+      "type": "string",
+      "format": "uri",
+      "description": "The URL of the post. Used at labelling time and eval time to refetch. Not a privacy concern because public post URL."
+    },
+    "source_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 of the normalized post body. Lets us verify at eval time that the post hasn't changed since labelling."
+    },
+    "expected": {
+      "type": "object",
+      "description": "What the ideal extractor should return for this post.",
+      "additionalProperties": false,
+      "required": [
+        "unweighted_gpa",
+        "sat_score",
+        "act_score",
+        "ap_course_count",
+        "ec_hours_per_week",
+        "leadership_roles_count",
+        "research_experience",
+        "major_category",
+        "nationality_region",
+        "target_school_id",
+        "admission_outcome"
+      ],
+      "properties": {
+        "unweighted_gpa": {
+          "type": ["number", "null"],
+          "minimum": 0,
+          "maximum": 4
+        },
+        "sat_score": {
+          "type": ["integer", "null"],
+          "minimum": 400,
+          "maximum": 1600,
+          "multipleOf": 10
+        },
+        "act_score": {
+          "type": ["integer", "null"],
+          "minimum": 1,
+          "maximum": 36
+        },
+        "ap_course_count": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 20
+        },
+        "ec_hours_per_week": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 60
+        },
+        "leadership_roles_count": {
+          "type": ["integer", "null"],
+          "minimum": 0,
+          "maximum": 12
+        },
+        "research_experience": {
+          "type": ["boolean", "null"]
+        },
+        "major_category": {
+          "type": ["string", "null"],
+          "enum": [
+            "stem",
+            "humanities",
+            "social_science",
+            "arts",
+            "business",
+            "undecided",
+            null
+          ]
+        },
+        "nationality_region": {
+          "type": ["string", "null"],
+          "enum": [
+            "us_domestic",
+            "us_international",
+            "uk_home",
+            "uk_international",
+            "asia",
+            "middle_east",
+            "europe",
+            "africa",
+            "latam",
+            "oceania",
+            "other",
+            null
+          ]
+        },
+        "target_school_id": {
+          "type": ["string", "null"],
+          "format": "uuid"
+        },
+        "admission_outcome": {
+          "type": ["string", "null"],
+          "enum": ["admitted", "waitlisted", "rejected", null]
+        }
+      }
+    },
+    "notes": {
+      "type": "string",
+      "description": "Free-form notes from the labeller about edge cases, ambiguity, or reasoning."
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["easy", "medium", "hard"],
+      "description": "How confident the labeller was. Used to segment calibration reports — a prompt that is good on easy and bad on hard is different from one that is bad on easy."
+    },
+    "drop_reason": {
+      "type": ["string", "null"],
+      "enum": [
+        "minor_detected",
+        "ambiguous_stats",
+        "no_outcome",
+        "non_target_school",
+        "essay_only_post",
+        "duplicate_of_other_post",
+        "international_scale_unclear",
+        "deferred_or_withdrawn",
+        null
+      ],
+      "description": "If the post should be rejected at extraction, the reason. Required if all expected.* fields are null."
+    },
+    "labelled_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp when the labeller finalized this row."
+    },
+    "labelled_by": {
+      "type": "string",
+      "description": "Labeller handle. 'vaibhav' for v1."
+    }
+  }
+}

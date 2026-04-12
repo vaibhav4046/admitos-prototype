@@ -1,8 +1,63 @@
-node_modules/
-dist/
+# deps
+/node_modules
+/.pnp
+.pnp.js
+.yarn/install-state.gz
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+/dist
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# local env files — NEVER commit any of these
 .env
 .env.local
-.env.*.local
-*.log
-.DS_Store
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+
+# supabase
+.supabase/
+supabase/.branches
+supabase/.temp
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+# sentry
+.sentryclirc
+
+# IDE
+.idea/
 .vscode/
+*.swp
+*.swo
+
+# raw data snapshots (ADR-002) — NOT committed to git
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/
