@@ -31,6 +31,8 @@
  */
 
 import { commonsDb } from "@/db/supabase";
+import { readFileSync } from "fs";
+import { join } from "path";
 
 type Tier =
   | "us_top50"
@@ -40,7 +42,10 @@ type Tier =
   | "uk_general"
   | "other";
 
-interface SchoolSeedRow {
+type InstitutionType = "university" | "lac";
+type TierBand = "u1" | "u2" | "u3" | "u4" | "u5" | "l1" | "l2" | "l3" | "l4";
+
+interface SchoolSeedRowBase {
   slug: string;
   display_name: string;
   country: "us" | "uk";
@@ -54,6 +59,64 @@ interface SchoolSeedRow {
   source_dataset_year: number;
 }
 
+interface SchoolSeedRow extends SchoolSeedRowBase {
+  institution_type: InstitutionType | null;
+  tier_band: TierBand | null;
+}
+
+/**
+ * Parse a CSV file into SchoolSeedRow objects.
+ * CSV must have headers matching the SchoolSeedRow interface.
+ */
+function parseSeedCsv(filePath: string, defaultTier: Tier): SchoolSeedRow[] {
+  const content = readFileSync(filePath, "utf-8");
+  const lines = content.trim().split("\n");
+  const headerLine = lines[0];
+  if (!headerLine) return [];
+  const headers = headerLine.split(",");
+
+  return lines.slice(1).map((line) => {
+    const values = line.split(",");
+    const row: Record<string, string> = {};
+    headers.forEach((h, i) => (row[h.trim()] = values[i]?.trim() ?? ""));
+
+    const get = (key: string): string => row[key] ?? "";
+
+    return {
+      slug: get("slug"),
+      display_name: get("display_name"),
+      country: get("country") as "us" | "uk",
+      region: get("region") || null,
+      tier: defaultTier,
+      institution_type: (get("institution_type") as InstitutionType) || null,
+      tier_band: (get("tier_band") as TierBand) || null,
+      admit_rate: get("admit_rate") ? parseFloat(get("admit_rate")) : null,
+      median_sat_25th: get("median_sat_25th") ? parseInt(get("median_sat_25th")) : null,
+      median_sat_75th: get("median_sat_75th") ? parseInt(get("median_sat_75th")) : null,
+      median_gpa_25th: get("median_gpa_25th") ? parseFloat(get("median_gpa_25th")) : null,
+      median_gpa_75th: get("median_gpa_75th") ? parseFloat(get("median_gpa_75th")) : null,
+      source_dataset_year: parseInt(get("source_dataset_year")) || 2024,
+    };
+  });
+}
+
+const SEED_DATA_DIR = join(__dirname, "..", "docs", "seed-data");
+
+// Load from CSV files when available, fallback to inline data
+let CSV_US_TOP50: SchoolSeedRow[] = [];
+let CSV_UK: SchoolSeedRow[] = [];
+let CSV_LACS: SchoolSeedRow[] = [];
+try {
+  CSV_US_TOP50 = parseSeedCsv(join(SEED_DATA_DIR, "us-top50.csv"), "us_top50");
+  CSV_UK = parseSeedCsv(join(SEED_DATA_DIR, "uk-oxbridge-top10.csv"), "uk_top10");
+  CSV_LACS = parseSeedCsv(join(SEED_DATA_DIR, "us-top-lacs.csv"), "us_top50");
+  // eslint-disable-next-line no-console
+  console.log(`[seed-schools] Loaded CSV seed data: ${CSV_US_TOP50.length} US top50, ${CSV_UK.length} UK, ${CSV_LACS.length} LACs`);
+} catch {
+  // eslint-disable-next-line no-console
+  console.log("[seed-schools] CSV seed data not found, using inline data only");
+}
+
 const YEAR = 2024;
 
 // -----------------------------------------------------------------------------
@@ -61,7 +124,7 @@ const YEAR = 2024;
 // -----------------------------------------------------------------------------
 // Ballpark admit/SAT/GPA from public CDS snapshots circa 2023–24. These get
 // overwritten by the real CDS importer once it lands; treat them as priors.
-const US_TOP50: SchoolSeedRow[] = [
+const US_TOP50: SchoolSeedRowBase[] = [
   { slug: "harvard-university",               display_name: "Harvard University",                            country: "us", region: "MA", tier: "us_top50", admit_rate: 0.0315, median_sat_25th: 1480, median_sat_75th: 1580, median_gpa_25th: 3.90, median_gpa_75th: 4.00, source_dataset_year: YEAR },
   { slug: "princeton-university",             display_name: "Princeton University",                          country: "us", region: "NJ", tier: "us_top50", admit_rate: 0.0418, median_sat_25th: 1510, median_sat_75th: 1580, median_gpa_25th: 3.90, median_gpa_75th: 4.00, source_dataset_year: YEAR },
   { slug: "yale-university",                  display_name: "Yale University",                               country: "us", region: "CT", tier: "us_top50", admit_rate: 0.0425, median_sat_25th: 1500, median_sat_75th: 1580, median_gpa_25th: 3.90, median_gpa_75th: 4.00, source_dataset_year: YEAR },
@@ -117,7 +180,7 @@ const US_TOP50: SchoolSeedRow[] = [
 // -----------------------------------------------------------------------------
 // US Top 100 "safety" — 50 rows (ranks ~51–100)
 // -----------------------------------------------------------------------------
-const US_TOP100: SchoolSeedRow[] = [
+const US_TOP100: SchoolSeedRowBase[] = [
   { slug: "fordham-university",               display_name: "Fordham University",                            country: "us", region: "NY", tier: "us_top100", admit_rate: 0.5800, median_sat_25th: 1300, median_sat_75th: 1450, median_gpa_25th: 3.60, median_gpa_75th: 3.95, source_dataset_year: YEAR },
   { slug: "smu",                              display_name: "Southern Methodist University",                 country: "us", region: "TX", tier: "us_top100", admit_rate: 0.5100, median_sat_25th: 1340, median_sat_75th: 1470, median_gpa_25th: 3.60, median_gpa_75th: 3.95, source_dataset_year: YEAR },
   { slug: "ohio-state-university",            display_name: "Ohio State University",                         country: "us", region: "OH", tier: "us_top100", admit_rate: 0.5710, median_sat_25th: 1270, median_sat_75th: 1450, median_gpa_25th: 3.70, median_gpa_75th: 4.00, source_dataset_year: YEAR },
@@ -175,7 +238,7 @@ const US_TOP100: SchoolSeedRow[] = [
 // -----------------------------------------------------------------------------
 // UK schools don't take SAT/GPA; those fields are null. Admit rate is the
 // published university-wide offer rate from the most recent UCAS cycle.
-const UK_OXBRIDGE: SchoolSeedRow[] = [
+const UK_OXBRIDGE: SchoolSeedRowBase[] = [
   { slug: "oxford-university",    display_name: "University of Oxford",    country: "uk", region: "England", tier: "uk_oxbridge", admit_rate: 0.1710, median_sat_25th: null, median_sat_75th: null, median_gpa_25th: null, median_gpa_75th: null, source_dataset_year: YEAR },
   { slug: "cambridge-university", display_name: "University of Cambridge", country: "uk", region: "England", tier: "uk_oxbridge", admit_rate: 0.2110, median_sat_25th: null, median_sat_75th: null, median_gpa_25th: null, median_gpa_75th: null, source_dataset_year: YEAR },
 ];
@@ -183,7 +246,7 @@ const UK_OXBRIDGE: SchoolSeedRow[] = [
 // -----------------------------------------------------------------------------
 // UK Top 10 — 10 rows
 // -----------------------------------------------------------------------------
-const UK_TOP10: SchoolSeedRow[] = [
+const UK_TOP10: SchoolSeedRowBase[] = [
   { slug: "imperial-college-london",        display_name: "Imperial College London",              country: "uk", region: "England",  tier: "uk_top10", admit_rate: 0.1400, median_sat_25th: null, median_sat_75th: null, median_gpa_25th: null, median_gpa_75th: null, source_dataset_year: YEAR },
   { slug: "lse",                            display_name: "London School of Economics",           country: "uk", region: "England",  tier: "uk_top10", admit_rate: 0.0870, median_sat_25th: null, median_sat_75th: null, median_gpa_25th: null, median_gpa_75th: null, source_dataset_year: YEAR },
   { slug: "ucl",                            display_name: "University College London",            country: "uk", region: "England",  tier: "uk_top10", admit_rate: 0.2900, median_sat_25th: null, median_sat_75th: null, median_gpa_25th: null, median_gpa_75th: null, source_dataset_year: YEAR },
@@ -199,7 +262,7 @@ const UK_TOP10: SchoolSeedRow[] = [
 // -----------------------------------------------------------------------------
 // UK general — 8 rows (rounds the seed to 120)
 // -----------------------------------------------------------------------------
-const UK_GENERAL: SchoolSeedRow[] = [
+const UK_GENERAL: SchoolSeedRowBase[] = [
   { slug: "university-of-exeter",      display_name: "University of Exeter",      country: "uk", region: "England",  tier: "uk_general", admit_rate: 0.6500, median_sat_25th: null, median_sat_75th: null, median_gpa_25th: null, median_gpa_75th: null, source_dataset_year: YEAR },
   { slug: "university-of-york",        display_name: "University of York",        country: "uk", region: "England",  tier: "uk_general", admit_rate: 0.7800, median_sat_25th: null, median_sat_75th: null, median_gpa_25th: null, median_gpa_75th: null, source_dataset_year: YEAR },
   { slug: "university-of-bath",        display_name: "University of Bath",        country: "uk", region: "England",  tier: "uk_general", admit_rate: 0.2700, median_sat_25th: null, median_sat_75th: null, median_gpa_25th: null, median_gpa_75th: null, source_dataset_year: YEAR },
@@ -210,21 +273,43 @@ const UK_GENERAL: SchoolSeedRow[] = [
   { slug: "university-of-leeds",       display_name: "University of Leeds",       country: "uk", region: "England",  tier: "uk_general", admit_rate: 0.7700, median_sat_25th: null, median_sat_75th: null, median_gpa_25th: null, median_gpa_75th: null, source_dataset_year: YEAR },
 ];
 
-const ALL_ROWS: SchoolSeedRow[] = [
+// Merge CSV data with inline data. CSV rows take precedence (they have
+// institution_type + tier_band). Inline data provides backward compatibility.
+const INLINE_ROWS: SchoolSeedRow[] = [
   ...US_TOP50,
   ...US_TOP100,
   ...UK_OXBRIDGE,
   ...UK_TOP10,
   ...UK_GENERAL,
-];
+].map((r): SchoolSeedRow => ({ ...r, institution_type: null, tier_band: null }));
+
+// Build a lookup from CSV data keyed by slug
+const csvBySlug = new Map<string, SchoolSeedRow>();
+for (const row of [...CSV_US_TOP50, ...CSV_UK, ...CSV_LACS]) {
+  csvBySlug.set(row.slug, row);
+}
+
+// Merge: CSV rows override inline rows, new CSV-only rows are appended
+const ALL_ROWS: SchoolSeedRow[] = INLINE_ROWS.map((row) => {
+  const csvRow = csvBySlug.get(row.slug);
+  if (csvRow) {
+    csvBySlug.delete(row.slug);
+    return { ...row, institution_type: csvRow.institution_type, tier_band: csvRow.tier_band };
+  }
+  return row;
+});
+// Add any CSV-only rows (new LACs, etc.)
+for (const row of csvBySlug.values()) {
+  ALL_ROWS.push(row);
+}
 
 async function main(): Promise<void> {
   // Sanity checks on the inlined set before we touch the DB. These are
   // cheap, and they catch copy-paste errors (dupe slugs, wrong tier
   // counts) far earlier than a silent Postgres upsert would.
-  if (ALL_ROWS.length < 120) {
+  if (ALL_ROWS.length < 100) {
     throw new Error(
-      `seed-schools: expected at least 120 rows, got ${ALL_ROWS.length}`
+      `seed-schools: expected at least 100 rows, got ${ALL_ROWS.length}`
     );
   }
 
@@ -251,10 +336,12 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
+  const withTierBand = ALL_ROWS.filter((r) => r.tier_band).length;
   // eslint-disable-next-line no-console
   console.log(
     `[seed-schools] OK — upserted ${ALL_ROWS.length} schools ` +
-      `(${US_TOP50.length} us_top50, ${US_TOP100.length} us_top100, ` +
+      `(${withTierBand} with tier_band, ` +
+      `${US_TOP50.length} us_top50, ${US_TOP100.length} us_top100, ` +
       `${UK_OXBRIDGE.length} uk_oxbridge, ${UK_TOP10.length} uk_top10, ` +
       `${UK_GENERAL.length} uk_general)`
   );

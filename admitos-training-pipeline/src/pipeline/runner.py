@@ -22,6 +22,8 @@ from pydantic import ValidationError
 from src.db.client import insert_profile, insert_scrape_request, update_scrape_request_status, \
     check_source_uri_exists, insert_extraction_audit
 from src.extractor.profile_extractor import extract_profile
+from src.pipeline.recency_weight import compute_recency_weight, classify_credential_type
+from src.pipeline.snapshot_writer import write_snapshot
 from src.scraper.base import Anecdote
 from src.scraper.reddit import RedditScraper
 from src.validator import TrainingProfile
@@ -110,6 +112,12 @@ def _process_anecdote(
     subreddit: str,
 ) -> None:
     """Process a single anecdote through the pipeline."""
+    # Layer 1: write raw snapshot before any processing (ADR-002)
+    try:
+        write_snapshot(anecdote)
+    except Exception as snap_err:
+        logger.warning("Snapshot write failed (non-fatal): %s", snap_err)
+
     # Dedup check
     if not dry_run and check_source_uri_exists(anecdote.source_url):
         result.duplicates_skipped += 1
@@ -143,16 +151,43 @@ def _process_anecdote(
             )
         return
 
-    # Valid profile
+    # Valid profile — enrich with recency weight and credential type.
+    # Default application_year to current year if not available.
+    application_year = 2024  # TODO: extract from post date when available
+    recency = compute_recency_weight(application_year)
+    credential_type = classify_credential_type(
+        sat_score=profile.sat_score,
+        act_score=profile.act_score,
+        test_optional_eligible=recency.test_optional_eligible,
+    )
+
+    if recency.excluded:
+        result.rejected += 1
+        logger.info("Excluded (pre-%d): %s", 2019, anecdote.source_url)
+        if not dry_run:
+            insert_extraction_audit(
+                source_uri=anecdote.source_url,
+                status="rejected",
+                reason=f"recency_excluded: application_year={application_year}",
+            )
+        return
+
     result.extracted += 1
     result.country_counts[profile.nationality_country or "null"] += 1
 
+    logger.debug(
+        "Recency: weight=%.1f, credential=%s, test_optional=%s",
+        recency.weight, credential_type, recency.test_optional_eligible,
+    )
+
     if dry_run:
         logger.info(
-            "[DRY RUN] Would insert: %s | %s | %s",
+            "[DRY RUN] Would insert: %s | %s | %s | weight=%.1f | cred=%s",
             profile.nationality_country,
             profile.nationality_region,
             anecdote.source_url,
+            recency.weight,
+            credential_type,
         )
     else:
         insert_profile(profile)

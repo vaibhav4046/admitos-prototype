@@ -53,3 +53,11 @@ next-env.d.ts
 .vscode/
 *.swp
 *.swo
+
+# raw data snapshots (ADR-002) — NOT committed to git
+data/
+
+# Python
+__pycache__/
+*.pyc
+.venv/

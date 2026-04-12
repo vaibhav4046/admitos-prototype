@@ -26,6 +26,7 @@ import { PROMPT_SLOT } from "@/agents/_core/prompts/types";
 import { logAuditEvent } from "@/services/audit/log";
 import { AUDIT_ACTION } from "@/services/audit/types";
 import { findDrafts } from "@/db/cef";
+import { schoolGate } from "@/lib/training/school-gate";
 import type { JobEnvelope, CefSubmittedPayload } from "@/services/queues/enqueue";
 
 export const handleCefSubmitted: Processor<
@@ -46,6 +47,34 @@ export const handleCefSubmitted: Processor<
     const cefPayload = Object.fromEntries(
       drafts.map((d) => [d.step, d.payload])
     );
+
+    // 1b. School-gate: reject out-of-scope schools before running the pipeline.
+    // The school metadata is expected in the CEF payload's "school" step.
+    const schoolStep = cefPayload["school"] as
+      | { institution_type?: string; tier_band?: string }
+      | undefined;
+    if (schoolStep) {
+      const gateResult = schoolGate({
+        institution_type: schoolStep.institution_type ?? null,
+        tier_band: schoolStep.tier_band ?? null,
+      });
+      if (!gateResult.allowed) {
+        addBreadcrumb("queue.cef_submitted.school_gate.rejected", {
+          jobId: job.id,
+          reason: gateResult.reason,
+        });
+        await logAuditEvent({
+          namespace: "admissions",
+          actor: { kind: "system", systemName: "cef-submitted-worker" },
+          action: AUDIT_ACTION.ARE_COMPUTED,
+          summary: `School gate rejected submission ${payload.submissionId}: ${gateResult.reason}`,
+          target: { type: "cef_submission", id: payload.submissionId },
+          requestId,
+          data: { gateReason: gateResult.reason },
+        });
+        return; // Skip pipeline for out-of-scope schools
+      }
+    }
 
     // 2. A0 intake — classify the student's profile category
     const intakeResult = await callLLM({
