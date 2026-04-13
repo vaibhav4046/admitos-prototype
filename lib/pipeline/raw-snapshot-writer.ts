@@ -13,7 +13,7 @@
 
 import "server-only";
 
-import { writeFileSync, mkdirSync, appendFileSync, existsSync } from "fs";
+import { readFileSync, mkdirSync, appendFileSync, existsSync } from "fs";
 import { join } from "path";
 
 export interface RawSnapshotRecord {
@@ -59,7 +59,6 @@ export function writeRawSnapshot(
  * Useful for re-extraction and auditing.
  */
 export function readRawSnapshots(filePath: string): RawSnapshotRecord[] {
-  const { readFileSync } = require("fs") as typeof import("fs");
   const content = readFileSync(filePath, "utf-8");
   return content
     .trim()
