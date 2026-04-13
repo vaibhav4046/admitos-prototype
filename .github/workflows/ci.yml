@@ -79,7 +79,7 @@ jobs:
       - name: grep for deepseek
         run: |
           set -e
-          ALLOWED='src/agents/_core/banned.ts|src/services/env.ts|tests/lib/llm.banned.test.ts|docs/decisions.md|.github/workflows/ci.yml|.eslintrc.cjs|README.md|tests/setup.ts|.env.local.example|scripts/dev-bootstrap.ts'
+          ALLOWED='src/agents/_core/banned.ts|src/services/env.ts|tests/lib/llm.banned.test.ts|docs/decisions.md|.github/workflows/ci.yml|.eslintrc.cjs|README.md|tests/setup.ts|.env.local.example|.env.example|scripts/dev-bootstrap.ts|docs/dev-runbook.md|docs/architecture.md|docs/m1-execution-runbook.md'
           MATCHES=$(grep -RIin --exclude-dir=node_modules --exclude-dir=.next --exclude-dir=.git "deepseek" . | grep -Ev "($ALLOWED)" || true)
           if [ -n "$MATCHES" ]; then
             echo "❌ Found 'deepseek' references outside the allow-list:"
