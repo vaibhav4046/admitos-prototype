@@ -108,6 +108,42 @@ jobs:
           fi
           echo "✅ all posthog imports go through @/lib/observability"
 
+  # Schema isolation check: verify that admissions, wellbeing, and
+  # commons_db schemas have no cross-contamination in DB query modules.
+  # The typed query modules in src/db/ must only reference their own
+  # schema's tables. This catches accidental joins across schemas that
+  # would bypass RLS.
+  check-isolation:
+    name: schema isolation
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: grep for cross-schema references
+        run: |
+          set -e
+          FOUND=0
+
+          # Check that admissions DB modules don't reference wellbeing tables
+          if grep -RIin --include='*.ts' "wellbeing\." src/db/admissions/ 2>/dev/null; then
+            echo "❌ admissions DB module references wellbeing schema"
+            FOUND=1
+          fi
+
+          # Check that wellbeing DB modules don't reference admissions tables
+          if grep -RIin --include='*.ts' "admissions\." src/db/wellbeing/ 2>/dev/null; then
+            echo "❌ wellbeing DB module references admissions schema"
+            FOUND=1
+          fi
+
+          # Check that commons_db modules don't reference admissions or wellbeing
+          if grep -RIin --include='*.ts' -E "(admissions|wellbeing)\." src/db/commons/ 2>/dev/null; then
+            echo "❌ commons DB module references admissions or wellbeing schema"
+            FOUND=1
+          fi
+
+          if [ "$FOUND" -eq 1 ]; then exit 1; fi
+          echo "✅ no cross-schema references in DB modules"
+
   # Cross-surface imports are the single most dangerous refactor the
   # codebase can accept. Anything in `components/admissions/` or
   # `lib/admissions/` must never be imported from inside
