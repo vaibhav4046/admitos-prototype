@@ -118,7 +118,7 @@ should run on your laptop after pulling the branch.
 ### Step 0 — One-time host fix (required)
 
 ```bash
-cd admitos-mvp-platform
+cd unioffer-mvp-platform
 git rm app/page.tsx
 git commit -m "chore: remove tombstoned root page"
 ```
@@ -191,7 +191,7 @@ has a one-line resolution on a host with the right network access.
 | `pnpm install` won't run in sandbox | Run on your laptop. The package.json + lockfile-less devDeps are correct, no version conflicts found by static read |
 | `pnpm lint`, `pnpm typecheck`, `pnpm test` haven't been run | Run on your laptop or push to trigger CI |
 | `pnpm dev` hasn't been booted, no live screenshots | Run on your laptop. The static HTML mockups in `docs/mockups/` are the next-best preview |
-| Cannot push to GitHub from sandbox | The local commits are sitting in the working tree at `/sessions/.../mnt/outputs/admitos-mvp-platform`. Either open the folder on your laptop and push from there, or I can re-run the same edits in a session that has GitHub network |
+| Cannot push to GitHub from sandbox | The local commits are sitting in the working tree at `/sessions/.../mnt/outputs/unioffer-mvp-platform`. Either open the folder on your laptop and push from there, or I can re-run the same edits in a session that has GitHub network |
 
 ---
 
@@ -236,37 +236,37 @@ they don't get lost.
 ### Created
 
 ```
-admitos-mvp-platform/tailwind.config.ts
-admitos-mvp-platform/postcss.config.cjs
-admitos-mvp-platform/.env.local.example
-admitos-mvp-platform/docs/m1-visual-pass-report.md      ← this file
-admitos-mvp-platform/docs/mockups/index.html
-admitos-mvp-platform/docs/mockups/signin.html
-admitos-mvp-platform/docs/mockups/admissions-index.html
-admitos-mvp-platform/docs/mockups/dashboard.html
-admitos-mvp-platform/docs/mockups/cef-step.html
-admitos-mvp-platform/docs/mockups/counsellor.html
-admitos-mvp-platform/docs/mockups/adie.html
-admitos-mvp-platform/docs/mockups/_chrome.html          ← non-mockup reference snippet
+unioffer-mvp-platform/tailwind.config.ts
+unioffer-mvp-platform/postcss.config.cjs
+unioffer-mvp-platform/.env.local.example
+unioffer-mvp-platform/docs/m1-visual-pass-report.md      ← this file
+unioffer-mvp-platform/docs/mockups/index.html
+unioffer-mvp-platform/docs/mockups/signin.html
+unioffer-mvp-platform/docs/mockups/admissions-index.html
+unioffer-mvp-platform/docs/mockups/dashboard.html
+unioffer-mvp-platform/docs/mockups/cef-step.html
+unioffer-mvp-platform/docs/mockups/counsellor.html
+unioffer-mvp-platform/docs/mockups/adie.html
+unioffer-mvp-platform/docs/mockups/_chrome.html          ← non-mockup reference snippet
 ```
 
 ### Edited
 
 ```
-admitos-mvp-platform/app/page.tsx                                    (tombstoned)
-admitos-mvp-platform/app/globals.css                                 (tailwind directives)
-admitos-mvp-platform/app/signin/page.tsx                             (polish)
-admitos-mvp-platform/app/(admissions)/page.tsx                       (canonical landing)
-admitos-mvp-platform/app/(admissions)/dashboard/page.tsx             (polish)
-admitos-mvp-platform/app/(admissions)/counsellor/page.tsx            (polish)
-admitos-mvp-platform/app/(wellbeing)/layout.tsx                      (calm chrome)
-admitos-mvp-platform/app/(wellbeing)/adie/page.tsx                   (drop nested main, polish)
-admitos-mvp-platform/components/ui/AppHeader.tsx                     (brand polish)
-admitos-mvp-platform/components/ui/PageHeader.tsx                    (eyebrow prop)
-admitos-mvp-platform/components/cef/CefStepShell.tsx                 (two bug fixes)
-admitos-mvp-platform/package.json                                    (tailwind devDeps)
-admitos-mvp-platform/docs/dev-runbook.md                             (env + tailwind + tombstone)
-admitos-mvp-platform/SESSION-TIMER.md                                (checkpoint)
+unioffer-mvp-platform/app/page.tsx                                    (tombstoned)
+unioffer-mvp-platform/app/globals.css                                 (tailwind directives)
+unioffer-mvp-platform/app/signin/page.tsx                             (polish)
+unioffer-mvp-platform/app/(admissions)/page.tsx                       (canonical landing)
+unioffer-mvp-platform/app/(admissions)/dashboard/page.tsx             (polish)
+unioffer-mvp-platform/app/(admissions)/counsellor/page.tsx            (polish)
+unioffer-mvp-platform/app/(wellbeing)/layout.tsx                      (calm chrome)
+unioffer-mvp-platform/app/(wellbeing)/adie/page.tsx                   (drop nested main, polish)
+unioffer-mvp-platform/components/ui/AppHeader.tsx                     (brand polish)
+unioffer-mvp-platform/components/ui/PageHeader.tsx                    (eyebrow prop)
+unioffer-mvp-platform/components/cef/CefStepShell.tsx                 (two bug fixes)
+unioffer-mvp-platform/package.json                                    (tailwind devDeps)
+unioffer-mvp-platform/docs/dev-runbook.md                             (env + tailwind + tombstone)
+unioffer-mvp-platform/SESSION-TIMER.md                                (checkpoint)
 ```
 
 ---

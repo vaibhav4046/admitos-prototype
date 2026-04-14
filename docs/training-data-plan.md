@@ -1,4 +1,4 @@
-# AdmitOS — Training Data Collection Implementation Plan
+# UniOffer — Training Data Collection Implementation Plan
 
 > **Audience.** Andy Yu, CEO & Founder (Architecture Office).
 > **Author.** Vaibhav Lalwani.
@@ -14,7 +14,7 @@ hybrid of an XGBoost prediction layer (computing per-school admission
 probability) and a Claude Haiku explanation layer (rendering the
 student-facing narrative). That hybrid is only as good as the dataset the
 XGBoost layer is trained on, and the dataset has to be a faithful sample
-of the population AdmitOS will serve: students targeting US Ivy League /
+of the population UniOffer will serve: students targeting US Ivy League /
 Top-50 and UK Oxbridge / Top-10 universities.
 
 This plan describes **how I will assemble that dataset**, not what the
@@ -103,13 +103,13 @@ distribution is sanity-checked before any model run.
 ### 3.3 Tooling
 
 - **PRAW** (Python Reddit API Wrapper) for Reddit — OAuth app registered
-  under the AdmitOS org, separate credentials from anything personal.
+  under the UniOffer org, separate credentials from anything personal.
 - **Playwright** (headed browser) for CC/TSR — headless blocked by their
   anti-bot layer in my initial probe; headed with a human-like user agent
   and explicit pauses works and is also easier to defend ethically because
   it matches human browsing behaviour.
 - **Python 3.12** for the whole scraping + extraction pipeline. Lives in
-  a separate repository, `admitos-training-pipeline`, so nothing about the
+  a separate repository, `unioffer-training-pipeline`, so nothing about the
   scraping code ships with the application. The only artefact the app
   repo ever sees is the validated rows inserted into the
   `admissions.training_profile` table.
@@ -156,7 +156,7 @@ rolling 24h window, we hit the timeline wall, and I will escalate
 
 - Reddit is fully open via OAuth — no login needed to read public posts.
 - CC requires a free account to read some threads. I will create a
-  single AdmitOS research account with a clear role description, keep
+  single UniOffer research account with a clear role description, keep
   the credentials in 1Password (not source control), and use the same
   account for all sessions so it has a consistent footprint.
 - TSR: same posture as CC.
@@ -487,7 +487,7 @@ Question 6 in §9 — please pick.
 | Day 0 | This plan submitted and acknowledged by you | Andy replies |
 | Day 0.5 | **`commons_db.school` seed table populated** — US Top-50 + UK Oxbridge/Top-10 + 60 additional Top-100 safety schools (~120 rows total). Source: IPEDS for US + UCAS institution register for UK. One-time seed script committed to the app repo. This is a hard precondition: without it the scraper hits the first FK violation and halts. | `select count(*) from commons_db.school` returns ≥ 120 |
 | Day 1 | Plan revised if you want changes; revised version re-submitted | Andy approves |
-| Day 2 | `admitos-training-pipeline` repo scaffolded (Python, Poetry, pre-commit, tests) | First CI pass on a synthetic seed record |
+| Day 2 | `unioffer-training-pipeline` repo scaffolded (Python, Poetry, pre-commit, tests) | First CI pass on a synthetic seed record |
 | Day 2 | `admissions.training_profile` + `extraction_audit` + `scrape_requests` migrations drafted (in the main app repo, not the pipeline repo) | Migrations reviewed by Andy |
 | Day 2 | `training_data.extract_profile_v1` prompt drafted and shadow-loaded | First test extraction on a stored gold-set post |
 | Day 3 | 200-post **hand-labelled gold set** assembled, stratified across A2C/CC/TSR and US/UK | Gold set committed to `tests/fixtures/gold-set/` (hashed IDs only, no raw content) |

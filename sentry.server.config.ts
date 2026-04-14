@@ -6,7 +6,7 @@
  *
  * Server-side init does the heavy lifting:
  *   - Higher trace sample rate than client (1.0 in dev, 0.2 in prod)
- *   - Tags every event with `app_env` and `service=admitos-web`
+ *   - Tags every event with `app_env` and `service=unioffer-web`
  *   - Strips PII via the project-level scrubbing rules + a local
  *     `beforeSend` for the wellbeing isolation rule
  *
@@ -27,7 +27,7 @@ Sentry.init({
   tracesSampleRate: env === "production" ? 0.2 : 1.0,
   initialScope: {
     tags: {
-      service: "admitos-web",
+      service: "unioffer-web",
       app_env: env,
     },
   },

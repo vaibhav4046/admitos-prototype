@@ -18,7 +18,7 @@
  * This page is rendered inside `app/(admissions)/layout.tsx`, which:
  *   - Owns the page-level `<main>` element (do NOT add another here)
  *   - Calls `getCurrentUser()` once and renders the AdmissionsHeader
- *   - Provides the namespaced `<main>` chrome with `data-admitos-namespace`
+ *   - Provides the namespaced `<main>` chrome with `data-unioffer-namespace`
  *
  * Wellbeing isolation: this file imports nothing from `@/components/adie`
  * or `@/lib/wellbeing/*`. The CI cross-surface import grep enforces it.

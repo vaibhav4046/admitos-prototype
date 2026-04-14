@@ -1,8 +1,8 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "admitos://gold-set-v1",
+  "$id": "unioffer://gold-set-v1",
   "title": "Training Data Extraction Gold Set",
-  "description": "Hand-labelled reference rows used to calibrate the Haiku 4.5 extraction prompt for AdmitOS training data. One row per line in gold-set-v1.jsonl. Never contains raw post bodies.",
+  "description": "Hand-labelled reference rows used to calibrate the Haiku 4.5 extraction prompt for UniOffer training data. One row per line in gold-set-v1.jsonl. Never contains raw post bodies.",
   "type": "object",
   "additionalProperties": false,
   "required": [

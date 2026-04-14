@@ -1,4 +1,4 @@
-# AdmitOS architecture (M1 snapshot)
+# UniOffer architecture (M1 snapshot)
 
 > Snapshot taken 2026-04-09. The two unblocks (Q3 wellbeing isolation
 > mechanism + Thread 4 missing PDFs) will change a few details. Anything
@@ -51,7 +51,7 @@ rely on a single check.
 2. **Sentry** — all uncaught errors. Three init configs (client,
    server, edge) all have a `beforeSend` that scrubs the
    `wellbeing.content` extra key. The server config also tags
-   `service: admitos-web` and `app_env`.
+   `service: unioffer-web` and `app_env`.
 
 3. **PostHog** — product events only. Event names live in
    `lib/observability/event-names.ts`; the `capture()` wrapper throws
@@ -80,7 +80,7 @@ Every API route handler goes through `instrumentedRoute(opts, handler)`:
 
 ```
 request
-  ↓ middleware sets x-admitos-request-id (req_<16hex>) + x-admitos-namespace
+  ↓ middleware sets x-unioffer-request-id (req_<16hex>) + x-unioffer-namespace
   ↓ instrumentedRoute opens a Sentry scope, validates request id, builds ctx
   ↓ handler runs, calls ctx.audit(...) for any state change
     ↓ writes audit row BEFORE returning (atomic-write-before-return)

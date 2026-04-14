@@ -27,7 +27,7 @@ export default function GlobalError({
     // The Sentry SDK has already reported this — we just log it
     // locally so it shows up in the browser devtools when debugging.
     // eslint-disable-next-line no-console
-    console.error("[admitos] render error:", error);
+    console.error("[unioffer] render error:", error);
   }, [error]);
 
   return (

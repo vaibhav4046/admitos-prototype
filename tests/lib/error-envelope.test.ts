@@ -33,7 +33,7 @@ describe("jsonError", () => {
     });
 
     expect(res.status).toBe(418);
-    expect(res.headers.get("x-admitos-request-id")).toBe(REQ_ID);
+    expect(res.headers.get("x-unioffer-request-id")).toBe(REQ_ID);
     expect(res.headers.get("Cache-Control")).toBe("no-store");
 
     const body = await readBody(res);
@@ -53,7 +53,7 @@ describe("jsonError", () => {
       headers: { "x-extra": "ok" },
     });
 
-    expect(res.headers.get("x-admitos-request-id")).toBe(REQ_ID);
+    expect(res.headers.get("x-unioffer-request-id")).toBe(REQ_ID);
     expect(res.headers.get("x-extra")).toBe("ok");
   });
 });

@@ -49,7 +49,7 @@ export default function WellbeingLayout({
   // call to action.
   return (
     <div
-      data-admitos-namespace="wellbeing"
+      data-unioffer-namespace="wellbeing"
       className="min-h-screen bg-gradient-to-b from-wellbeing-50 via-white to-white text-slate-900"
     >
       <header

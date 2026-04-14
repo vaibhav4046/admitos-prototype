@@ -1,6 +1,6 @@
 /**
  * AuditEvent — the canonical record of every mutating action on the
- * AdmitOS platform.
+ * UniOffer platform.
  *
  * Non-negotiable rules from Thread 4:
  *

@@ -29,7 +29,7 @@ interface SeedRow {
 }
 
 const ADMISSIONS_PLACEHOLDER_SYSTEM =
-  "You are a calm, accurate, candid AdmitOS assistant helping a UK university applicant. " +
+  "You are a calm, accurate, candid UniOffer assistant helping a UK university applicant. " +
   "Be specific. Never invent facts about the applicant.";
 
 const WELLBEING_PLACEHOLDER_SYSTEM =

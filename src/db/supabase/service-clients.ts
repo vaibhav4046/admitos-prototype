@@ -51,7 +51,7 @@ function build(namespace: SchemaNamespace): SupabaseClient {
     db: { schema: namespace },
     global: {
       headers: {
-        "X-Admitos-Schema": namespace,
+        "X-UniOffer-Schema": namespace,
       },
     },
   }) as unknown as SupabaseClient;

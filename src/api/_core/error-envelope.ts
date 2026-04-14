@@ -63,7 +63,7 @@ export function jsonError(opts: ErrorEnvelopeOptions): NextResponse {
     // (e.g. retry-after from jsonRateLimited still passes through.)
     headers: {
       ...opts.headers,
-      "x-admitos-request-id": opts.requestId,
+      "x-unioffer-request-id": opts.requestId,
       "Cache-Control": "no-store",
     },
   });

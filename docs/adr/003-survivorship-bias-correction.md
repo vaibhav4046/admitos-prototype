@@ -2,7 +2,7 @@
 
 **Status:** Accepted
 **Date:** 2026-04-13
-**Author:** Vaibhav (AdmitOS Engineering)
+**Author:** Vaibhav (UniOffer Engineering)
 
 ## Context
 

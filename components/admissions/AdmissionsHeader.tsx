@@ -48,13 +48,13 @@ export interface AdmissionsHeaderProps {
    * email local-part.
    */
   user: AdmissionsHeaderUserInput | null;
-  /** Tenant or product name shown in the brand slot. Defaults to "AdmitOS". */
+  /** Tenant or product name shown in the brand slot. Defaults to "UniOffer". */
   brand?: string;
 }
 
 export function AdmissionsHeader({
   user,
-  brand = "AdmitOS",
+  brand = "UniOffer",
 }: AdmissionsHeaderProps) {
   const pathname = usePathname() ?? "/";
   const router = useRouter();

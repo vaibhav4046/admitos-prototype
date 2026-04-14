@@ -25,7 +25,7 @@ describe("jsonSuccess", () => {
 
   it("sets the request id header and no-store", () => {
     const res = jsonSuccess({ ok: true }, { requestId: REQ_ID });
-    expect(res.headers.get("x-admitos-request-id")).toBe(REQ_ID);
+    expect(res.headers.get("x-unioffer-request-id")).toBe(REQ_ID);
     expect(res.headers.get("Cache-Control")).toBe("no-store");
   });
 
@@ -42,14 +42,14 @@ describe("jsonSuccess", () => {
       { ok: true },
       {
         requestId: REQ_ID,
-        headers: { "x-extra": "value", "x-admitos-request-id": "spoofed" },
+        headers: { "x-extra": "value", "x-unioffer-request-id": "spoofed" },
       }
     );
     // Standard headers win — the request id header is the primary
     // trace-id propagation channel and a caller must not be able to
     // overwrite it by passing the same key in `headers`. The same
     // discipline holds in error-envelope.ts.
-    expect(res.headers.get("x-admitos-request-id")).toBe(REQ_ID);
+    expect(res.headers.get("x-unioffer-request-id")).toBe(REQ_ID);
     expect(res.headers.get("x-extra")).toBe("value");
   });
 });

@@ -1,6 +1,6 @@
 /**
  * `instrumentedRoute` — the higher-order wrapper that every API route
- * handler in AdmitOS goes through.
+ * handler in UniOffer goes through.
  *
  * Why a wrapper instead of leaving it to each route to remember the
  * boilerplate? Because the boilerplate is *load-bearing* — if a route
@@ -15,7 +15,7 @@
  *      automatically with the full scope.
  *
  *   2. Request id propagation. The middleware sets
- *      `x-admitos-request-id`; this wrapper reads it and threads it
+ *      `x-unioffer-request-id`; this wrapper reads it and threads it
  *      through the handler context so audit + LangSmith tags use the
  *      same id.
  *
@@ -71,7 +71,7 @@ export function instrumentedRoute<T>(
     // Trust the incoming header only if it matches our exact format —
     // anything else is dropped to avoid log injection. The middleware
     // sets this header on every /api request.
-    const incoming = request.headers.get("x-admitos-request-id");
+    const incoming = request.headers.get("x-unioffer-request-id");
     const requestId =
       incoming && isValidRequestId(incoming) ? incoming : generateRequestId();
 
@@ -116,7 +116,7 @@ export function instrumentedRoute<T>(
       if (result instanceof NextResponse) return result;
       return NextResponse.json(result, {
         headers: {
-          "x-admitos-request-id": requestId,
+          "x-unioffer-request-id": requestId,
           "Cache-Control": "no-store",
         },
       });
@@ -126,7 +126,7 @@ export function instrumentedRoute<T>(
       if (err instanceof AuthError) {
         return NextResponse.json(
           { error: err.message },
-          { status: err.status, headers: { "x-admitos-request-id": requestId } }
+          { status: err.status, headers: { "x-unioffer-request-id": requestId } }
         );
       }
 
@@ -145,7 +145,7 @@ export function instrumentedRoute<T>(
 
       return NextResponse.json(
         { error: message, requestId },
-        { status: 500, headers: { "x-admitos-request-id": requestId } }
+        { status: 500, headers: { "x-unioffer-request-id": requestId } }
       );
     }
   };

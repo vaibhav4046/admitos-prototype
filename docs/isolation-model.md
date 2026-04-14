@@ -1,13 +1,13 @@
 # Wellbeing isolation model
 
-> Single source of truth for **why** and **how** the AdmitOS wellbeing
+> Single source of truth for **why** and **how** the UniOffer wellbeing
 > surface (Adie) is kept physically and logically separate from the
 > admissions surface. If you're about to write code that crosses the
 > two, read this first.
 
 ## Why this exists
 
-AdmitOS ships two surfaces that live under the same domain but serve
+UniOffer ships two surfaces that live under the same domain but serve
 very different purposes:
 
 | Surface        | Route group         | Audience           | Data class                    |

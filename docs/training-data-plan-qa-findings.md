@@ -24,7 +24,7 @@ The plan is structurally sound. The data flow, the schema, the confidence thresh
 **Problem:** Both the training data pipeline and the Phase 1 application foundation are scheduled on the same calendar weeks, and both have Vaibhav as the single owner. The plan does not acknowledge this overlap. Andy will notice immediately and the plan will bounce on capacity grounds before he even reads §4.
 
 **Fix:** Add a new §8.0 "Capacity and parallel tracks" subsection that states explicitly:
-- The pipeline repo (`admitos-training-pipeline`) is a separate codebase and can accept capacity from 30% of the working day during Weeks 1–2.
+- The pipeline repo (`unioffer-training-pipeline`) is a separate codebase and can accept capacity from 30% of the working day during Weeks 1–2.
 - The 70% remaining capacity goes to M1 foundation work in the main app repo.
 - Given that split, the Week 1 target is **300 records** (not 500) and the Week 2 target is **1,500 records** (not 2,000).
 - Coverage catches up in Weeks 3–4 when M1 is behind us.

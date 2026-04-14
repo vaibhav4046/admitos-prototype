@@ -1,4 +1,4 @@
-# AdmitOS MVP Platform
+# UniOffer MVP Platform
 
 Admissions platform for AdropEDU. Next.js 14 App Router + Supabase (3 schemas) + BullMQ workers + Claude models.
 
@@ -93,7 +93,7 @@ them locally first saves a round-trip.
 - **M2** — A1 DNA + A0 Intake + ARE v1 + School Readiness + ARK seed (~60h) — deadline 2026-05-15
 - **M3** — A5 Essay + HITL queue + GDPR + Student Profile Website + demo (~40h) — deadline 2026-06-10
 
-Session logs and M1 design doc live in the workspace at `admitos-workspace/`.
+Session logs and M1 design doc live in the workspace at `unioffer-workspace/`.
 
 ## Current blockers
 

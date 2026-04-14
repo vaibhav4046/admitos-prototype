@@ -16,7 +16,7 @@ import { describe, expect, it, vi, beforeEach } from "vitest";
 const { mockUser, mockSchools, mockDrafts } = vi.hoisted(() => {
   const mockUser = {
     id: "user_smoke",
-    email: "smoke@admitos.dev",
+    email: "smoke@unioffer.dev",
     role: "student" as const,
     studentId: null,
     emailVerified: true,
@@ -147,7 +147,7 @@ import { autosaveDraftStep, submitCef } from "@/services/cef/cef";
 function makeGet(path: string): Request {
   return new Request(`https://app.test.local${path}`, {
     method: "GET",
-    headers: { "x-admitos-request-id": "req_smoke0123456789ab" },
+    headers: { "x-unioffer-request-id": "req_smoke0123456789ab" },
   });
 }
 
@@ -155,7 +155,7 @@ function makeJson(path: string, body: unknown, method = "PUT"): Request {
   return new Request(`https://app.test.local${path}`, {
     method,
     headers: {
-      "x-admitos-request-id": "req_smoke0123456789ab",
+      "x-unioffer-request-id": "req_smoke0123456789ab",
       "content-type": "application/json",
     },
     body: JSON.stringify(body),
@@ -175,7 +175,7 @@ describe("Integration: full happy path", () => {
 
     expect(res.status).toBe(200);
     expect(body.id).toBe("user_smoke");
-    expect(body.email).toBe("smoke@admitos.dev");
+    expect(body.email).toBe("smoke@unioffer.dev");
     expect(body.role).toBe("student");
     expect(body.emailVerified).toBe(true);
   });
@@ -276,7 +276,7 @@ describe("Integration: full happy path", () => {
     const res3 = await getDraftRoute(makeGet("/api/admissions/cef/draft"));
 
     for (const res of [res1, res2, res3]) {
-      const rid = res.headers.get("x-admitos-request-id");
+      const rid = res.headers.get("x-unioffer-request-id");
       expect(rid).toBeTruthy();
       expect(rid).toMatch(/^req_[0-9a-f]{16}$/);
     }

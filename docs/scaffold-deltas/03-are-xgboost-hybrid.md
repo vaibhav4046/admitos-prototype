@@ -35,7 +35,7 @@ The hybrid is the only architecture that gives us **calibrated probabilities** (
 
 **Target calibration:** Brier score ≤ 0.20 on the held-out test set. Calibration curve deciles all within ±0.05 of the diagonal. If either check fails we don't ship the model — we fall back to LLM-only per §Fallback below.
 
-**Training infrastructure:** lives in `admitos-training-pipeline` (the separate repo from the training data plan), Python 3.12, Poetry, `scripts/train_xgboost.py`. The trained model is serialized via `xgboost.Booster.save_model()` to `models/xgboost-are-v{version}.json` and uploaded to Supabase Storage under the `models/` bucket with the version pinned in a DB row in `admissions.are_model_version`.
+**Training infrastructure:** lives in `unioffer-training-pipeline` (the separate repo from the training data plan), Python 3.12, Poetry, `scripts/train_xgboost.py`. The trained model is serialized via `xgboost.Booster.save_model()` to `models/xgboost-are-v{version}.json` and uploaded to Supabase Storage under the `models/` bucket with the version pinned in a DB row in `admissions.are_model_version`.
 
 **Serving:** the Node/Express backend loads the latest approved model version on startup via a read-only signed URL from Supabase Storage, and serves inference through a pinned `xgboost-node` or `onnxruntime-node` dependency (see decision table below).
 

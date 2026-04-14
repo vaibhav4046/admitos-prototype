@@ -53,8 +53,8 @@ import { Button, Card, CardBody, CardFooter, CardHeader, CardTitle } from "@/com
 // CSRF + state param + redirect internally).
 
 export const metadata = {
-  title: "Sign in — AdmitOS",
-  description: "Sign in to continue your AdmitOS admissions journey.",
+  title: "Sign in — UniOffer",
+  description: "Sign in to continue your UniOffer admissions journey.",
 };
 
 export default function SignInPage() {
@@ -78,7 +78,7 @@ export default function SignInPage() {
           <Link
             href="/"
             className="inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
-            aria-label="AdmitOS home"
+            aria-label="UniOffer home"
           >
             <span
               aria-hidden="true"
@@ -87,7 +87,7 @@ export default function SignInPage() {
               A
             </span>
             <span className="text-lg font-semibold tracking-tight text-slate-900">
-              AdmitOS
+              UniOffer
             </span>
           </Link>
           <p className="mt-3 text-sm text-slate-600">
@@ -97,7 +97,7 @@ export default function SignInPage() {
 
         <Card className="w-full shadow-card">
           <CardHeader className="border-b-0 px-6 pt-6">
-            <CardTitle className="text-xl">Sign in to AdmitOS</CardTitle>
+            <CardTitle className="text-xl">Sign in to UniOffer</CardTitle>
             <p className="mt-1 text-sm text-slate-600">
               Use the Google account your counsellor invited you with, or
               enter your email for a one-time sign-in link.
@@ -168,7 +168,7 @@ export default function SignInPage() {
           </CardBody>
           <CardFooter className="rounded-b-xl bg-slate-50 px-6 py-4">
             <p className="text-xs leading-relaxed text-slate-500">
-              By signing in you agree to the AdmitOS student privacy notice.
+              By signing in you agree to the UniOffer student privacy notice.
               The wellbeing space (
               <Link
                 href="/adie"

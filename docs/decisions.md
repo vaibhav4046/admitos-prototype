@@ -1,6 +1,6 @@
-# AdmitOS — engineering decisions log
+# UniOffer — engineering decisions log
 
-> Living record of the architectural decisions made on the AdmitOS MVP.
+> Living record of the architectural decisions made on the UniOffer MVP.
 > Format is loose-ADR — each entry has a date, a context, the decision,
 > and the consequences. Add new entries to the **top** of the file.
 

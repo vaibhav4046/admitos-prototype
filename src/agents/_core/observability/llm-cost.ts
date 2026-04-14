@@ -1,7 +1,7 @@
 /**
  * Token cost estimation for LLM calls.
  *
- * AdmitOS pays per token across multiple model providers. We track
+ * UniOffer pays per token across multiple model providers. We track
  * estimated cost on every `callLLM` invocation so the Sentry metric
  * dashboard and the LangSmith trace both surface "$0.012 — A5 essay
  * clarity" alongside the raw output.

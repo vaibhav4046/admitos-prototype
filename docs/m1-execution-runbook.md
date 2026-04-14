@@ -125,7 +125,7 @@ corrected and the infrastructure in place.
 | --- | --- | --- |
 | Andy email sent (Gmail draft already exists — `r-8206757002027672193`) | Vaibhav | Email sent, thread `19d71be20c52e307` updated |
 | Daily WhatsApp update to Andy for today | Vaibhav | Message sent |
-| Bundle transferred to Claude Code working dir on local Windows | Vaibhav | `admitos-mvp-platform/` exists in `C:\Users\lalwa\OneDrive\Desktop\claude max work\` |
+| Bundle transferred to Claude Code working dir on local Windows | Vaibhav | `unioffer-mvp-platform/` exists in `C:\Users\lalwa\OneDrive\Desktop\claude max work\` |
 | Root tombstoned page deleted (`git rm app/page.tsx`) | Claude Code | `git status` clean, `pnpm build` doesn't hit parallel pages error |
 | Four-check loop green on baseline | Claude Code | `pnpm typecheck && pnpm test && pnpm lint && pnpm check:isolation` all pass |
 | Delta 1 PR opened: Next 14 → 15 bump | Claude Code | PR opened, CI running |
@@ -304,14 +304,14 @@ catches up, ARE integration starts, and Delta 3 finally lands.
 | --- | --- | --- |
 | ARE integration | `calibrate-labels.ts` written with placeholder thresholds | Unit tests green for all 4 labels |
 | Data pipeline | 5,000 US minimum hit | Coverage dashboard |
-| Data pipeline | Training pipeline repo (`admitos-training-pipeline`) confirmed green | CI passing |
+| Data pipeline | Training pipeline repo (`unioffer-training-pipeline`) confirmed green | CI passing |
 
 ### Day 18 — first XGBoost training run (repo side)
 
 | Track | Item | Done when |
 | --- | --- | --- |
-| ARE integration | First XGBoost training run executed in `admitos-training-pipeline` | `models/xgboost-are-v0.1.json` produced, metrics committed |
-| ARE integration | Calibration curve committed to `admitos-training-pipeline/reports/` | Brier ≤ 0.20, deciles within ±0.05 |
+| ARE integration | First XGBoost training run executed in `unioffer-training-pipeline` | `models/xgboost-are-v0.1.json` produced, metrics committed |
+| ARE integration | Calibration curve committed to `unioffer-training-pipeline/reports/` | Brier ≤ 0.20, deciles within ±0.05 |
 
 ### Day 19 — ONNX export + ARE serving layer
 
@@ -447,7 +447,7 @@ executes it) is:
    Vaibhav then tells the Cowork session so it can cross the day's
    items off the runbook.
 5. **When Cowork produces a new artifact.** Cowork saves to
-   `/sessions/vibrant-magical-babbage/mnt/outputs/admitos-mvp-platform/`
+   `/sessions/vibrant-magical-babbage/mnt/outputs/unioffer-mvp-platform/`
    and the artifact appears in the next bundle rebuild. Vaibhav
    re-transfers the bundle when it's worth doing (typically once
    per day, or when a big new artifact lands).

@@ -3,7 +3,7 @@
  *
  * These names are locked by the V2 spec (Thread 5). Don't rename them
  * without updating the worker registration AND telling Andy — the
- * ADMITOS PRD + API Specification V2.pdf references them directly.
+ * UNIOFFER PRD + API Specification V2.pdf references them directly.
  *
  * Why a file of string constants and not just inline strings? Because if
  * someone typos "cef_submited" in one place and "cef_submitted" in another,

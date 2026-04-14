@@ -4,7 +4,7 @@
  * Returns a tiny JSON blob that proves:
  *
  *   - The route is reachable
- *   - Middleware attached the expected `X-Admitos-Namespace: admissions`
+ *   - Middleware attached the expected `X-UniOffer-Namespace: admissions`
  *     header (we echo it back so a curl shows both request + response)
  *   - The admissions service client can open a connection to Supabase
  *     (we run a harmless `select now_utc()` against the helper RPC
@@ -50,7 +50,7 @@ export const GET = instrumentedRoute(
       ok: dbOk,
       namespace: "admissions",
       requestId: ctx.requestId,
-      startedAt: ctx.request.headers.get("x-admitos-started-at"),
+      startedAt: ctx.request.headers.get("x-unioffer-started-at"),
       db: dbOk ? "ok" : { status: "error", message: dbError },
     };
   }

@@ -39,7 +39,7 @@ export const GET = instrumentedRoute(
       ok: dbOk,
       namespace: "wellbeing",
       requestId: ctx.requestId,
-      startedAt: ctx.request.headers.get("x-admitos-started-at"),
+      startedAt: ctx.request.headers.get("x-unioffer-started-at"),
       db: dbOk ? "ok" : { status: "error", message: dbError },
     };
   }

@@ -1,7 +1,7 @@
 /**
  * Auth types.
  *
- * AdmitOS uses Supabase Auth (Google OAuth + email magic link). Roles
+ * UniOffer uses Supabase Auth (Google OAuth + email magic link). Roles
  * are stored in `auth.users.app_metadata.role` so they survive a token
  * refresh and don't need a separate DB lookup on every request.
  *
@@ -10,7 +10,7 @@
  *   - student     — the kid filling in the CEF, talking to Adie, etc.
  *   - parent      — verified guardian linked to a student
  *   - counsellor  — Andy or another AdropEDU staff member
- *   - admin       — internal AdmitOS engineering / ops
+ *   - admin       — internal UniOffer engineering / ops
  *
  * Role transitions are logged via `AUTH_ROLE_ASSIGNED` AuditEvents.
  * The student → parent linkage is logged via `AUTH_GUARDIAN_VERIFIED`.

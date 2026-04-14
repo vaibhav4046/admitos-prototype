@@ -14,9 +14,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "AdmitOS",
+  title: "UniOffer",
   description:
-    "AdmitOS — the decision-stage operating system for UK university applications.",
+    "UniOffer — the decision-stage operating system for UK university applications.",
   // M1: do not index. The production indexing policy is set per route
   // group in later milestones.
   robots: { index: false, follow: false },

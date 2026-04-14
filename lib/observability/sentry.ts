@@ -50,7 +50,7 @@ export function captureError(
 export function addBreadcrumb(message: string, data?: Record<string, unknown>) {
   try {
     Sentry.addBreadcrumb({
-      category: "admitos",
+      category: "unioffer",
       message,
       level: "info",
       data,

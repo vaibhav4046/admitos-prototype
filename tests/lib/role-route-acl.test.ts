@@ -2,7 +2,7 @@
  * tests/lib/role-route-acl.test.ts
  *
  * Pins `ROLE_ROUTE_ACL` from `src/services/auth/types.ts`. This map is the
- * second-to-last line of defence in AdmitOS's permission model:
+ * second-to-last line of defence in UniOffer's permission model:
  *
  *   1. `middleware.ts`    — physical namespace isolation (admissions
  *                            API can't read wellbeing tables ever).

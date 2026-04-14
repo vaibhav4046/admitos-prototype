@@ -1,5 +1,5 @@
 /**
- * AdmitOS middleware — the single point where cross-schema isolation
+ * UniOffer middleware — the single point where cross-schema isolation
  * is enforced before any route handler runs.
  *
  * Rules (per Thread 4, non-negotiable):
@@ -8,7 +8,7 @@
  *     the `wellbeing` schema. We do two things to enforce this:
  *       (a) Reject the request entirely if the caller's JWT claims a
  *           wellbeing role but the URL is in the admissions namespace.
- *       (b) Stamp the request with an `X-Admitos-Namespace` header that
+ *       (b) Stamp the request with an `X-UniOffer-Namespace` header that
  *           downstream Supabase clients will verify matches their own
  *           `db.schema` setting.
  *
@@ -61,14 +61,14 @@ export function middleware(req: NextRequest) {
   const startedAt = Date.now();
 
   const requestHeaders = new Headers(req.headers);
-  requestHeaders.set("X-Admitos-Namespace", ns);
-  requestHeaders.set("X-Admitos-Request-Id", requestId);
-  requestHeaders.set("X-Admitos-Started-At", String(startedAt));
+  requestHeaders.set("X-UniOffer-Namespace", ns);
+  requestHeaders.set("X-UniOffer-Request-Id", requestId);
+  requestHeaders.set("X-UniOffer-Started-At", String(startedAt));
 
   // Cross-namespace header sniffing. If an inbound request carries a
   // namespace header that doesn't match its URL, something is trying to
   // be clever — kill it immediately.
-  const declaredNs = req.headers.get("X-Admitos-Namespace");
+  const declaredNs = req.headers.get("X-UniOffer-Namespace");
   if (declaredNs && declaredNs !== ns) {
     return jsonError(403, "namespace_mismatch", {
       requestId,
@@ -96,10 +96,10 @@ export function middleware(req: NextRequest) {
       } else {
         roleHint = extractRole(payload);
         if (roleHint) {
-          requestHeaders.set("X-Admitos-Role-Hint", roleHint);
+          requestHeaders.set("X-UniOffer-Role-Hint", roleHint);
         }
         if (payload.sub) {
-          requestHeaders.set("X-Admitos-User-Id", payload.sub);
+          requestHeaders.set("X-UniOffer-User-Id", payload.sub);
         }
       }
     }
@@ -121,7 +121,7 @@ export function middleware(req: NextRequest) {
   // Admissions namespace must never be hit with a wellbeing-only token.
   // If the JWT decodes to a role that shouldn't access admissions, reject early.
   if (ns === "admissions") {
-    const incomingRoleHint = roleHint ?? req.headers.get("X-Admitos-Role-Hint");
+    const incomingRoleHint = roleHint ?? req.headers.get("X-UniOffer-Role-Hint");
     if (incomingRoleHint === "wellbeing-only") {
       return jsonError(403, "admissions_forbidden_for_wellbeing_role", {
         requestId,
@@ -130,8 +130,8 @@ export function middleware(req: NextRequest) {
   }
 
   const res = NextResponse.next({ request: { headers: requestHeaders } });
-  res.headers.set("X-Admitos-Namespace", ns);
-  res.headers.set("X-Admitos-Request-Id", requestId);
+  res.headers.set("X-UniOffer-Namespace", ns);
+  res.headers.set("X-UniOffer-Request-Id", requestId);
   return res;
 }
 
@@ -146,7 +146,7 @@ function jsonError(
       detail,
       // Static string so that callers can match on it regardless of env.
       _note:
-        "AdmitOS enforces hard isolation between admissions and wellbeing schemas.",
+        "UniOffer enforces hard isolation between admissions and wellbeing schemas.",
     }),
     {
       status,

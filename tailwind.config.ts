@@ -1,5 +1,5 @@
 /**
- * Tailwind config for AdmitOS.
+ * Tailwind config for UniOffer.
  *
  * Goals for M1:
  *   1. Be boring. Use Tailwind's defaults wherever possible so the

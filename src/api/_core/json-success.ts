@@ -3,7 +3,7 @@
  *
  * Every successful API response should:
  *
- *   - Echo `x-admitos-request-id`
+ *   - Echo `x-unioffer-request-id`
  *   - Set `Cache-Control: no-store` (we never want a CDN to memoize
  *     a JSON API response by accident)
  *   - Carry the request id inside the body too, so a user reporting
@@ -31,12 +31,12 @@ export function jsonSuccess<T extends Record<string, unknown>>(
     {
       status: opts.status ?? 200,
       // IMPORTANT: caller headers spread FIRST so the standard
-      // x-admitos-request-id + Cache-Control headers always win.
+      // x-unioffer-request-id + Cache-Control headers always win.
       // A request id that the caller could overwrite would defeat
       // the entire trace-id propagation contract.
       headers: {
         ...opts.headers,
-        "x-admitos-request-id": opts.requestId,
+        "x-unioffer-request-id": opts.requestId,
         "Cache-Control": "no-store",
       },
     }

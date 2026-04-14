@@ -78,7 +78,7 @@ const serverSchema = z.object({
 
   // Observability
   LANGSMITH_API_KEY: z.string().min(10),
-  LANGSMITH_PROJECT: z.string().default("admitos-mvp"),
+  LANGSMITH_PROJECT: z.string().default("unioffer-mvp"),
   LANGSMITH_ENDPOINT: httpsUrl.default("https://api.smith.langchain.com"),
 
   SENTRY_DSN: z.string().url(),

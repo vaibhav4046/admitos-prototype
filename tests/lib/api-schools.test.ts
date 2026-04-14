@@ -76,7 +76,7 @@ import { listSchoolsByTier, searchSchools } from "@/db/school";
 function makeRequest(path: string): Request {
   return new Request(`https://app.test.local${path}`, {
     method: "GET",
-    headers: { "x-admitos-request-id": "req_0123456789abcdef" },
+    headers: { "x-unioffer-request-id": "req_0123456789abcdef" },
   });
 }
 

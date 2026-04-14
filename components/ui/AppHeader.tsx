@@ -49,7 +49,7 @@ export interface AppHeaderNavItem {
 }
 
 export interface AppHeaderProps {
-  /** Brand/logo area label — usually "AdmitOS" or the tenant name. */
+  /** Brand/logo area label — usually "UniOffer" or the tenant name. */
   brand: string;
   /** Path the brand link points to (usually "/dashboard"). */
   brandHref?: string;

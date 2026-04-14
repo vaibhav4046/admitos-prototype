@@ -1,8 +1,8 @@
 {
-  "name": "admitos-mvp-platform",
+  "name": "unioffer-mvp-platform",
   "version": "0.0.1",
   "private": true,
-  "description": "AdmitOS MVP — admissions platform for AdropEDU. Monorepo app (Next.js 15 App Router + Supabase + BullMQ workers). Schemas: admissions, wellbeing, commons_db. Wellbeing is physically isolated from admissions.",
+  "description": "UniOffer MVP — admissions platform for AdropEDU. Monorepo app (Next.js 15 App Router + Supabase + BullMQ workers). Schemas: admissions, wellbeing, commons_db. Wellbeing is physically isolated from admissions.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

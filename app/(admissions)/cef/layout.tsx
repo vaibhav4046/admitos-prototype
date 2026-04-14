@@ -30,8 +30,8 @@ const STEPS = [
 export default function CefLayout({ children }: { children: ReactNode }) {
   return (
     <div
-      data-admitos-namespace="admissions"
-      data-admitos-surface="cef"
+      data-unioffer-namespace="admissions"
+      data-unioffer-surface="cef"
       style={{
         maxWidth: "56rem",
         margin: "3rem auto",

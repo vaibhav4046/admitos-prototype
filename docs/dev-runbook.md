@@ -1,6 +1,6 @@
 # Dev runbook
 
-> How to boot the AdmitOS MVP locally. Read this once before your
+> How to boot the UniOffer MVP locally. Read this once before your
 > first run; after that the `pnpm dev` shortcut is enough.
 
 ## Prereqs
@@ -115,7 +115,7 @@ emulator. If they aren't, the run is skipped per-suite (not failed).
 ## Where things live
 
 ```
-admitos-mvp-platform/
+unioffer-mvp-platform/
 ├── app/                          ← Next.js App Router
 │   ├── (admissions)/             ← admissions route group
 │   ├── (wellbeing)/              ← wellbeing route group (isolated)

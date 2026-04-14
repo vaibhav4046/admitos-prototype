@@ -15,7 +15,7 @@ import {
   type RawSnapshotRecord,
 } from "@/lib/pipeline/raw-snapshot-writer";
 
-const TEST_DIR = join(tmpdir(), "admitos-snapshot-test-" + Date.now());
+const TEST_DIR = join(tmpdir(), "unioffer-snapshot-test-" + Date.now());
 
 const SAMPLE_RECORD: RawSnapshotRecord = {
   source_url: "https://reddit.com/r/ApplyingToCollege/test123",

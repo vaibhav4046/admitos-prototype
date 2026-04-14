@@ -45,7 +45,7 @@ import {
 import { AuthError, requireRole } from "@/services/auth/server";
 
 export const metadata = {
-  title: "Counsellor — AdmitOS",
+  title: "Counsellor — UniOffer",
   description: "Counsellor dashboard for AdropEDU admissions workflows.",
 };
 

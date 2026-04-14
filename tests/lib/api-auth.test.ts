@@ -35,7 +35,7 @@ function makeRequest(path: string): Request {
   return new Request(`https://app.test.local${path}`, {
     method: "GET",
     headers: {
-      "x-admitos-request-id": "req_0123456789abcdef",
+      "x-unioffer-request-id": "req_0123456789abcdef",
     },
   });
 }
@@ -85,13 +85,13 @@ describe("GET /api/admissions/auth/me", () => {
     });
 
     const res = await GET(makeRequest("/api/admissions/auth/me"));
-    expect(res.headers.get("x-admitos-request-id")).toBeTruthy();
+    expect(res.headers.get("x-unioffer-request-id")).toBeTruthy();
   });
 
   it("returns all expected fields for a counsellor", async () => {
     mockGetCurrentUser.mockResolvedValue({
       id: "user_2",
-      email: "counsellor@admitos.dev",
+      email: "counsellor@unioffer.dev",
       role: "counsellor",
       studentId: null,
       emailVerified: true,
@@ -103,7 +103,7 @@ describe("GET /api/admissions/auth/me", () => {
 
     expect(body).toMatchObject({
       id: "user_2",
-      email: "counsellor@admitos.dev",
+      email: "counsellor@unioffer.dev",
       role: "counsellor",
       emailVerified: true,
     });

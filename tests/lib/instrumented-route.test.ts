@@ -68,29 +68,29 @@ describe("instrumentedRoute", () => {
     expect(res.status).toBe(200);
     const body = await res.json();
     expect(body).toEqual({ hello: "world" });
-    expect(res.headers.get("x-admitos-request-id")).toMatch(/^req_[a-f0-9]{16}$/);
+    expect(res.headers.get("x-unioffer-request-id")).toMatch(/^req_[a-f0-9]{16}$/);
     expect(res.headers.get("Cache-Control")).toBe("no-store");
   });
 
-  it("trusts a valid x-admitos-request-id header", async () => {
+  it("trusts a valid x-unioffer-request-id header", async () => {
     const handler = instrumentedRoute(
       { namespace: "admissions", route: "/test" },
       async (ctx) => ({ id: ctx.requestId })
     );
     const res = await handler(
-      makeRequest({ headers: { "x-admitos-request-id": "req_aaaaaaaaaaaaaaaa" } })
+      makeRequest({ headers: { "x-unioffer-request-id": "req_aaaaaaaaaaaaaaaa" } })
     );
     const body = await res.json();
     expect(body.id).toBe("req_aaaaaaaaaaaaaaaa");
   });
 
-  it("ignores a malformed x-admitos-request-id header", async () => {
+  it("ignores a malformed x-unioffer-request-id header", async () => {
     const handler = instrumentedRoute(
       { namespace: "admissions", route: "/test" },
       async (ctx) => ({ id: ctx.requestId })
     );
     const res = await handler(
-      makeRequest({ headers: { "x-admitos-request-id": "evil-string" } })
+      makeRequest({ headers: { "x-unioffer-request-id": "evil-string" } })
     );
     const body = await res.json();
     expect(body.id).toMatch(/^req_[a-f0-9]{16}$/);

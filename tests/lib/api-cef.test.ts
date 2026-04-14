@@ -84,7 +84,7 @@ const fakeUser = {
 function makeRequest(path: string, init?: RequestInit): Request {
   return new Request(`https://app.test.local${path}`, {
     method: "GET",
-    headers: { "x-admitos-request-id": "req_0123456789abcdef" },
+    headers: { "x-unioffer-request-id": "req_0123456789abcdef" },
     ...init,
   });
 }
@@ -93,7 +93,7 @@ function makeJsonRequest(path: string, body: unknown, method = "PUT"): Request {
   return new Request(`https://app.test.local${path}`, {
     method,
     headers: {
-      "x-admitos-request-id": "req_0123456789abcdef",
+      "x-unioffer-request-id": "req_0123456789abcdef",
       "content-type": "application/json",
     },
     body: JSON.stringify(body),
@@ -309,6 +309,6 @@ describe("POST /api/admissions/cef/draft", () => {
       )
     );
 
-    expect(res.headers.get("x-admitos-request-id")).toBeTruthy();
+    expect(res.headers.get("x-unioffer-request-id")).toBeTruthy();
   });
 });
