@@ -1,11 +1,14 @@
 /**
  * UniOffer landing page v1 styles.
  *
- * Ported from the v4 static HTML comp (public/unioffer-landing.html)
- * and extended with:
- *   - Dark mode via `[data-theme="dark"]` on the landing root
- *   - Three additional brand tokens (green, purple) reserved for
- *     future sections so the palette is declared in one place.
+ * Palette and logo rules are governed by the brand identity guide at
+ * docs/brand/unioffer-brand-identity-guidelines.pdf. Key rules:
+ *   - Primary blue is Uni Blue #173B63; primary red is Offer Crimson
+ *     #A33A3A. Do NOT substitute any orange-red or saturated red.
+ *   - Light mode surface is #F6F8FB (per §5.1); dark mode base is
+ *     #0E1623 (per §5.2).
+ *   - The wordmark must use the supplied image asset — never
+ *     hand-typeset the letters. See /brand/unioffer-logo.jpg.
  *
  * Scoped by the `.uo-landing` wrapper so none of these bleed into
  * the rest of the app.
@@ -14,21 +17,19 @@
 .uo-landing {
   /* ── Light (default) ── */
   --uo-bg: #FFFFFF;
-  --uo-surface: #FAFAFA;
-  --uo-border: rgba(0, 0, 0, 0.07);
-  --uo-border-med: rgba(0, 0, 0, 0.11);
-  --uo-navy: #0A1628;
-  --uo-orange: #F97316;
-  --uo-green: #34D399;
-  --uo-purple: #A78BFA;
-  --uo-text-p: #0A1628;
-  --uo-text-s: rgba(10, 22, 40, 0.50);
-  --uo-text-m: rgba(10, 22, 40, 0.30);
+  --uo-surface: #F6F8FB;           /* brand guide §5.1 */
+  --uo-border: rgba(23, 59, 99, 0.10);
+  --uo-border-med: rgba(23, 59, 99, 0.16);
+  --uo-blue: #173B63;              /* Uni Blue */
+  --uo-crimson: #A33A3A;           /* Offer Crimson */
+  --uo-text-p: #173B63;
+  --uo-text-s: rgba(23, 59, 99, 0.55);
+  --uo-text-m: rgba(23, 59, 99, 0.32);
   --uo-card: #FFFFFF;
   --uo-nav-bg: rgba(255, 255, 255, 0.95);
-  --uo-hover: rgba(0, 0, 0, 0.05);
+  --uo-hover: rgba(23, 59, 99, 0.06);
   --uo-btn-primary-fg: #FFFFFF;
-  --uo-btn-primary-bg: var(--uo-navy);
+  --uo-btn-primary-bg: var(--uo-blue);
 
   font-family: 'DM Sans', system-ui, sans-serif;
   background: var(--uo-bg);
@@ -39,19 +40,19 @@
 }
 
 .uo-landing[data-theme="dark"] {
-  --uo-bg: #0A1628;
-  --uo-surface: #111F33;
+  --uo-bg: #0E1623;                /* brand guide §5.2 */
+  --uo-surface: #14213A;
   --uo-border: rgba(255, 255, 255, 0.08);
   --uo-border-med: rgba(255, 255, 255, 0.14);
-  --uo-navy: #E8EEF5;
+  --uo-blue: #2E5F96;              /* "slightly lifted" per guide §5.2 Method B */
   --uo-text-p: #E8EEF5;
-  --uo-text-s: rgba(232, 238, 245, 0.60);
-  --uo-text-m: rgba(232, 238, 245, 0.35);
-  --uo-card: #0F1B30;
-  --uo-nav-bg: rgba(10, 22, 40, 0.92);
+  --uo-text-s: rgba(232, 238, 245, 0.65);
+  --uo-text-m: rgba(232, 238, 245, 0.38);
+  --uo-card: #14213A;
+  --uo-nav-bg: rgba(14, 22, 35, 0.92);
   --uo-hover: rgba(255, 255, 255, 0.06);
-  --uo-btn-primary-fg: #0A1628;
-  --uo-btn-primary-bg: #F97316;
+  --uo-btn-primary-fg: #FFFFFF;
+  --uo-btn-primary-bg: var(--uo-crimson);
 }
 
 /* ── NAV ── */
@@ -77,33 +78,24 @@
   text-decoration: none;
   margin-right: auto;
 }
+/* Nav mark: the official uo icon PNG. Per brand guide §6.2 the uo
+   icon is the preferred mark for compact navigation bars, and per
+   §8.2 we must never typeset the wordmark with substitute fonts —
+   so the previous hand-rolled SVG + <span>Uni</span><span>Offer</span>
+   wordmark is gone. The asset lives at /public/brand/unioffer-icon.png. */
 .uo-landing .logo-mark {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: var(--uo-navy);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  position: relative;
+  height: 32px;
+  width: auto;
 }
-.uo-landing[data-theme="dark"] .logo-mark { background: #F97316; }
-.uo-landing[data-theme="dark"] .logo-mark svg path { stroke: #0A1628 !important; }
-.uo-landing[data-theme="dark"] .logo-mark svg circle { fill: #E8EEF5 !important; }
-
-.uo-landing .logo-mark svg { display: block; }
-.uo-landing .logo-wordmark {
-  display: flex;
-  align-items: baseline;
-  gap: 0;
-  font-family: 'Syne', sans-serif;
-  font-size: 17px;
-  letter-spacing: -0.025em;
-  line-height: 1;
+.uo-landing .logo-mark img {
+  height: 32px;
+  width: auto;
+  display: block;
 }
-.uo-landing .lw-uni { font-weight: 800; color: var(--uo-text-p); }
-.uo-landing .lw-offer { font-weight: 400; color: var(--uo-orange); }
 
 .uo-landing .nav-center {
   position: absolute;
@@ -131,8 +123,8 @@
   margin-left: 4px;
   padding: 1px 5px;
   border-radius: 999px;
-  color: var(--uo-orange);
-  background: rgba(249, 115, 22, .10);
+  color: var(--uo-crimson);
+  background: rgba(163, 58, 58, .10);
   vertical-align: middle;
   letter-spacing: .05em;
   text-transform: uppercase;
@@ -208,7 +200,7 @@
   transition: background .1s;
 }
 .uo-landing .lang-opt:hover { background: var(--uo-hover); }
-.uo-landing .lang-opt.active { color: var(--uo-orange); font-weight: 500; }
+.uo-landing .lang-opt.active { color: var(--uo-crimson); font-weight: 500; }
 
 .uo-landing .btn-login {
   font-family: 'DM Sans', sans-serif;
@@ -265,7 +257,7 @@
   font-weight: 500;
   letter-spacing: 0.20em;
   text-transform: uppercase;
-  color: rgba(249, 115, 22, 0.8);
+  color: rgba(163, 58, 58, 0.8);
   margin-bottom: 1.1rem;
   display: flex;
   align-items: center;
@@ -277,7 +269,7 @@
   width: 3px;
   height: 3px;
   border-radius: 50%;
-  background: var(--uo-orange);
+  background: var(--uo-crimson);
   flex-shrink: 0;
 }
 .uo-landing .headline { margin-bottom: 0; }
@@ -302,7 +294,7 @@
   display: block;
 }
 .uo-landing .hl-spark {
-  color: var(--uo-orange);
+  color: var(--uo-crimson);
   font-style: italic;
   font-weight: 700;
 }
@@ -361,7 +353,7 @@
   transition: border-color .15s;
 }
 .uo-landing .email-inp::placeholder { color: var(--uo-text-m); }
-.uo-landing .email-inp:focus { border-color: var(--uo-orange); }
+.uo-landing .email-inp:focus { border-color: var(--uo-crimson); }
 
 .uo-landing .btn-cont {
   width: 100%;
@@ -465,14 +457,14 @@
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  background: rgba(249, 115, 22, .1);
+  background: rgba(163, 58, 58, .1);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
 }
 .uo-landing .cookie a {
-  color: var(--uo-orange);
+  color: var(--uo-crimson);
   text-decoration: underline;
   text-underline-offset: 2px;
 }
@@ -521,7 +513,7 @@
   bottom: 1.25rem;
   left: 50%;
   transform: translateX(-50%);
-  background: var(--uo-navy);
+  background: var(--uo-blue);
   color: var(--uo-btn-primary-fg);
   font-family: 'DM Sans', sans-serif;
   font-size: 12.5px;

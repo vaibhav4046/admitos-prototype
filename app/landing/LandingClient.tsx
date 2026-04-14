@@ -17,6 +17,7 @@
  * stays mostly static.
  */
 
+import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
@@ -134,23 +135,20 @@ export default function LandingClient() {
     <div className="uo-landing" data-theme={theme}>
       {/* ── NAV ────────────────────────────────────────────────── */}
       <nav className="nav">
+        {/* Per brand guide §6.2 and §8.2, the nav must use the official
+            uo icon image — never a hand-typeset wordmark. The full
+            wordmark (brand/unioffer-logo.jpg) is reserved for larger
+            surfaces where the minimum 120px width can be honoured. */}
         <Link href="/landing" className="nav-logo" aria-label="UniOffer home">
-          <div className="logo-mark">
-            <svg width="18" height="18" viewBox="0 0 18 18" fill="none" aria-hidden="true">
-              <path
-                d="M4 4 L4 11 Q4 16 9 16 Q14 16 14 11 L14 4"
-                stroke="white"
-                strokeWidth={2.2}
-                strokeLinecap="round"
-                fill="none"
-              />
-              <circle cx={9} cy={2.2} r={2} fill="#F97316" />
-            </svg>
-          </div>
-          <div className="logo-wordmark">
-            <span className="lw-uni">Uni</span>
-            <span className="lw-offer">Offer</span>
-          </div>
+          <span className="logo-mark">
+            <Image
+              src="/brand/unioffer-icon.png"
+              alt="UniOffer"
+              width={96}
+              height={96}
+              priority
+            />
+          </span>
         </Link>
 
         <div className="nav-center">
@@ -362,8 +360,8 @@ export default function LandingClient() {
           <div className="ck-title">
             <div className="ck-ico">
               <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
-                <circle cx="5" cy="5" r="4" stroke="#F97316" strokeWidth="1.2" />
-                <circle cx="5" cy="5" r="1.5" fill="#F97316" />
+                <circle cx="5" cy="5" r="4" stroke="#A33A3A" strokeWidth="1.2" />
+                <circle cx="5" cy="5" r="1.5" fill="#A33A3A" />
               </svg>
             </div>
             Cookie settings
