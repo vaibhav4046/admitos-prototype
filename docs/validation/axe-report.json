@@ -1,0 +1,20 @@
+{
+  "violationCount": 0,
+  "passCount": 26,
+  "incompleteCount": 2,
+  "violations": [],
+  "incomplete": [
+    {
+      "id": "aria-prohibited-attr",
+      "impact": "serious",
+      "help": "Elements must only use permitted ARIA attributes",
+      "nodeCount": 1
+    },
+    {
+      "id": "color-contrast",
+      "impact": "serious",
+      "help": "Elements must meet minimum color contrast ratio thresholds",
+      "nodeCount": 5
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "scenario": "accept-all",
+  "totalRequests": 20,
+  "trackingRequests": [],
+  "analyticsConfigured": false,
+  "note": "Analytics not configured yet — consent pipeline ready, no tracking scripts loaded",
+  "pass": true
+}

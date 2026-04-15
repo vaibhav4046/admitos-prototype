@@ -1,0 +1,6 @@
+{
+  "scenario": "reject-all",
+  "totalRequests": 20,
+  "trackingRequests": [],
+  "pass": true
+}

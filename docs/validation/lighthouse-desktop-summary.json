@@ -1,0 +1,59 @@
+{
+  "scores": {
+    "performance": 97,
+    "accessibility": 96,
+    "bestPractices": 100,
+    "seo": 63
+  },
+  "failingAudits": [
+    {
+      "id": "color-contrast",
+      "title": "Background and foreground colors do not have a sufficient contrast ratio.",
+      "score": 0,
+      "displayValue": ""
+    },
+    {
+      "id": "is-crawlable",
+      "title": "Page is blocked from indexing",
+      "score": 0,
+      "displayValue": ""
+    },
+    {
+      "id": "network-dependency-tree-insight",
+      "title": "Network dependency tree",
+      "score": 0,
+      "displayValue": ""
+    },
+    {
+      "id": "render-blocking-insight",
+      "title": "Render blocking requests",
+      "score": 0.5,
+      "displayValue": ""
+    },
+    {
+      "id": "cumulative-layout-shift",
+      "title": "Cumulative Layout Shift",
+      "score": 0.93,
+      "displayValue": "0.086"
+    },
+    {
+      "id": "first-contentful-paint",
+      "title": "First Contentful Paint",
+      "score": 0.94,
+      "displayValue": "0.8 s"
+    },
+    {
+      "id": "speed-index",
+      "title": "Speed Index",
+      "score": 0.96,
+      "displayValue": "1.0 s"
+    },
+    {
+      "id": "largest-contentful-paint",
+      "title": "Largest Contentful Paint",
+      "score": 0.97,
+      "displayValue": "0.8 s"
+    }
+  ],
+  "fetchTime": "2026-04-15T23:17:31.849Z"
+}
