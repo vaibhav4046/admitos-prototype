@@ -703,15 +703,18 @@
   transform: translateY(-2px);
 }
 .uo-landing .feat-ico {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   border-radius: 9px;
   background: rgba(163, 58, 58, 0.10);
   color: var(--uo-crimson);
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 15px;
+  font-family: 'Syne', sans-serif;
+  font-weight: 700;
+  font-size: 13px;
+  letter-spacing: 0.04em;
   margin-bottom: 0.9rem;
 }
 .uo-landing .feat-h {
@@ -923,6 +926,45 @@
   font-size: 12px;
   color: var(--uo-text-m);
   margin-top: 1.5rem;
+}
+
+/* V3.1 §Module 4 card 08 — Compliance-First / Wellbeing-First strip.
+   Explicitly NOT a card in the feat-grid; full-width navy band below. */
+.uo-landing .compliance-strip {
+  margin-top: 2rem;
+  background: linear-gradient(135deg, #0E1623 0%, #14213A 100%);
+  border-radius: 16px;
+  padding: 1.75rem 1.9rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: left;
+}
+.uo-landing .compliance-strip-kicker {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10.5px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+  margin-bottom: 0.5rem;
+}
+.uo-landing .compliance-strip-h {
+  font-family: 'Syne', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0 0 0.5rem;
+  letter-spacing: -0.015em;
+}
+.uo-landing .compliance-strip-p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.82);
+  margin: 0;
+  max-width: 920px;
+}
+@media (max-width: 560px) {
+  .uo-landing .compliance-strip { padding: 1.35rem 1.25rem; }
+  .uo-landing .compliance-strip-h { font-size: 18px; }
 }
 
 /* V3.1 §Module 2 — Market Reality grid (5 nationality admit-rate cards).

@@ -575,75 +575,120 @@ export default function LandingClient() {
           </p>
         </section>
 
+        {/* V3.1 Module 4 — Features
+            Seven cards in the grid; the full-width compliance strip
+            below is logically "card 08" but is explicitly NOT a card in
+            the same grid per spec — it's a horizontal navy band.
+            Copy is verbatim from 03_Landing_Page_V3.1.pdf. */}
         <section id="features" className="uo-section" aria-labelledby="features-heading">
           <div className="sec-eyebrow">Features</div>
           <h2 id="features-heading" className="sec-h2">
-            Six pillars of <span className="hl-spark">calm</span>, evidence-led admissions.
+            12 specialist AI agents. One unified platform. Built for the top 1%.
           </h2>
-          <p className="sec-sub">
-            Everything a sixth-form student and their counsellor need to turn a
-            shortlist of dream universities into a set of confident offers — on
-            one connected surface.
-          </p>
           <div className="feat-grid">
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">✎</div>
-              <h3 className="feat-h">AI Essay Coach</h3>
+              <div className="feat-ico" aria-hidden="true">01</div>
+              <h3 className="feat-h">12-Agent AI Mesh</h3>
               <p className="feat-p">
-                Five-dimension feedback on clarity, structure, evidence, voice
-                and impact — minutes after you paste a draft. Counsellor review
-                queued automatically.
+                Twelve specialist agents execute in parallel — essay,
+                strategy, research, interview, test prep, and more. Not a
+                chatbot. A complete expert team working around the clock
+                on your application.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">◆</div>
-              <h3 className="feat-h">School Intelligence</h3>
+              <div className="feat-ico" aria-hidden="true">02</div>
+              <h3 className="feat-h">Student DNA Engine</h3>
               <p className="feat-p">
-                Up-to-date profiles for every UK university and course: entry
-                requirements, contextual offers, deadlines, interview formats
-                and real-student pass rates.
+                An 8-dimension candidacy profile built from your first
+                session. Every agent output is personalised to your
+                cognitive style, writing voice, and motivation pattern —
+                and stays that way throughout your entire journey.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">◷</div>
-              <h3 className="feat-h">Deadline Timeline</h3>
+              <div className="feat-ico" aria-hidden="true">03</div>
+              <h3 className="feat-h">Application Readiness Engine</h3>
               <p className="feat-p">
-                One calendar that merges UCAS, scholarship and university-specific
-                dates — with gentle reminders when a submission slips out of a
-                safe window.
+                Multi-factor preparation strength analysis calibrated to
+                your nationality pool and each university&apos;s
+                published selection criteria. You see clear, actionable
+                readiness indicators — never misleading probability
+                numbers.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">◉</div>
-              <h3 className="feat-h">Counsellor Dashboard</h3>
+              <div className="feat-ico" aria-hidden="true">04</div>
+              <h3 className="feat-h">Voice Interview Simulator</h3>
               <p className="feat-p">
-                Your UniOffer counsellor sees exactly what you see, plus a queue
-                of the pieces that need a human eye. No more &ldquo;did you get
-                my email?&rdquo;
+                Real-time emotion analysis powered by Hume AI. Oxbridge
+                academic, medical MMI, and US top-college alumni
+                interview modes. After five AI sessions, a human coach
+                refines the final 10% AI cannot reach.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">✚</div>
-              <h3 className="feat-h">Evidence Framework</h3>
+              <div className="feat-ico" aria-hidden="true">05</div>
+              <h3 className="feat-h">Adie — Your Wellbeing Companion</h3>
               <p className="feat-p">
-                Every recommendation in UniOffer is traceable to a source —
-                policy, data point, or counsellor note — so you always know
-                why an AI suggestion was made.
+                The first admissions platform to embed a dedicated
+                wellbeing companion at every tier. Light-touch care and
+                friendly nudges — reminding you to rest, checking in at
+                the right moments, staying with you through results day.
+                Adie is a peer support tool, not a substitute for
+                professional mental health care.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">★</div>
+              <div className="feat-ico" aria-hidden="true">06</div>
+              <h3 className="feat-h">Commons — Student Community</h3>
+              <p className="feat-p">
+                Every student&apos;s journey becomes collective
+                knowledge. A governed, anonymous space locked to
+                admissions topics — where students share experiences, ask
+                questions, and offer limited peer commentary in a safe
+                and moderated environment.
+              </p>
+            </article>
+            <article className="feat-card">
+              <div className="feat-ico" aria-hidden="true">07</div>
               <h3 className="feat-h">
-                Student Knowledge Base &amp; Live Student Profile
+                Live Student Profile + Student Knowledge Base
               </h3>
               <p className="feat-p">
-                Your Student Knowledge Base captures everything you tell us —
-                grades, extracurriculars, essays, reflections. Your Live Student
-                Profile then keeps it current for counsellors and parents, with
-                one consent-controlled share link.
+                Powered by your Student DNA and continuously enriched
+                throughout your journey, UniOffer builds and maintains a
+                private personal knowledge base for every student. Your
+                12 agents always know who you are — no re-introduction
+                needed. Parents, counsellors, and partner schools stay
+                informed through your live profile at
+                unioffer.ai/p/[student-id].
               </p>
             </article>
           </div>
+
+          {/* V3.1 §4 — "08 Compliance-First. Wellbeing-First."
+              Explicitly NOT a card in the same grid. Full-width dark
+              navy strip, no icon. Reads as founding-principle statement
+              rather than product feature. */}
+          <aside
+            className="compliance-strip"
+            role="note"
+            aria-labelledby="compliance-strip-h"
+          >
+            <div className="compliance-strip-kicker">08 — Founding principles</div>
+            <h3 id="compliance-strip-h" className="compliance-strip-h">
+              Compliance-First. Wellbeing-First.
+            </h3>
+            <p className="compliance-strip-p">
+              Not features. Founding principles. Every agent output,
+              every data decision, and every user interaction is built
+              against the strictest applicable standard — IECA, NACAC,
+              UCAS, UK GDPR, and the Online Safety Act. Compliance and
+              student wellbeing are core company assets, not
+              afterthoughts.
+            </p>
+          </aside>
         </section>
 
         {/* V3.1 Module 3 — How UniOffer Works
