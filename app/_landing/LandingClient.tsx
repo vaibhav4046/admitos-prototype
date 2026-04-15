@@ -950,6 +950,153 @@ export default function LandingClient() {
         </section>
       </main>
 
+      {/* ── FOOTER — V3.1 §Module 7 ────────────────────────────
+          Four-column nav + bottom bar with registration line + two
+          non-removable compliance notes (readiness disclaimer is on
+          the pricing strip; the Adie disclaimer with Samaritans +
+          NHS numbers lives here at the page foot so it is present
+          on every viewport regardless of scroll position). */}
+      <footer className="uo-footer" aria-label="Site footer">
+        <div className="foot-cols">
+          <div className="foot-col">
+            <h4 className="foot-h">Product</h4>
+            <ul className="foot-ul">
+              <li><a href="#how-it-works">How it works</a></li>
+              <li><a href="#features">Features</a></li>
+              <li><a href="#pricing">Pricing</a></li>
+              <li>
+                <button
+                  type="button"
+                  className="foot-link-btn"
+                  onClick={() => flashToast("12-agent roster — coming soon")}
+                >
+                  Meet the 12 agents
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="foot-link-btn"
+                  onClick={() => flashToast("Plan & credits — coming soon")}
+                >
+                  Plan &amp; Credits
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div className="foot-col">
+            <h4 className="foot-h">Company</h4>
+            <ul className="foot-ul">
+              <li>
+                <button
+                  type="button"
+                  className="foot-link-btn"
+                  onClick={() => flashToast("About UniOffer — coming soon")}
+                >
+                  About UniOffer
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="foot-link-btn"
+                  onClick={() => flashToast("Compliance framework — coming soon")}
+                >
+                  Compliance framework
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="foot-link-btn"
+                  onClick={() => flashToast("Careers — coming soon")}
+                >
+                  Careers
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="foot-link-btn"
+                  onClick={() => flashToast("Press — coming soon")}
+                >
+                  Press
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div className="foot-col">
+            <h4 className="foot-h">Support</h4>
+            <ul className="foot-ul">
+              <li>
+                <button
+                  type="button"
+                  className="foot-link-btn"
+                  onClick={() => flashToast("Help centre — coming soon")}
+                >
+                  Help centre
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="foot-link-btn"
+                  onClick={() => flashToast("Contact — coming soon")}
+                >
+                  Contact us
+                </button>
+              </li>
+              <li>
+                <button
+                  type="button"
+                  className="foot-link-btn"
+                  onClick={() => flashToast("Advisory team — coming soon")}
+                >
+                  Talk to our advisory team
+                </button>
+              </li>
+            </ul>
+          </div>
+          <div className="foot-col">
+            <h4 className="foot-h">Legal</h4>
+            <ul className="foot-ul">
+              <li><Link href="/signin">Privacy Policy</Link></li>
+              <li><Link href="/signin">Terms of Service</Link></li>
+              <li><Link href="/signin">Cookie Policy</Link></li>
+              <li><Link href="/signin">Adie Terms of Use</Link></li>
+              <li><Link href="/signin">UK GDPR rights</Link></li>
+            </ul>
+          </div>
+        </div>
+
+        <div className="foot-bar">
+          <p className="foot-copy">
+            © 2026 UniOffer. All rights reserved. Registered in England
+            and Wales.
+          </p>
+          <p className="foot-tags">
+            Compliance-First · Wellbeing-First · AI-Native · Student-Centred
+          </p>
+        </div>
+
+        {/* V3.1 — Adie disclaimer. Non-removable per spec; must appear
+            on every landing view. Samaritans 116 123 and NHS 111 are
+            the two crisis lines called out in the PDF verbatim. */}
+        <aside
+          className="foot-adie"
+          role="note"
+          aria-label="Adie disclaimer"
+        >
+          <strong>Adie disclaimer.</strong> Adie is a peer support and
+          wellbeing resource tool. It is not a medical service, mental
+          health service, therapy service, or clinical service of any
+          kind. If you are experiencing a mental health crisis, please
+          contact a qualified professional immediately. UK:{" "}
+          <strong>Samaritans 116 123</strong> · NHS urgent mental
+          health: <strong>111 option 2</strong>.
+        </aside>
+      </footer>
+
       {/* ── COOKIE BANNER (UK GDPR — prior-consent, equal weight) ── */}
       {showCookie && (
         <div

@@ -928,6 +928,105 @@
   margin-top: 1.5rem;
 }
 
+/* V3.1 §Module 7 — Footer
+   Four-column nav + bottom bar + non-removable Adie disclaimer. */
+.uo-landing .uo-footer {
+  background: var(--uo-surface);
+  border-top: 1px solid var(--uo-border);
+  padding: 2.5rem 2rem 1.75rem;
+}
+.uo-landing .foot-cols {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 2rem;
+  max-width: 1200px;
+  margin: 0 auto 1.75rem;
+}
+.uo-landing .foot-col {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.uo-landing .foot-h {
+  font-family: 'Syne', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--uo-text-p);
+  margin: 0 0 0.35rem;
+}
+.uo-landing .foot-ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+.uo-landing .foot-ul li {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.4;
+}
+.uo-landing .foot-ul a,
+.uo-landing .foot-link-btn {
+  color: var(--uo-text-s);
+  text-decoration: none;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+.uo-landing .foot-ul a:hover,
+.uo-landing .foot-link-btn:hover {
+  color: var(--uo-crimson);
+}
+.uo-landing .foot-bar {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding-top: 1.25rem;
+  border-top: 1px solid var(--uo-border);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  justify-content: space-between;
+  align-items: center;
+}
+.uo-landing .foot-copy,
+.uo-landing .foot-tags {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  color: var(--uo-text-m);
+  margin: 0;
+}
+.uo-landing .foot-adie {
+  max-width: 1200px;
+  margin: 1.25rem auto 0;
+  padding: 0.9rem 1rem;
+  background: rgba(163, 58, 58, 0.06);
+  border: 1px solid rgba(163, 58, 58, 0.18);
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  line-height: 1.55;
+  color: var(--uo-text-p);
+}
+.uo-landing .foot-adie strong {
+  color: var(--uo-crimson);
+  font-weight: 600;
+}
+@media (max-width: 1024px) {
+  .uo-landing .foot-cols { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .uo-landing .foot-cols { grid-template-columns: 1fr; gap: 1.5rem; }
+  .uo-landing .foot-bar { flex-direction: column; align-items: flex-start; }
+}
+
 /* V3.1 §Module 4 card 08 — Compliance-First / Wellbeing-First strip.
    Explicitly NOT a card in the feat-grid; full-width navy band below. */
 .uo-landing .compliance-strip {
