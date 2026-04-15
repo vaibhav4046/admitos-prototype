@@ -19,7 +19,7 @@ Source masters:
   mark variants — solid / gradient × light-bg / dark-bg)
 - `unioffer-logo.jpg` (478 × 522, full wordmark)
 
-**No vector source available. PNG variants shipped as final.** This
+**No vector source available (confirmed with brand lead 15 Apr 2026). Optimised PNG variants shipped as final.** This
 means:
 
 1. The icon and wordmark live as PNG only; we ship a 1x / 2x / 3x
