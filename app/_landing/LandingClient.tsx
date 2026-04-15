@@ -526,6 +526,18 @@ export default function LandingClient() {
         {/* /.hero-band — closes the centered hero band; sections below
             are full-width and stack vertically. */}
 
+        {/* V3.1 §Hero Bottom Navigation — three text links with
+            middle-dot separators. Smooth-scroll handled by the
+            `html { scroll-behavior: smooth }` rule in globals.css,
+            plus scroll-margin-top on each target section anchor. */}
+        <nav className="hero-bottom-nav" aria-label="Jump to section">
+          <a href="#how-it-works">How it works</a>
+          <span className="hero-bottom-nav-sep" aria-hidden="true">·</span>
+          <a href="#pricing">See pricing</a>
+          <span className="hero-bottom-nav-sep" aria-hidden="true">·</span>
+          <a href="#features">Meet all 12 agents</a>
+        </nav>
+
         {/* V3.1 Module 2 — Market Reality
             Five data cards surface the nationality-pool admit rates that
             make UniOffer's Application Readiness Engine necessary. Every
