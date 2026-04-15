@@ -604,6 +604,55 @@ export default function LandingClient() {
           </ol>
         </section>
 
+        {/* V3.1 Module 5 — Trust Signals
+            Four compliance badges positioned between Features/HIW and
+            Pricing per spec. No hyperlinks yet — the detailed
+            compliance framework page is a follow-up route. */}
+        <section
+          id="trust"
+          className="uo-section uo-section-alt"
+          aria-labelledby="trust-heading"
+        >
+          <div className="sec-eyebrow">Trust</div>
+          <h2 id="trust-heading" className="sec-h2">
+            Built to the highest standard in the industry.
+          </h2>
+          <ul className="trust-grid">
+            <li className="trust-card">
+              <div className="trust-badge" aria-hidden="true">IECA</div>
+              <h3 className="trust-h">IECA Member Standards</h3>
+              <p className="trust-p">
+                Independent Educational Consultants Association guidelines
+                hardwired into every feature.
+              </p>
+            </li>
+            <li className="trust-card">
+              <div className="trust-badge" aria-hidden="true">NACAC</div>
+              <h3 className="trust-h">NACAC Compliant</h3>
+              <p className="trust-p">
+                No admission outcome may be guaranteed or implied at any
+                tier. Ever.
+              </p>
+            </li>
+            <li className="trust-card">
+              <div className="trust-badge" aria-hidden="true">UCAS</div>
+              <h3 className="trust-h">UCAS Aligned</h3>
+              <p className="trust-p">
+                UK application processes built to UCAS specifications and
+                guidelines.
+              </p>
+            </li>
+            <li className="trust-card">
+              <div className="trust-badge" aria-hidden="true">UK GDPR</div>
+              <h3 className="trust-h">UK GDPR · Online Safety Act</h3>
+              <p className="trust-p">
+                EU-West data residency. Right to erasure within 30 days.
+                Age verification at registration.
+              </p>
+            </li>
+          </ul>
+        </section>
+
         {/* V3.1 Module 6 — Pricing
             Tiers, prices, and feature bullets per 03_Landing_Page_V3.1.pdf.
             Plus price is £50/mo (not £45 from the placeholder rev).

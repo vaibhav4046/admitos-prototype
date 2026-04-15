@@ -902,6 +902,58 @@
   margin-top: 1.5rem;
 }
 
+/* V3.1 §Module 5 — Trust Signals grid (4 compliance badges) */
+.uo-landing .trust-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  text-align: left;
+}
+.uo-landing .trust-card {
+  background: var(--uo-card);
+  border: 1px solid var(--uo-border);
+  border-radius: 14px;
+  padding: 1.25rem 1.1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.uo-landing .trust-badge {
+  display: inline-block;
+  align-self: flex-start;
+  font-family: 'Syne', sans-serif;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  color: #fff;
+  background: var(--uo-blue);
+  padding: 4px 9px;
+  border-radius: 999px;
+}
+.uo-landing .trust-h {
+  font-family: 'Syne', sans-serif;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--uo-text-p);
+  margin: 0.1rem 0 0;
+}
+.uo-landing .trust-p {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--uo-text-s);
+  margin: 0;
+}
+@media (max-width: 1024px) {
+  .uo-landing .trust-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 560px) {
+  .uo-landing .trust-grid { grid-template-columns: 1fr; }
+}
+
 /* V3.1 — year-plan line under the price-amt */
 .uo-landing .price-year {
   font-family: 'DM Sans', sans-serif;
