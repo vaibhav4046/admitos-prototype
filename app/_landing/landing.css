@@ -37,6 +37,12 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  /* Hard guard against any child accidentally growing beyond the
+     viewport (the previous layout shipped a row-flex `.main` that
+     forced Features/How-it-Works/Pricing to lay out side-by-side and
+     bleed off both edges). `overflow-x: clip` contains any future
+     regression without interfering with sticky nav. */
+  overflow-x: clip;
 }
 
 .uo-landing[data-theme="dark"] {
@@ -88,13 +94,14 @@
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
-  height: 32px;
+  height: 36px;
   width: auto;
 }
 .uo-landing .logo-mark img {
-  height: 32px;
+  height: 36px;
   width: auto;
   display: block;
+  object-fit: contain;
 }
 
 .uo-landing .nav-center {
@@ -234,13 +241,25 @@
 }
 .uo-landing .btn-get:hover { opacity: .85; }
 
-/* ── MAIN ── */
+/* ── MAIN ──
+   The hero card sits at the top (centered horizontally inside a
+   padded hero band), then Features / How it Works / Pricing stack
+   underneath as full-width sections. Before this rewrite `.main`
+   was `display:flex` with default row direction, which laid the
+   three sections out HORIZONTALLY beside the hero card and pushed
+   them off-screen on both sides. Now it's a simple block container
+   and each section owns its own centering. */
 .uo-landing .main {
   flex: 1;
+  display: block;
+  width: 100%;
+}
+.uo-landing .hero-band {
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 2.5rem 1.5rem 4rem;
+  width: 100%;
 }
 .uo-landing .card {
   width: 100%;
@@ -549,19 +568,29 @@
   font-weight: 500;
 }
 
-/* ── Landing sections (Features / How it Works / Pricing) ── */
+/* ── Landing sections (Features / How it Works / Pricing) ──
+   The alt section needs a full-bleed background. Rather than playing
+   with viewport-width math (which breaks with scrollbars), we wrap
+   the alt section's content in `.uo-section-inner` and let the outer
+   element span the viewport. Non-alt sections keep the simple
+   max-width pattern. */
 .uo-landing .uo-section {
   width: 100%;
   max-width: 1040px;
   margin: 0 auto;
   padding: 4rem 1.5rem 4rem;
   text-align: center;
+  box-sizing: border-box;
 }
 .uo-landing .uo-section-alt {
-  background: var(--uo-surface);
   max-width: none;
-  padding-left: max(1.5rem, calc((100vw - 1040px) / 2));
-  padding-right: max(1.5rem, calc((100vw - 1040px) / 2));
+  background: var(--uo-surface);
+  padding: 4rem 1.5rem 4rem;
+}
+.uo-landing .uo-section-alt > * {
+  max-width: 1040px;
+  margin-left: auto;
+  margin-right: auto;
 }
 .uo-landing .sec-eyebrow {
   font-family: 'DM Sans', sans-serif;

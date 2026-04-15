@@ -291,6 +291,7 @@ export default function LandingClient() {
 
       {/* ── MAIN ───────────────────────────────────────────────── */}
       <main className="main">
+        <div className="hero-band">
         <div className="card">
           <div className="hero-copy">
             <div className="eyebrow">
@@ -382,6 +383,9 @@ export default function LandingClient() {
             </div>
           </div>
         </div>
+        </div>
+        {/* /.hero-band — closes the centered hero band; sections below
+            are full-width and stack vertically. */}
 
         {/* PLACEHOLDER_COPY — swap when Andy provides 03_Landing_Page_V3.1.docx.
             Structure, layout, and interaction verified; copy is product-grounded
