@@ -31,7 +31,14 @@
   --uo-btn-primary-fg: #FFFFFF;
   --uo-btn-primary-bg: var(--uo-blue);
 
-  font-family: 'DM Sans', system-ui, sans-serif;
+  /* Font stacks: CSS variables from next/font/google (layout.tsx) with
+     hardcoded fallbacks so the page still renders if variables are
+     missing (e.g. Storybook, tests, partial hydration). */
+  --uo-font-body: var(--font-dm-sans, 'DM Sans'), system-ui, sans-serif;
+  --uo-font-display: var(--font-syne, 'Syne'), system-ui, sans-serif;
+  --uo-font-tagline: var(--font-cormorant, 'Cormorant Garamond'), serif;
+
+  font-family: var(--uo-font-body);
   background: var(--uo-bg);
   color: var(--uo-text-p);
   min-height: 100vh;
@@ -109,7 +116,7 @@
    PNG is the only asset Andy shipped. This is the interim lockup
    approved by the dev for the Loom recording. */
 .uo-landing .uo-wordmark {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 20px;
   font-weight: 400;
   color: var(--uo-blue);
@@ -137,7 +144,7 @@
   align-items: center;
 }
 .uo-landing .nav-lnk {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   font-weight: 400;
   color: var(--uo-text-s);
@@ -204,7 +211,7 @@
   gap: 5px;
   padding: 5px 10px;
   border-radius: 6px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12.5px;
   font-weight: 400;
   color: var(--uo-text-s);
@@ -249,7 +256,7 @@
 .uo-landing .lang-opt.active { color: var(--uo-crimson); font-weight: 500; }
 
 .uo-landing .btn-login {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   font-weight: 400;
   color: var(--uo-text-s);
@@ -264,7 +271,7 @@
 .uo-landing .btn-login:hover { background: var(--uo-hover); color: var(--uo-text-p); }
 
 .uo-landing .btn-get {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   font-weight: 500;
   background: var(--uo-btn-primary-bg);
@@ -315,7 +322,7 @@
 
 .uo-landing .hero-copy { text-align: center; margin-bottom: 2rem; }
 .uo-landing .eyebrow {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 10px;
   font-weight: 500;
   letter-spacing: 0.20em;
@@ -337,7 +344,7 @@
 }
 .uo-landing .headline { margin-bottom: 0; }
 .uo-landing .hl-pre {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--uo-font-tagline);
   font-size: 18px;
   font-weight: 300;
   font-style: italic;
@@ -348,7 +355,7 @@
   margin-bottom: 2px;
 }
 .uo-landing .hl-main {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 38px;
   font-weight: 800;
   letter-spacing: -0.035em;
@@ -372,7 +379,7 @@
 
 /* V3.1 — hero subheadline below the main headline */
 .uo-landing .hero-sub {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 15px;
   line-height: 1.55;
   color: var(--uo-text-s);
@@ -404,7 +411,7 @@
   outline: none;
   background: transparent;
   padding: 10px 10px 10px 12px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13.5px;
   color: var(--uo-text-p);
 }
@@ -421,7 +428,7 @@
   border: none;
   border-radius: 9px;
   padding: 8px 13px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
@@ -441,7 +448,7 @@
   justify-content: center;
   gap: 0;
   margin: 1.5rem auto 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
 }
 .uo-landing .hero-bottom-nav a {
@@ -470,7 +477,7 @@
   max-width: 680px;
 }
 .uo-landing .hero-chip {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12.5px;
   font-weight: 500;
   color: var(--uo-text-p);
@@ -494,7 +501,7 @@
 .uo-landing .divider { height: 1px; background: var(--uo-border); margin: 1.75rem 0 1.5rem; }
 
 .uo-landing .auth-label {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   font-weight: 400;
   color: var(--uo-text-s);
@@ -512,7 +519,7 @@
   border: 1px solid var(--uo-border-med);
   border-radius: 8px;
   padding: 10px 16px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13.5px;
   font-weight: 500;
   color: var(--uo-text-p);
@@ -536,7 +543,7 @@
   border: 1px solid var(--uo-border-med);
   border-radius: 8px;
   padding: 10px 14px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13.5px;
   color: var(--uo-text-p);
   background: var(--uo-card);
@@ -554,7 +561,7 @@
   border: none;
   border-radius: 8px;
   padding: 10px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13.5px;
   font-weight: 500;
   cursor: pointer;
@@ -564,7 +571,7 @@
 .uo-landing .btn-cont:hover { opacity: .85; }
 
 .uo-landing .priv {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 11px;
   color: var(--uo-text-s);
   line-height: 1.55;
@@ -588,7 +595,7 @@
   border-radius: 9px;
 }
 .uo-landing .desk-label {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 11.5px;
   font-weight: 400;
   color: var(--uo-text-s);
@@ -613,7 +620,7 @@
   box-shadow: 0 1px 4px rgba(0, 0, 0, .05);
 }
 .uo-landing .desk-btn-name {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 11.5px;
   font-weight: 500;
   color: var(--uo-text-p);
@@ -631,7 +638,7 @@
   padding: 1rem 1.05rem;
   box-shadow: 0 4px 28px rgba(0, 0, 0, .08);
   z-index: 300;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12px;
   line-height: 1.55;
   color: var(--uo-text-s);
@@ -663,7 +670,7 @@
 .uo-landing .ck-btns { display: flex; gap: .35rem; margin-top: .7rem; }
 .uo-landing .ck-b {
   flex: 1;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 11.5px;
   font-weight: 500;
   padding: 6px 5px;
@@ -767,7 +774,7 @@
   transform: translateX(-50%);
   background: var(--uo-blue);
   color: var(--uo-btn-primary-fg);
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12.5px;
   font-weight: 500;
   padding: 9px 16px;
@@ -826,7 +833,7 @@
   margin-right: auto;
 }
 .uo-landing .sec-eyebrow {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -835,7 +842,7 @@
   margin-bottom: 0.9rem;
 }
 .uo-landing .sec-h2 {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 34px;
   font-weight: 700;
   letter-spacing: -0.025em;
@@ -850,7 +857,7 @@
   text-wrap: pretty;
 }
 .uo-landing .sec-sub {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 15px;
   line-height: 1.55;
   color: var(--uo-text-s);
@@ -886,14 +893,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-weight: 700;
   font-size: 13px;
   letter-spacing: 0.04em;
   margin-bottom: 0.9rem;
 }
 .uo-landing .feat-h {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 16px;
   font-weight: 700;
   letter-spacing: -0.01em;
@@ -902,7 +909,7 @@
   line-height: 1.25;
 }
 .uo-landing .feat-p {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13.5px;
   line-height: 1.6;
   color: var(--uo-text-s);
@@ -945,7 +952,7 @@
   border-radius: 999px;
   background: var(--uo-blue);
   color: var(--uo-btn-primary-fg);
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-weight: 700;
   font-size: 12.5px;
   letter-spacing: 0.08em;
@@ -954,7 +961,7 @@
 
 /* V3.1 — per-step agent-index tag (e.g. "A5 – A9 · via A0") */
 .uo-landing .how-agents {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 10.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
@@ -965,7 +972,7 @@
 
 /* V3.1 — one-line lede under the step heading */
 .uo-landing .how-lede {
-  font-family: 'Cormorant Garamond', serif;
+  font-family: var(--uo-font-tagline);
   font-style: italic;
   font-size: 14.5px;
   line-height: 1.35;
@@ -973,14 +980,14 @@
   margin: 0 0 0.6rem;
 }
 .uo-landing .how-h {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 16px;
   font-weight: 700;
   color: var(--uo-text-p);
   margin: 0 0 0.4rem;
 }
 .uo-landing .how-p {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   line-height: 1.6;
   color: var(--uo-text-s);
@@ -1014,7 +1021,7 @@
   left: 1.5rem;
   background: var(--uo-crimson);
   color: #fff;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 10.5px;
   font-weight: 600;
   letter-spacing: 0.06em;
@@ -1023,7 +1030,7 @@
   border-radius: 999px;
 }
 .uo-landing .price-name {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 18px;
   font-weight: 700;
   color: var(--uo-text-p);
@@ -1036,7 +1043,7 @@
   margin-bottom: 0.5rem;
 }
 .uo-landing .price-num {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 34px;
   font-weight: 800;
   letter-spacing: -0.02em;
@@ -1044,12 +1051,12 @@
   line-height: 1;
 }
 .uo-landing .price-per {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   color: var(--uo-text-s);
 }
 .uo-landing .price-sub {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   color: var(--uo-text-s);
   margin: 0 0 1rem;
@@ -1059,7 +1066,7 @@
   list-style: none;
   padding: 0;
   margin: 0 0 1.5rem;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   color: var(--uo-text-p);
   flex: 1;
@@ -1087,7 +1094,7 @@
   justify-content: center;
   padding: 10px 14px;
   border-radius: 9px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13.5px;
   font-weight: 500;
   text-decoration: none;
@@ -1104,7 +1111,7 @@
 }
 .uo-landing .price-cta-featured:hover { opacity: 0.88; background: var(--uo-btn-primary-bg); }
 .uo-landing .price-foot {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12px;
   color: var(--uo-text-m);
   margin-top: 1.5rem;
@@ -1130,7 +1137,7 @@
   gap: 0.5rem;
 }
 .uo-landing .foot-h {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 12px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1147,7 +1154,7 @@
   gap: 0.4rem;
 }
 .uo-landing .foot-ul li {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   line-height: 1.4;
 }
@@ -1180,7 +1187,7 @@
 }
 .uo-landing .foot-copy,
 .uo-landing .foot-tags {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12px;
   color: var(--uo-text-s);
   margin: 0;
@@ -1192,7 +1199,7 @@
   background: rgba(163, 58, 58, 0.06);
   border: 1px solid rgba(163, 58, 58, 0.18);
   border-radius: 10px;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 11.5px;
   line-height: 1.55;
   color: var(--uo-text-p);
@@ -1220,7 +1227,7 @@
   text-align: left;
 }
 .uo-landing .compliance-strip-kicker {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 10.5px;
   letter-spacing: 0.18em;
   text-transform: uppercase;
@@ -1228,7 +1235,7 @@
   margin-bottom: 0.5rem;
 }
 .uo-landing .compliance-strip-h {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 22px;
   font-weight: 700;
   color: #FFFFFF;
@@ -1236,7 +1243,7 @@
   letter-spacing: -0.015em;
 }
 .uo-landing .compliance-strip-p {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13.5px;
   line-height: 1.65;
   color: rgba(255, 255, 255, 0.82);
@@ -1273,7 +1280,7 @@
   line-height: 1;
 }
 .uo-landing .market-h {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 13.5px;
   font-weight: 700;
   color: var(--uo-text-p);
@@ -1286,7 +1293,7 @@
   margin: 0.15rem 0;
 }
 .uo-landing .market-stat-n {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 26px;
   font-weight: 800;
   letter-spacing: -0.03em;
@@ -1294,14 +1301,14 @@
   line-height: 1;
 }
 .uo-landing .market-stat-l {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 11.5px;
   color: var(--uo-text-s);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
 .uo-landing .market-p {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12.5px;
   line-height: 1.5;
   color: var(--uo-text-s);
@@ -1309,7 +1316,7 @@
 }
 .uo-landing .market-foot {
   margin-top: 1.25rem;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   color: var(--uo-text-p);
   text-align: center;
@@ -1327,7 +1334,7 @@
   background: var(--uo-blue);
   color: var(--uo-btn-primary-fg);
   text-decoration: none;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13.5px;
   font-weight: 500;
   padding: 10px 18px;
@@ -1370,7 +1377,7 @@
 .uo-landing .trust-badge {
   display: inline-block;
   align-self: flex-start;
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 0.12em;
@@ -1380,14 +1387,14 @@
   border-radius: 999px;
 }
 .uo-landing .trust-h {
-  font-family: 'Syne', sans-serif;
+  font-family: var(--uo-font-display);
   font-size: 15px;
   font-weight: 700;
   color: var(--uo-text-p);
   margin: 0.1rem 0 0;
 }
 .uo-landing .trust-p {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12.5px;
   line-height: 1.55;
   color: var(--uo-text-s);
@@ -1402,7 +1409,7 @@
 
 /* V3.1 — year-plan line under the price-amt */
 .uo-landing .price-year {
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12.5px;
   color: var(--uo-crimson);
   font-weight: 500;
@@ -1425,7 +1432,7 @@
 }
 .uo-landing .readiness-strip-body {
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 13px;
   line-height: 1.6;
   color: rgba(255, 255, 255, 0.86);
@@ -1435,7 +1442,7 @@
 /* Cookie banner — GDPR equal-weight buttons */
 .uo-landing .ck-body {
   margin: 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 12px;
   line-height: 1.55;
   color: var(--uo-text-s);
@@ -1453,7 +1460,7 @@
 .uo-landing .ck-b-equal:hover { background: var(--uo-hover); border-color: var(--uo-text-s); }
 .uo-landing .ck-foot {
   margin: 0.6rem 0 0;
-  font-family: 'DM Sans', sans-serif;
+  font-family: var(--uo-font-body);
   font-size: 10.5px;
   color: var(--uo-text-m);
   line-height: 1.45;

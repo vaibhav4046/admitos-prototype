@@ -65,27 +65,11 @@ export const metadata: Metadata = {
 export default function LandingPage() {
   return (
     <>
-      {/* Preconnect to Google Fonts — these three families are loaded
-          via a single stylesheet <link> below. Kept as a plain <link>
-          rather than `next/font` because the marketing page wants the
-          exact font stack specified in the comp (Syne, DM Sans,
-          Cormorant Garamond) and next/font would require pinning per
-          family in a way that complicates future design iterations. */}
-      <link rel="preconnect" href="https://fonts.googleapis.com" />
-      <link
-        rel="preconnect"
-        href="https://fonts.gstatic.com"
-        crossOrigin="anonymous"
-      />
-      {/* eslint-disable-next-line @next/next/no-page-custom-font --
-          The marketing landing is the one page that needs these three
-          families; other route groups (admissions, wellbeing) run on
-          their own font stacks, so loading them globally would waste
-          bytes for every signed-in student. */}
-      <link
-        rel="stylesheet"
-        href="https://fonts.googleapis.com/css2?family=Syne:wght@300;400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&display=swap"
-      />
+      {/* Fonts are self-hosted via next/font/google in layout.tsx.
+          CSS variables --font-syne, --font-dm-sans, --font-cormorant
+          are applied to <html> and consumed in landing.css. No external
+          Google Fonts request is made — eliminates CLS from font swap
+          and the render-blocking stylesheet. */}
       <LandingClient />
     </>
   );
