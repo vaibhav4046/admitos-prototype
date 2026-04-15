@@ -484,9 +484,97 @@ export default function LandingClient() {
         {/* /.hero-band — closes the centered hero band; sections below
             are full-width and stack vertically. */}
 
-        {/* PLACEHOLDER_COPY — swap when Andy provides 03_Landing_Page_V3.1.docx.
-            Structure, layout, and interaction verified; copy is product-grounded
-            placeholder, not final marketing text. */}
+        {/* V3.1 Module 2 — Market Reality
+            Five data cards surface the nationality-pool admit rates that
+            make UniOffer's Application Readiness Engine necessary. Every
+            stat comes from the PDF; do NOT edit numbers without a
+            counter-signed data source. Compliance: no "probability" or
+            "chance" language. */}
+        <section
+          id="market-reality"
+          className="uo-section"
+          aria-labelledby="market-heading"
+        >
+          <div className="sec-eyebrow">Market reality</div>
+          <h2 id="market-heading" className="sec-h2">
+            The competition is not who you think it is.
+          </h2>
+          <p className="sec-sub">
+            International applicants don&apos;t compete against all
+            applicants. You compete within your own nationality pool — at
+            admit rates that are 2 to 3 times harder than the headline
+            numbers suggest.
+          </p>
+          <ul className="market-grid">
+            <li className="market-card">
+              <div className="market-flag" aria-hidden="true">🇨🇳</div>
+              <h3 className="market-h">China → Cambridge</h3>
+              <div className="market-stat">
+                <span className="market-stat-n">10.9%</span>
+                <span className="market-stat-l">admit rate</span>
+              </div>
+              <p className="market-p">
+                2,308 applicants · 252 admitted. The general Cambridge
+                rate is 21%. Chinese applicants face a pool twice as
+                competitive.
+              </p>
+            </li>
+            <li className="market-card">
+              <div className="market-flag" aria-hidden="true">🇮🇳</div>
+              <h3 className="market-h">India → Oxford</h3>
+              <div className="market-stat">
+                <span className="market-stat-n">4.2%</span>
+                <span className="market-stat-l">admit rate</span>
+              </div>
+              <p className="market-p">
+                1,757 applicants · 74 admitted. The lowest admit rate
+                among all major applicant nationalities at Oxford.
+              </p>
+            </li>
+            <li className="market-card">
+              <div className="market-flag" aria-hidden="true">🇸🇬</div>
+              <h3 className="market-h">Singapore → Cambridge</h3>
+              <div className="market-stat">
+                <span className="market-stat-n">26.5%</span>
+                <span className="market-stat-l">admit rate</span>
+              </div>
+              <p className="market-p">
+                577 applicants · 153 admitted. The highest rate — but
+                only because the competitive bar within Singapore is
+                already extreme.
+              </p>
+            </li>
+            <li className="market-card">
+              <div className="market-flag" aria-hidden="true">🇭🇰</div>
+              <h3 className="market-h">Hong Kong → Cambridge</h3>
+              <div className="market-stat">
+                <span className="market-stat-n">17.6%</span>
+                <span className="market-stat-l">admit rate</span>
+              </div>
+              <p className="market-p">
+                557 applicants · 98 admitted. Still nearly double the
+                China rate. UniOffer&apos;s ARE understands why.
+              </p>
+            </li>
+            <li className="market-card">
+              <div className="market-flag" aria-hidden="true">🇰🇷</div>
+              <h3 className="market-h">South Korea → Top US</h3>
+              <div className="market-stat">
+                <span className="market-stat-n">Extreme</span>
+                <span className="market-stat-l">applicant pool</span>
+              </div>
+              <p className="market-p">
+                Among the most competitive international applicant pools
+                at every Ivy League institution.
+              </p>
+            </li>
+          </ul>
+          <p className="market-foot">
+            UniOffer&apos;s Application Readiness Engine is calibrated to
+            your nationality pool — not the general admit rate.
+          </p>
+        </section>
+
         <section id="features" className="uo-section" aria-labelledby="features-heading">
           <div className="sec-eyebrow">Features</div>
           <h2 id="features-heading" className="sec-h2">
