@@ -224,9 +224,6 @@ export default function LandingClient() {
               priority
             />
           </span>
-          <span className="uo-wordmark" aria-hidden="true">
-            Uni<strong>Offer</strong>
-          </span>
         </Link>
 
         <div className="nav-center">
