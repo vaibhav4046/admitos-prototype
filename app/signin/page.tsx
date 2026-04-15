@@ -85,9 +85,7 @@ export default function SignInPage() {
               src="/brand/unioffer-icon-light@2x.png"
               alt=""
               aria-hidden="true"
-              width={36}
-              height={36}
-              className="h-9 w-9 object-contain"
+              className="h-9 w-auto object-contain"
             />
             <span className="text-lg font-semibold tracking-tight text-slate-900">
               UniOffer
