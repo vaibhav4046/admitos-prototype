@@ -540,19 +540,19 @@ export default function LandingClient() {
           </ol>
         </section>
 
-        {/* PLACEHOLDER_COPY — swap when Andy provides 03_Landing_Page_V3.1.docx.
-            Tier names and Basic price (£20/mo) per Andy's 14:39 BST note.
-            Credits surface here; raw token caps (Basic 150K / Plus 500K) stay
-            backend-only per Andy's brief — do NOT leak them into marketing. */}
+        {/* V3.1 Module 6 — Pricing
+            Tiers, prices, and feature bullets per 03_Landing_Page_V3.1.pdf.
+            Plus price is £50/mo (not £45 from the placeholder rev).
+            Tier 3 renamed "Team" → "Premium — Contact Sales" per spec.
+            Raw token caps stay backend-only; marketing surfaces AI
+            credits only, per Andy's brief. */}
         <section id="pricing" className="uo-section" aria-labelledby="pricing-heading">
           <div className="sec-eyebrow">Pricing</div>
           <h2 id="pricing-heading" className="sec-h2">
-            Start free. Scale when your shortlist does.
+            Simple, transparent pricing.
           </h2>
           <p className="sec-sub">
-            Transparent monthly tiers. Credits cover AI essay feedback, shortlist
-            runs, and personalised interview prep. Cancel any time — your
-            Knowledge Base stays yours.
+            Start with AI. Upgrade when you&apos;re ready for human expertise.
           </p>
           <div className="price-grid">
             <article className="price-card">
@@ -561,58 +561,101 @@ export default function LandingClient() {
                 <span className="price-num">£20</span>
                 <span className="price-per">/ month</span>
               </div>
-              <p className="price-sub">For one student working on one cycle.</p>
+              <p className="price-year">
+                Year plan: 2 months free · £200/year
+              </p>
+              <p className="price-sub">
+                Your AI admissions foundation. 500 AI credits included monthly.
+                Purchased credits never expire.
+              </p>
               <ul className="price-ul">
-                <li>Essay feedback credits</li>
-                <li>1 shortlist run per week</li>
-                <li>Deadline timeline</li>
-                <li>Counsellor review queue</li>
+                <li>Student DNA + Student Knowledge Base</li>
+                <li>AI Orchestrator — weekly action plans and timeline</li>
+                <li>School Intelligence — official CDS and UCAS data</li>
+                <li>US or UK Application Strategy</li>
+                <li>Essay Agent — brainstorming and first draft</li>
+                <li>Application Readiness indicators</li>
+                <li>Interview Prep — 2 AI voice sessions per month</li>
+                <li>Adie — wellbeing companion, every tier</li>
+                <li>Commons — full community access</li>
+                <li>Live Student Profile — one share link</li>
               </ul>
               <Link href="/signin?mode=signup" className="price-cta">
-                Start Basic
+                Get Started
               </Link>
             </article>
             <article className="price-card price-card-featured">
-              <div className="price-flag">Most students</div>
+              <div className="price-flag">Most popular</div>
               <h3 className="price-name">Plus</h3>
               <div className="price-amt">
-                <span className="price-num">£45</span>
+                <span className="price-num">£50</span>
                 <span className="price-per">/ month</span>
               </div>
-              <p className="price-sub">For applicants targeting competitive courses.</p>
+              <p className="price-year">
+                Year plan: 2 months free · £500/year
+              </p>
+              <p className="price-sub">
+                Full AI execution across your entire application. 2,000 AI
+                credits monthly. Purchased credits roll over, never expire.
+              </p>
               <ul className="price-ul">
-                <li>Everything in Basic</li>
-                <li>Larger monthly credit bundle</li>
-                <li>Unlimited shortlist runs</li>
-                <li>Interview prep simulator</li>
-                <li>Priority counsellor routing</li>
+                <li>Everything in Basic, plus:</li>
+                <li>US + UK Dual-Track Strategy with ED/EA conflict detection</li>
+                <li>Essay Agent Full — unlimited revisions, voice drift protection</li>
+                <li>Voice Interview + Hume AI — 5 sessions per month</li>
+                <li>Test Prep Agent — adaptive diagnostic and predicted score curve</li>
+                <li>Activities + Leadership Programme</li>
+                <li>Capstone Research Programme — 200+ PhD mentor network</li>
+                <li>Application Readiness + What-if scenarios</li>
+                <li>Adie Advanced — voice responses, weekly report</li>
+                <li>Top-up credits — never run out mid-application</li>
               </ul>
               <Link href="/signin?mode=signup" className="price-cta price-cta-featured">
                 Start Plus
               </Link>
             </article>
             <article className="price-card">
-              <h3 className="price-name">Team</h3>
+              <h3 className="price-name">Premium</h3>
               <div className="price-amt">
-                <span className="price-num">Custom</span>
+                <span className="price-num">Contact Sales</span>
               </div>
-              <p className="price-sub">For schools, agencies and cohort programmes.</p>
+              <p className="price-year">AI + Human Expertise</p>
+              <p className="price-sub">
+                Private advisory service. For families who want AI precision
+                and expert human judgement at every critical moment. All
+                Premium plans are privately designed.
+              </p>
               <ul className="price-ul">
-                <li>Seat-based pricing</li>
-                <li>Shared counsellor workspace</li>
-                <li>Cohort analytics</li>
-                <li>SSO and audit log</li>
-                <li>Data-processing addendum</li>
+                <li>Everything in Plus, plus:</li>
+                <li>Former Admissions Officer Review</li>
+                <li>Private Counsellor Sessions</li>
+                <li>Interview Coaching</li>
+                <li>Adie Counsellor Sync</li>
+                <li>Unlimited AI Credits</li>
+                <li>Fully bespoke service design</li>
               </ul>
               <Link href="/signin?mode=signup" className="price-cta">
-                Talk to us
+                Contact Sales
               </Link>
             </article>
           </div>
-          <p className="price-foot">
-            Every paid plan includes an UniOffer counsellor in the loop. Prices
-            shown exclude VAT.
-          </p>
+
+          {/* V3.1 §Module 6 — mandatory compliance disclaimer strip.
+              Non-removable, must be clearly visible without scrolling on
+              the pricing section. Uses full-width dark navy background so
+              it reads as a system note, not a marketing card. */}
+          <aside
+            className="readiness-strip"
+            role="note"
+            aria-label="Readiness indicator disclaimer"
+          >
+            <p className="readiness-strip-body">
+              Readiness indicators reflect preparation strength only.
+              Admission decisions are made entirely by universities and
+              cannot be predicted by any third party. UniOffer makes no
+              representation about admission outcomes.
+            </p>
+          </aside>
         </section>
       </main>
 

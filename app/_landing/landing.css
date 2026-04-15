@@ -853,6 +853,38 @@
   margin-top: 1.5rem;
 }
 
+/* V3.1 — year-plan line under the price-amt */
+.uo-landing .price-year {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  color: var(--uo-crimson);
+  font-weight: 500;
+  margin: -0.15rem 0 0.75rem;
+  letter-spacing: 0.01em;
+}
+
+/* V3.1 §Module 6 — readiness disclaimer strip.
+   Full-width note below the pricing cards. Dark navy background so it
+   reads as a compliance note, not a marketing card. */
+.uo-landing .readiness-strip {
+  margin-top: 2rem;
+  background: var(--uo-navy, #0E1623);
+  border-radius: 14px;
+  padding: 1.1rem 1.4rem;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+.uo-landing[data-theme="light"] .readiness-strip {
+  background: #0E1623;
+}
+.uo-landing .readiness-strip-body {
+  margin: 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(255, 255, 255, 0.86);
+  text-align: center;
+}
+
 /* Cookie banner — GDPR equal-weight buttons */
 .uo-landing .ck-body {
   margin: 0;
