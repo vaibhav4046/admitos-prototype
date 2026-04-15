@@ -1,5 +1,10 @@
 /**
- * Admissions index — the canonical "/" page for signed-in students.
+ * Admissions index — the canonical /app page for signed-in students.
+ *
+ * Per Andy's 10:16 BST directive (15 Apr), the public landing claims
+ * the root `/` URL, so the admissions dashboard moved here to /app.
+ * This keeps the signed-in experience on its own path while leaving
+ * the marketing page on the bare domain.
  *
  * M1 scope: this is the FIRST screen a student sees after sign-in.
  * It needs to do exactly three jobs in priority order:
@@ -22,13 +27,6 @@
  *
  * Wellbeing isolation: this file imports nothing from `@/components/adie`
  * or `@/lib/wellbeing/*`. The CI cross-surface import grep enforces it.
- *
- * !!! ROUTE CONFLICT NOTE !!!
- * Both this file and `app/page.tsx` resolve to "/" in Next.js App Router
- * (the `(admissions)` group does NOT add a path segment). On the host,
- * `app/page.tsx` MUST be removed via `git rm app/page.tsx` for the
- * build to succeed. The sandbox can't delete files, so the conflict is
- * documented loudly in `app/page.tsx` itself. This file is the survivor.
  */
 
 import Link from "next/link";

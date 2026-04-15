@@ -3,7 +3,7 @@
 /**
  * Landing page client shell.
  *
- * Handles all interactive bits of the /landing route:
+ * Handles all interactive bits of the root `/` marketing route:
  *   - Theme (prefers-color-scheme + manual toggle, persisted to
  *     localStorage under `uo.theme`)
  *   - Language picker (stub i18n — flips the visible label only;
@@ -145,7 +145,7 @@ export default function LandingClient() {
             /brand/unioffer-icon-source.png. The full wordmark
             (/brand/unioffer-logo.jpg) is reserved for larger surfaces
             where the minimum 120 px width can be honoured. */}
-        <Link href="/landing" className="nav-logo" aria-label="UniOffer home">
+        <Link href="/" className="nav-logo" aria-label="UniOffer home">
           <span className="logo-mark">
             <Image
               src={

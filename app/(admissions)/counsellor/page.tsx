@@ -105,7 +105,7 @@ export default async function CounsellorPage() {
               <p className="text-sm leading-relaxed text-slate-600">
                 You can still continue your application from the{" "}
                 <Link
-                  href="/"
+                  href="/app"
                   className="font-medium text-slate-900 underline decoration-slate-300 underline-offset-2 hover:decoration-slate-500"
                 >
                   admissions home page

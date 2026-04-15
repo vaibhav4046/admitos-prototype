@@ -1,23 +1,26 @@
 /**
- * /landing — UniOffer marketing landing page v1.
+ * / — UniOffer marketing landing page v1 (public root).
  *
  * Deliberately lives OUTSIDE `(admissions)` and `(wellbeing)`: the
  * marketing surface has its own chrome, fonts, and theme tokens and
  * must never pull PostHog/Sentry-scoped providers from either route
  * group. Only the root layout wraps it.
  *
- * Andy's spec (v4 HTML comp at public/unioffer-landing.html) is
- * reproduced in JSX; interactive bits (theme, language picker, cookie
- * banner, coming-soon toast) live in LandingClient.
+ * Signed-in students land at /app (moved here from the old root in
+ * the same commit) via `app/(admissions)/app/page.tsx`, so the
+ * admissions dashboard is one Link away but never hydrates on the
+ * marketing page.
  *
- * The default path is /landing; the open question of whether this
- * should replace `/` is pending Andy's decision.
+ * Andy's spec (v4 HTML comp at public/unioffer-landing.html) is
+ * reproduced in JSX; interactive bits (theme, language picker,
+ * cookie banner, coming-soon toast) live in LandingClient under
+ * app/_landing/ (the underscore prefix keeps it out of the router).
  */
 
 import type { Metadata } from "next";
 
-import LandingClient from "./LandingClient";
-import "./landing.css";
+import LandingClient from "./_landing/LandingClient";
+import "./_landing/landing.css";
 
 export const metadata: Metadata = {
   title: "UniOffer — AI-Powered Admissions",

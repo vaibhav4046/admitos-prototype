@@ -73,7 +73,7 @@ export default function WellbeingLayout({
             </span>
           </Link>
           <Link
-            href="/"
+            href="/app"
             className="rounded-md text-xs font-medium text-slate-500 underline-offset-2 transition-colors hover:text-slate-800 hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wellbeing-700 focus-visible:ring-offset-2"
           >
             Back to admissions
