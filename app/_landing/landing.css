@@ -880,25 +880,109 @@
   line-height: 1.45;
 }
 
-/* ── Mobile ── */
-@media (max-width: 960px) {
+/* ── Responsive pyramid ──────────────────────────────────────────────
+   Five breakpoints that map to the device classes we actually see in
+   analytics: ≤1200 wide-laptop, ≤1024 portrait-tablet, ≤768 large-phone,
+   ≤560 small-phone, ≤380 narrow-phone (iPhone SE / Pixel 4a class).
+   Goal: every section reflows cleanly without a horizontal scrollbar
+   and every tap target stays ≥40px on touch surfaces.
+   ─────────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1200px) {
+  .uo-landing .nav { padding: 0 1.25rem; }
+  .uo-landing .uo-section { padding: 3.5rem 1.25rem; }
+  .uo-landing .uo-section-alt { padding: 3.5rem 1.25rem; }
+}
+
+@media (max-width: 1024px) {
   .uo-landing .feat-grid { grid-template-columns: repeat(2, 1fr); }
   .uo-landing .how-steps { grid-template-columns: repeat(2, 1fr); }
-  .uo-landing .price-grid { grid-template-columns: 1fr; }
+  .uo-landing .hero-band { padding: 2rem 1.25rem 3rem; }
+  .uo-landing .sec-h2 { font-size: 30px; }
 }
-@media (max-width: 640px) {
-  .uo-landing .nav { padding: 0 1rem; }
+
+@media (max-width: 768px) {
+  /* Nav: drop the centre anchors entirely, keep brand + theme + lang
+     + login. Get-app row in the hero is hidden — phones don't install
+     desktop apps. */
+  .uo-landing .nav { padding: 0 1rem; height: 56px; }
   .uo-landing .nav-center { display: none; }
-  .uo-landing .main { padding: 1.75rem 1rem 3rem; }
-  .uo-landing .hl-main { font-size: 32px; }
-  .uo-landing .uo-section { padding: 2.75rem 1rem 2.75rem; }
+  .uo-landing .nav-r { gap: 6px; }
+  .uo-landing .desktop-row { display: none; }
+
+  /* Hero typography compresses but never below readable sizes. */
+  .uo-landing .hero-band { padding: 1.5rem 1rem 2.5rem; }
+  .uo-landing .card { max-width: 100%; }
+  .uo-landing .hl-main { font-size: 30px; }
+  .uo-landing .hl-pre { font-size: 16px; }
+
+  /* Sections: 1 column, smaller vertical rhythm. */
+  .uo-landing .uo-section,
+  .uo-landing .uo-section-alt { padding: 2.75rem 1rem; }
   .uo-landing .sec-h2 { font-size: 26px; }
-  .uo-landing .feat-grid { grid-template-columns: 1fr; }
-  .uo-landing .how-steps { grid-template-columns: 1fr; }
+  .uo-landing .sec-sub { font-size: 14px; margin-bottom: 1.75rem; }
+  .uo-landing .feat-grid,
+  .uo-landing .how-steps,
+  .uo-landing .price-grid { grid-template-columns: 1fr; gap: 0.85rem; }
+
+  /* Pricing: shrink the price-sub min-height so cards don't have
+     dead space on mobile (it was reserving 2.6em for desktop alignment). */
+  .uo-landing .price-sub { min-height: auto; }
+  .uo-landing .price-num { font-size: 30px; }
+
+  /* Cookie banner: full-bleed bottom drawer instead of floating card. */
   .uo-landing .cookie {
-    left: 1rem;
-    right: 1rem;
-    bottom: 1rem;
+    left: 0.75rem;
+    right: 0.75rem;
+    bottom: max(0.75rem, env(safe-area-inset-bottom, 0.75rem));
     width: auto;
+    max-width: none;
   }
+  .uo-landing .ck-foot { flex-direction: column; align-items: stretch; }
+  .uo-landing .ck-b-equal { flex: 1; }
+
+  /* Toast: respect the iOS home-indicator safe area. */
+  .uo-landing .toast {
+    bottom: max(1rem, env(safe-area-inset-bottom, 1rem));
+  }
+}
+
+@media (max-width: 560px) {
+  .uo-landing .hl-main { font-size: 26px; }
+  .uo-landing .sec-h2 { font-size: 23px; }
+  .uo-landing .feat-card,
+  .uo-landing .how-step,
+  .uo-landing .price-card { padding: 1.25rem 1.1rem; }
+  .uo-landing .card { padding: 1.25rem 1.1rem; }
+  /* The eyebrow row wraps cleanly on phones thanks to flex-wrap, but
+     give it a touch more breathing room when it does. */
+  .uo-landing .eyebrow { gap: 6px; font-size: 9.5px; }
+}
+
+@media (max-width: 380px) {
+  /* Smallest phones (iPhone SE 1st gen, older Androids). Strip the
+     language picker label so the nav doesn't wrap. */
+  .uo-landing .lang-btn span:not(.lang-soon) { display: none; }
+  .uo-landing .lang-btn { padding: 0 6px; }
+  .uo-landing .btn-login { padding: 0 8px; font-size: 12px; }
+  .uo-landing .btn-get { padding: 0 10px; font-size: 12px; }
+  .uo-landing .hl-main { font-size: 24px; }
+  .uo-landing .price-num { font-size: 26px; }
+}
+
+/* Landscape-orientation phones: don't blow the hero up to full screen
+   when there's only ~400px of vertical room. */
+@media (max-height: 500px) and (orientation: landscape) {
+  .uo-landing .hero-band { padding: 1rem 1rem 1.5rem; min-height: auto; }
+}
+
+/* Tap-target minimum on touch devices — 40px is the WCAG 2.2 floor. */
+@media (hover: none) and (pointer: coarse) {
+  .uo-landing .nav-lnk,
+  .uo-landing .btn-login,
+  .uo-landing .btn-get,
+  .uo-landing .lang-btn,
+  .uo-landing .theme-toggle,
+  .uo-landing .price-cta,
+  .uo-landing .desk-btn { min-height: 40px; }
 }
