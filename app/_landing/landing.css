@@ -751,18 +751,41 @@
   position: relative;
 }
 .uo-landing .how-num {
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 38px;
+  height: 28px;
+  padding: 0 10px;
+  border-radius: 999px;
   background: var(--uo-blue);
   color: var(--uo-btn-primary-fg);
   font-family: 'Syne', sans-serif;
   font-weight: 700;
-  font-size: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0.85rem;
+  font-size: 12.5px;
+  letter-spacing: 0.08em;
+  margin-bottom: 0.6rem;
+}
+
+/* V3.1 — per-step agent-index tag (e.g. "A5 – A9 · via A0") */
+.uo-landing .how-agents {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 10.5px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--uo-crimson);
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+/* V3.1 — one-line lede under the step heading */
+.uo-landing .how-lede {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 14.5px;
+  line-height: 1.35;
+  color: var(--uo-text-p);
+  margin: 0 0 0.6rem;
 }
 .uo-landing .how-h {
   font-family: 'Syne', sans-serif;

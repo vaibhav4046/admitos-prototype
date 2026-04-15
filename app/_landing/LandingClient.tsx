@@ -646,47 +646,92 @@ export default function LandingClient() {
           </div>
         </section>
 
-        {/* PLACEHOLDER_COPY — swap when Andy provides 03_Landing_Page_V3.1.docx. */}
-        <section id="how-it-works" className="uo-section uo-section-alt" aria-labelledby="how-heading">
+        {/* V3.1 Module 3 — How UniOffer Works
+            Agent-indexed 4-step flow. Each step references the specific
+            agents (A0–A11) that execute that phase, plus the Student
+            Knowledge Base + Live Student Profile touchpoints. Copy is
+            verbatim from 03_Landing_Page_V3.1.pdf — do NOT paraphrase;
+            the agent numbering is authoritative. */}
+        <section
+          id="how-it-works"
+          className="uo-section uo-section-alt"
+          aria-labelledby="how-heading"
+        >
           <div className="sec-eyebrow">How it works</div>
           <h2 id="how-heading" className="sec-h2">
-            Four steps from first draft to first offer.
+            From profile to application. Guided at every step.
           </h2>
+          <p className="sec-sub">
+            UniOffer replaces the fragmented, human-dependent, high-cost
+            traditional admissions process with an AI-native execution
+            platform built for the most competitive university
+            applications in the world.
+          </p>
           <ol className="how-steps">
             <li className="how-step">
-              <div className="how-num">1</div>
-              <h3 className="how-h">Upload</h3>
+              <div className="how-num">01</div>
+              <div className="how-agents" aria-hidden="true">A1</div>
+              <h3 className="how-h">Build Your DNA</h3>
+              <p className="how-lede">Your applicant persona starts here.</p>
               <p className="how-p">
-                Drop your transcript, predicted grades and any essay drafts into
-                your Student Knowledge Base. Everything is private by default
-                and encrypted at rest.
+                A1 — Student DNA — maps your cognitive style, writing
+                voice, academic depth, stress index, achievement
+                motivation, leadership tendency, creativity index, and
+                time management across 8 dimensions. The result is your
+                applicant persona, stored in your Student Knowledge Base
+                and powering every recommendation that follows. It also
+                generates your Live Student Profile — a personal page
+                that keeps everyone in your circle informed throughout
+                your entire journey.
               </p>
             </li>
             <li className="how-step">
-              <div className="how-num">2</div>
-              <h3 className="how-h">Analyse</h3>
+              <div className="how-num">02</div>
+              <div className="how-agents" aria-hidden="true">A3 · A4 · A11</div>
+              <h3 className="how-h">Set Your Strategy</h3>
+              <p className="how-lede">
+                Your school list. Your narrative. Your timeline.
+              </p>
               <p className="how-p">
-                UniOffer scores your profile against live entry data, flags gaps
-                in your personal statement, and builds a shortlist your
-                counsellor can sanity-check in one sitting.
+                A3 and A4 build your US and UK school lists with ED/EA
+                timing, college balance, and preparation priorities. Your
+                counsellor and agents work together to define your core
+                narratives — the through-lines that connect your persona
+                to your target schools. A11 shows you exactly where to
+                focus.
               </p>
             </li>
             <li className="how-step">
-              <div className="how-num">3</div>
-              <h3 className="how-h">Apply</h3>
+              <div className="how-num">03</div>
+              <div className="how-agents" aria-hidden="true">A5 – A9 · via A0</div>
+              <h3 className="how-h">Execute with Your Agent Team</h3>
+              <p className="how-lede">
+                12 specialists working in parallel. Coordinated by AI.
+              </p>
               <p className="how-p">
-                Compose, iterate and submit each application with inline AI
-                feedback and a human counsellor signing off at every gate. No
-                unreviewed text ever reaches UCAS.
+                A5 drafts and refines your essays, protecting your
+                authentic voice. A6 trains your interview performance.
+                A7 builds your test-prep plan. A8 strengthens your
+                activities narrative. A9 supports your capstone research
+                programme. All twelve agents work in parallel,
+                coordinated by A0 — and every agent reads from your
+                personal knowledge base to deliver responses that are
+                genuinely about you, not a generic student.
               </p>
             </li>
             <li className="how-step">
-              <div className="how-num">4</div>
-              <h3 className="how-h">Track</h3>
+              <div className="how-num">04</div>
+              <div className="how-agents" aria-hidden="true">A10</div>
+              <h3 className="how-h">Submit with Confidence</h3>
+              <p className="how-lede">
+                Every narrative. Every essay. Every activity. Reviewed.
+              </p>
               <p className="how-p">
-                Watch offers, interview invites and scholarship decisions land
-                on your timeline. Share a read-only view with your parents and
-                school in two clicks.
+                A10 — Former Admissions Officer Review — gives your
+                application a dual-perspective read before submission.
+                Every essay, every activity, every narrative is evaluated
+                through the lens of a real admissions reader to ensure
+                your persona lands with clarity and authenticity.
               </p>
             </li>
           </ol>
