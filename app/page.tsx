@@ -22,13 +22,44 @@ import type { Metadata } from "next";
 import LandingClient from "./_landing/LandingClient";
 import "./_landing/landing.css";
 
+/**
+ * Landing-page metadata per V3.1 spec §"SEO and Open Graph".
+ *
+ * Title, description, and OG/Twitter tags are copied verbatim from
+ * Andy's 03_Landing_Page_V3.1.pdf (committed to repo root 15 Apr)
+ * so the marketing surface matches what compliance + marketing
+ * signed off on.
+ *
+ * The OG image at `/public/brand/og-image.jpg` is NOT yet shipped —
+ * Andy has not delivered the asset (not among the 14 files dropped
+ * on 15 Apr). The URL is still declared so the moment the asset
+ * lands in `/public/brand/`, the crawler cache will pick it up
+ * without another metadata change.
+ *
+ * The root layout sets `robots: { index: false, follow: false }` for
+ * M1; flip that gate once Andy signs off on the GA / Search Console
+ * property.
+ */
 export const metadata: Metadata = {
-  title: "UniOffer — AI-Powered Admissions",
+  title: "UniOffer — The Operating System for University Applications",
   description:
-    "More than offers, we spark futures. UniOffer is AI-powered UK university admissions for the AI-native generation.",
-  // M1: still gated behind robots: { index: false } from the root layout.
-  // Flip the global gate once Andy signs off and the GA / Search Console
-  // properties are provisioned.
+    "12 AI agents. One platform. Build your competitive candidacy, execute your full application, and access expert human guidance — from your first essay to your final submission.",
+  openGraph: {
+    title: "UniOffer — AI-Native University Admissions Platform",
+    description:
+      "The world's first compliance-first, wellbeing-first AI platform for top university applications. IECA · NACAC · UCAS compliant.",
+    url: "https://unioffer.ai",
+    siteName: "UniOffer",
+    images: [{ url: "/brand/og-image.jpg" }],
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "UniOffer — AI-Native University Admissions Platform",
+    description:
+      "The world's first compliance-first, wellbeing-first AI platform for top university applications. IECA · NACAC · UCAS compliant.",
+    images: ["/brand/og-image.jpg"],
+  },
 };
 
 export default function LandingPage() {
