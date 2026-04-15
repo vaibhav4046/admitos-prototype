@@ -1,5 +1,5 @@
 /**
- * PostCSS config for AdmitOS.
+ * PostCSS config for UniOffer.
  *
  * Two plugins, in order:
  *   1. tailwindcss — expands `@tailwind base/components/utilities` and

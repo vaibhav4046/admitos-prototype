@@ -29,7 +29,7 @@ module.exports = {
       {
         selector: "Literal[value=/deepseek/i]",
         message:
-          "DeepSeek is permanently banned as a model provider on AdmitOS. " +
+          "DeepSeek is permanently banned as a model provider on UniOffer. " +
           "See src/agents/_core/banned.ts and Thread 4.",
       },
       {
