@@ -79,6 +79,30 @@ export default function LandingClient() {
   const [showCookie, setShowCookie] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [activeSection, setActiveSection] = useState<string>("");
+
+  // ── Active-section tracker ─────────────────────────────────────
+  // Drives the `.nav-lnk.active` highlight so the user always sees
+  // which section the viewport is centred on. IntersectionObserver
+  // fires once per section per scroll, so it's cheap.
+  useEffect(() => {
+    const ids = ["features", "how-it-works", "pricing"];
+    const els = ids
+      .map((id) => document.getElementById(id))
+      .filter((el): el is HTMLElement => el !== null);
+    if (els.length === 0) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
+        if (visible) setActiveSection(visible.target.id);
+      },
+      { rootMargin: "-30% 0px -55% 0px", threshold: [0, 0.25, 0.5, 1] },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
 
   // ── Theme bootstrap ────────────────────────────────────────────
   useEffect(() => {
@@ -202,13 +226,22 @@ export default function LandingClient() {
         </Link>
 
         <div className="nav-center">
-          <a href="#features" className="nav-lnk">
+          <a
+            href="#features"
+            className={`nav-lnk${activeSection === "features" ? " active" : ""}`}
+          >
             Features
           </a>
-          <a href="#how-it-works" className="nav-lnk">
+          <a
+            href="#how-it-works"
+            className={`nav-lnk${activeSection === "how-it-works" ? " active" : ""}`}
+          >
             How it Works
           </a>
-          <a href="#pricing" className="nav-lnk">
+          <a
+            href="#pricing"
+            className={`nav-lnk${activeSection === "pricing" ? " active" : ""}`}
+          >
             Pricing
           </a>
         </div>

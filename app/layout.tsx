@@ -9,7 +9,10 @@
  */
 
 import type { ReactNode } from "react";
+import { Suspense } from "react";
 import type { Metadata } from "next";
+
+import { RouteProgress } from "@/components/ui";
 
 import "./globals.css";
 
@@ -26,6 +29,12 @@ export default function RootLayout({ children }: { children: ReactNode }) {
   return (
     <html lang="en">
       <body className="min-h-screen bg-white text-slate-900 antialiased">
+        {/* Top route-progress bar — wrapped in Suspense because it
+            uses useSearchParams(), which Next requires to be inside a
+            Suspense boundary at the layout level. */}
+        <Suspense fallback={null}>
+          <RouteProgress />
+        </Suspense>
         {children}
       </body>
     </html>

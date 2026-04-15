@@ -33,6 +33,8 @@ export type { PageHeaderProps } from "./PageHeader";
 export { Badge } from "./Badge";
 export type { BadgeProps, BadgeTone } from "./Badge";
 
+export { RouteProgress } from "./RouteProgress";
+
 export { AppHeader, UserMenu } from "./AppHeader";
 export type {
   AppHeaderProps,

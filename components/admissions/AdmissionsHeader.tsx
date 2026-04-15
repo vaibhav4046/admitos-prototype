@@ -103,7 +103,7 @@ export function AdmissionsHeader({
   return (
     <AppHeader
       brand={brand}
-      brandHref="/dashboard"
+      brandHref="/app"
       nav={nav}
       currentPath={pathname}
       user={headerUser}

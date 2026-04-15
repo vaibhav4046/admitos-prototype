@@ -125,6 +125,20 @@
   position: relative;
 }
 .uo-landing .nav-lnk:hover { color: var(--uo-text-p); }
+.uo-landing .nav-lnk.active {
+  color: var(--uo-text-p);
+  font-weight: 500;
+}
+.uo-landing .nav-lnk.active::after {
+  content: "";
+  position: absolute;
+  left: 1rem;
+  right: 1rem;
+  bottom: -6px;
+  height: 2px;
+  border-radius: 2px;
+  background: var(--uo-crimson);
+}
 .uo-landing .nav-lnk .soon {
   font-size: 9px;
   margin-left: 4px;

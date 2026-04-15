@@ -91,15 +91,16 @@ export function AppHeader({
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 sm:px-6">
         <Link
           href={brandHref}
-          className="inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
+          className="group inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
           aria-label={`${brand} home`}
         >
-          <span
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/brand/unioffer-icon-light@2x.png"
+            alt=""
             aria-hidden="true"
-            className="grid h-8 w-8 place-items-center rounded-lg bg-slate-900 text-sm font-semibold text-white shadow-card transition-transform duration-200 ease-out group-hover:scale-105"
-          >
-            A
-          </span>
+            className="h-8 w-auto object-contain transition-transform duration-200 ease-out group-hover:scale-105"
+          />
           <span className="text-sm font-semibold tracking-tight text-slate-900">
             {brand}
           </span>
