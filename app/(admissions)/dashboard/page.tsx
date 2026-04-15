@@ -36,11 +36,10 @@ import {
   Button,
   Card,
   CardBody,
-  EmptyState,
   PageHeader,
 } from "@/components/ui";
 
-type TileStatus = "ready" | "locked" | "empty";
+type TileStatus = "ready" | "active" | "locked" | "empty";
 
 interface DashboardTile {
   href: string;
@@ -55,7 +54,7 @@ interface DashboardTile {
 const TILES: readonly DashboardTile[] = [
   {
     href: "/cef/1",
-    eyebrow: "Step 1 of 7",
+    eyebrow: "Step 4 of 7",
     title: "Candidate Engagement Form",
     body: "A guided seven-step intake form. Autosaved at every step — close the tab whenever you like.",
     cta: "Resume CEF",
@@ -63,26 +62,27 @@ const TILES: readonly DashboardTile[] = [
     featured: true,
   },
   {
-    href: "/essays",
-    eyebrow: "Coming after CEF",
+    href: "/cef/6",
+    eyebrow: "Draft 3 in review",
     title: "Essay drafts",
     body: "Upload a draft to receive structured five-dimension feedback. A counsellor reviews every set of comments before they reach you.",
     cta: "Open essays",
-    status: "locked",
+    status: "active",
   },
   {
-    href: "/notes",
-    eyebrow: "Coming after first 1:1",
+    href: "/counsellor",
+    eyebrow: "Last note: 2 days ago",
     title: "Counsellor notes",
-    body: "Read the latest notes from your AdropEDU counsellor. Updated within 24 hours of each session.",
+    body: "Read the latest notes from your UniOffer counsellor. Updated within 24 hours of each session.",
     cta: "Read notes",
-    status: "empty",
+    status: "active",
   },
 ];
 
 const STATUS_LABEL: Record<TileStatus, { label: string; tone: React.ComponentProps<typeof Badge>["tone"] }> = {
-  ready: { label: "Ready to start", tone: "info" },
-  locked: { label: "Unlocks after CEF", tone: "neutral" },
+  ready: { label: "In progress", tone: "info" },
+  active: { label: "Updated", tone: "success" },
+  locked: { label: "Locked", tone: "neutral" },
   empty: { label: "Nothing yet", tone: "neutral" },
 };
 
@@ -168,10 +168,23 @@ export default function AdmissionsDashboardPage() {
             Recommended next actions
           </h2>
         </div>
-        <EmptyState
-          title="No actions yet"
-          description="Once you start the CEF and upload your first essay draft, personalised suggestions from your counsellor will land here."
-        />
+        <Card>
+          <CardBody className="p-0">
+            <ul className="divide-y divide-slate-200">
+              {[
+                { what: "Tighten paragraph 2 of your personal statement (AI essay coach)", when: "5 min · /cef/6" },
+                { what: "Add 2 more activities to reach the recommended 5+", when: "10 min · /cef/4" },
+                { what: "Confirm your IELTS overall score (currently 7.5)", when: "1 min · /cef/3" },
+                { what: "Book your next counsellor 1:1 — slot opens 18 Apr", when: "2 min · /counsellor" },
+              ].map((row, i) => (
+                <li key={i} className="flex items-center justify-between gap-4 px-5 py-3">
+                  <p className="text-sm text-slate-800">{row.what}</p>
+                  <span className="shrink-0 text-xs text-slate-500">{row.when}</span>
+                </li>
+              ))}
+            </ul>
+          </CardBody>
+        </Card>
       </section>
 
       <aside

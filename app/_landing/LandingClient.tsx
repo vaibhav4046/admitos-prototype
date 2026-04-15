@@ -432,7 +432,7 @@ export default function LandingClient() {
               <div className="feat-ico" aria-hidden="true">◉</div>
               <h3 className="feat-h">Counsellor Dashboard</h3>
               <p className="feat-p">
-                Your AdropEDU counsellor sees exactly what you see, plus a queue
+                Your UniOffer counsellor sees exactly what you see, plus a queue
                 of the pieces that need a human eye. No more &ldquo;did you get
                 my email?&rdquo;
               </p>
@@ -577,7 +577,7 @@ export default function LandingClient() {
             </article>
           </div>
           <p className="price-foot">
-            Every paid plan includes an AdropEDU counsellor in the loop. Prices
+            Every paid plan includes an UniOffer counsellor in the loop. Prices
             shown exclude VAT.
           </p>
         </section>

@@ -80,12 +80,15 @@ export default function SignInPage() {
             className="inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
             aria-label="UniOffer home"
           >
-            <span
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img
+              src="/brand/unioffer-icon-light@2x.png"
+              alt=""
               aria-hidden="true"
-              className="grid h-9 w-9 place-items-center rounded-lg bg-slate-900 text-sm font-semibold text-white shadow-card"
-            >
-              A
-            </span>
+              width={36}
+              height={36}
+              className="h-9 w-9 object-contain"
+            />
             <span className="text-lg font-semibold tracking-tight text-slate-900">
               UniOffer
             </span>
@@ -107,30 +110,33 @@ export default function SignInPage() {
             <div
               role="status"
               aria-live="polite"
-              className="mt-4 flex items-start gap-3 rounded-lg border border-amber-200 bg-amber-50 px-3 py-3 text-xs text-amber-900"
+              className="mt-4 flex items-start gap-3 rounded-lg border border-slate-200 bg-slate-50 px-3 py-3 text-xs text-slate-700"
             >
               <span
                 aria-hidden="true"
-                className="mt-0.5 inline-block h-2 w-2 shrink-0 rounded-full bg-amber-500"
+                className="mt-0.5 inline-block h-2 w-2 shrink-0 rounded-full bg-slate-900"
               />
               <p className="leading-relaxed">
-                <span className="font-semibold">Sign-in is currently disabled.</span>{" "}
-                The Google OAuth provider is being configured. This page
-                will activate once the handshake lands in M1 Week 2.
+                <span className="font-semibold">Preview mode.</span>{" "}
+                Continue below to explore the demo workspace — Google
+                OAuth lands in M1 Week 2.
               </p>
             </div>
 
             <div className="mt-6 space-y-3">
-              <Button
-                type="button"
-                variant="primary"
-                size="md"
-                className="w-full"
-                disabled
-                aria-disabled="true"
+              <Link
+                href="/app"
+                className="inline-block w-full rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
               >
-                Continue with Google
-              </Button>
+                <Button
+                  type="button"
+                  variant="primary"
+                  size="md"
+                  className="w-full"
+                >
+                  Continue with Google
+                </Button>
+              </Link>
 
               <div className="flex items-center gap-3 text-xs uppercase tracking-wider text-slate-400">
                 <div className="h-px flex-1 bg-slate-200" />
@@ -150,20 +156,21 @@ export default function SignInPage() {
                 type="email"
                 autoComplete="email"
                 placeholder="you@example.com"
-                disabled
-                aria-disabled="true"
-                className="block w-full rounded-md border border-slate-200 bg-slate-50 px-3 py-2 text-sm text-slate-400 placeholder-slate-300 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
+                className="block w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 placeholder-slate-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
               />
-              <Button
-                type="button"
-                variant="secondary"
-                size="md"
-                className="w-full"
-                disabled
-                aria-disabled="true"
+              <Link
+                href="/app"
+                className="inline-block w-full rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
               >
-                Email me a sign-in link
-              </Button>
+                <Button
+                  type="button"
+                  variant="secondary"
+                  size="md"
+                  className="w-full"
+                >
+                  Email me a sign-in link
+                </Button>
+              </Link>
             </div>
           </CardBody>
           <CardFooter className="rounded-b-xl bg-slate-50 px-6 py-4">

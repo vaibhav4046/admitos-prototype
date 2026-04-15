@@ -63,7 +63,7 @@ export default async function AdmissionsIndexPage() {
           Start the Candidate Engagement Form
         </h2>
         <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-600">
-          A seven-step guided form that captures everything your AdropEDU
+          A seven-step guided form that captures everything your UniOffer
           counsellor needs to build your shortlist. Autosaved at every
           step — close the tab whenever you like, your progress is safe.
         </p>
@@ -125,7 +125,7 @@ export default async function AdmissionsIndexPage() {
                 Counsellor notes
               </p>
               <h3 className="mt-2 text-base font-semibold text-slate-900">
-                Direct line to your AdropEDU counsellor
+                Direct line to your UniOffer counsellor
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-slate-600">
                 Once your CEF is submitted, your assigned counsellor will

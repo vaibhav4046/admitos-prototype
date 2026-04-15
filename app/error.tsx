@@ -14,6 +14,7 @@
  * development the dev overlay is more useful anyway.
  */
 
+import Link from "next/link";
 import { useEffect } from "react";
 
 export default function GlobalError({
@@ -51,16 +52,16 @@ export default function GlobalError({
         <button
           type="button"
           onClick={reset}
-          className="rounded-md bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700"
+          className="rounded-md bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
         >
           Try again
         </button>
-        <a
-          href="/dashboard"
+        <Link
+          href="/"
           className="rounded-md bg-white px-4 py-2 text-sm font-medium text-slate-700 ring-1 ring-inset ring-slate-300 hover:bg-slate-50"
         >
-          Back to dashboard
-        </a>
+          Back to home
+        </Link>
       </div>
     </main>
   );

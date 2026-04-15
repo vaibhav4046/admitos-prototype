@@ -28,7 +28,7 @@
  * owns the page-level `<main>` element. Do NOT add another `<main>`.
  */
 
-import { Card, CardBody, EmptyState } from "@/components/ui";
+import { Card, CardBody } from "@/components/ui";
 
 export const dynamic = "force-dynamic";
 
@@ -51,11 +51,39 @@ export default function AdieIndexPage() {
       </div>
 
       <Card className="border-wellbeing-100 bg-white/70 shadow-card">
-        <CardBody className="px-6 py-8">
-          <EmptyState
-            title="Chat space coming soon"
-            description="The conversation interface ships in M2. In the meantime, nothing you write here is stored anywhere."
-          />
+        <CardBody className="px-6 py-6">
+          <div className="space-y-4">
+            <div className="rounded-lg bg-wellbeing-50/60 px-4 py-3 text-sm leading-relaxed text-slate-700">
+              <p className="text-xs font-semibold uppercase tracking-wider text-wellbeing-700">
+                Adie
+              </p>
+              <p className="mt-1">
+                Hey — glad you stopped by. There&apos;s no agenda here. We can
+                just talk about how the week&apos;s landing, or sit quietly
+                for a minute. Whatever feels right.
+              </p>
+            </div>
+            <label htmlFor="adie-msg" className="sr-only">
+              Message Adie
+            </label>
+            <textarea
+              id="adie-msg"
+              rows={3}
+              placeholder="Take your time. Type whatever&apos;s on your mind…"
+              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-wellbeing-500 focus:outline-none focus:ring-1 focus:ring-wellbeing-500"
+            />
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs text-slate-500">
+                Nothing you type is stored or shared with your counsellor.
+              </p>
+              <button
+                type="button"
+                className="inline-flex items-center rounded-md bg-wellbeing-700 px-3.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-wellbeing-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wellbeing-700 focus-visible:ring-offset-2"
+              >
+                Send
+              </button>
+            </div>
+          </div>
         </CardBody>
       </Card>
 

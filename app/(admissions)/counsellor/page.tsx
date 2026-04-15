@@ -39,21 +39,21 @@ import {
   Badge,
   Card,
   CardBody,
-  EmptyState,
   PageHeader,
 } from "@/components/ui";
 import { AuthError, requireRole } from "@/services/auth/server";
 
 export const metadata = {
   title: "Counsellor — UniOffer",
-  description: "Counsellor dashboard for AdropEDU admissions workflows.",
+  description: "Counsellor dashboard for UniOffer admissions workflows.",
 };
 
 interface CounsellorTile {
   eyebrow: string;
   title: string;
   body: string;
-  ship: string;
+  metric: string;
+  metricLabel: string;
   isolation?: string;
 }
 
@@ -62,13 +62,15 @@ const COUNSELLOR_TILES: readonly CounsellorTile[] = [
     eyebrow: "Roster",
     title: "Student roster",
     body: "CEF progress, recent activity, and next-action cues for every student assigned to you.",
-    ship: "M2 Week 1",
+    metric: "24",
+    metricLabel: "active students",
   },
   {
     eyebrow: "HITL queue",
     title: "Essay HITL queue",
     body: "Drafts awaiting your sign-off before A5 feedback reaches the student. Every item has the generated feedback, the flagged uncertainty, and an approve / reject action.",
-    ship: "M3 Week 1",
+    metric: "6",
+    metricLabel: "awaiting review",
   },
   {
     eyebrow: "Wellbeing",
@@ -76,8 +78,24 @@ const COUNSELLOR_TILES: readonly CounsellorTile[] = [
     body: "Aggregated wellbeing trends for students who have consented to share signals with their counsellor.",
     isolation:
       "Raw Adie conversations are never shown here — counsellors see only the aggregated signal layer.",
-    ship: "M3 Week 2",
+    metric: "3",
+    metricLabel: "shared signals",
   },
+];
+
+interface ActivityRow {
+  who: string;
+  what: string;
+  when: string;
+  tone: "neutral" | "warning" | "success";
+}
+
+const RECENT_ACTIVITY: readonly ActivityRow[] = [
+  { who: "Mei Tanaka", what: "Submitted personal statement draft 3 — within UCAS limit", when: "12 min ago", tone: "success" },
+  { who: "Arjun Patel", what: "Flagged for HITL: A5 feedback uncertainty above threshold", when: "1 hr ago", tone: "warning" },
+  { who: "Sara Lin", what: "Completed CEF step 4 (Activities)", when: "3 hr ago", tone: "neutral" },
+  { who: "Yusuf Ahmed", what: "Booked counsellor slot — 18 Apr, 16:00 BST", when: "Yesterday", tone: "neutral" },
+  { who: "Priya Rao", what: "Wellbeing signal: low-mood marker (consented to share)", when: "Yesterday", tone: "warning" },
 ];
 
 export default async function CounsellorPage() {
@@ -97,7 +115,7 @@ export default async function CounsellorPage() {
             description={
               err.status === 401
                 ? "Sign in with a counsellor account to view this page."
-                : "The counsellor dashboard is only available to AdropEDU counsellors and admins. If you think you should have access, contact your AdropEDU counsellor."
+                : "The counsellor dashboard is only available to UniOffer counsellors and admins. If you think you should have access, contact your counsellor."
             }
           />
           <Card>
@@ -143,7 +161,7 @@ export default async function CounsellorPage() {
                   <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
                     {tile.eyebrow}
                   </p>
-                  <Badge tone="neutral">Ships {tile.ship}</Badge>
+                  <Badge tone="neutral">{tile.metric} {tile.metricLabel}</Badge>
                 </div>
                 <div>
                   <h3 className="text-base font-semibold tracking-tight text-slate-900">
@@ -174,10 +192,28 @@ export default async function CounsellorPage() {
         >
           Recent activity
         </h2>
-        <EmptyState
-          title="Nothing yet"
-          description="Student activity will appear here once the M2 wiring lands."
-        />
+        <Card>
+          <CardBody className="p-0">
+            <ul className="divide-y divide-slate-200">
+              {RECENT_ACTIVITY.map((row, i) => (
+                <li key={i} className="flex items-start justify-between gap-4 px-5 py-3">
+                  <div className="min-w-0">
+                    <p className="text-sm font-medium text-slate-900">{row.who}</p>
+                    <p className="mt-0.5 text-sm text-slate-600">{row.what}</p>
+                  </div>
+                  <div className="flex shrink-0 flex-col items-end gap-1">
+                    <span className="text-xs text-slate-500">{row.when}</span>
+                    <Badge
+                      tone={row.tone === "warning" ? "warning" : row.tone === "success" ? "success" : "neutral"}
+                    >
+                      {row.tone === "warning" ? "Action" : row.tone === "success" ? "On track" : "Update"}
+                    </Badge>
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </CardBody>
+        </Card>
       </section>
     </div>
   );
