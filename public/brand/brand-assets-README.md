@@ -7,25 +7,28 @@ The rules live in `docs/brand/unioffer-brand-identity-guidelines.pdf`
 
 ## Status
 
-**Raster-only for M1.** Andy hasn't shipped the vector source for the
-logo or icon yet. Every asset in this folder was derived from the two
-raster masters he sent on 14 April:
+**Raster-only — final.** Andy confirmed on WhatsApp on 15 Apr that no
+Figma or Illustrator source exists for the UniOffer mark. The two raster
+masters he shipped on 14 April are the canonical originals, and the
+PNG variants generated from them are the **final** assets — there is no
+follow-up SVG VI/CI pass on the roadmap.
+
+Source masters:
 
 - `unioffer-icon-source.png` (1536 × 1024, 2 × 2 composite of four
   mark variants — solid / gradient × light-bg / dark-bg)
 - `unioffer-logo.jpg` (478 × 522, full wordmark)
 
-**Full SVG VI/CI pass is pending the vector source from the brand
-lead.** Once it arrives, the follow-up commit will:
+**No vector source available. PNG variants shipped as final.** This
+means:
 
-1. Add `unioffer-icon.svg` and `unioffer-logo.svg` as the canonical
-   masters, re-export every raster size from the SVGs for crispness,
-   and drop this README's "raster-only" caveat.
-2. Produce a proper multi-path favicon.svg for modern browsers (we
-   currently ship favicon.ico only; modern browsers fall back to the
-   `.ico` fine, but a vector favicon renders sharper on hi-DPI).
-3. Ship the stacked lockup, horizontal lockup, monochrome mark, and
-   one-colour reverse-knockout variants called out in guide §6.
+1. The icon and wordmark live as PNG only; we ship a 1x / 2x / 3x
+   raster pyramid for crisp rendering at every nav size we use.
+2. The favicon is `favicon.ico` (16 / 32 / 64 multi-res). A vector
+   `favicon.svg` is not on the roadmap.
+3. Stacked lockup, monochrome mark, and one-colour reverse-knockout
+   variants from guide §6 will only ship if Andy provides additional
+   raster masters; they will not be derived from a vector source.
 
 ## What ships today
 
@@ -118,13 +121,14 @@ magick brand/favicon-16.png brand/favicon-32.png brand/favicon-64.png favicon.ic
   use the image asset; no `<span>Uni</span><span>Offer</span>`
   reconstructions anywhere in the codebase.
 
-## Open items flagged for Andy (19:00 BST email)
+## Vector pass — removed from roadmap
 
-1. **Vector source (SVG) for icon + wordmark** — blocks the full SVG
-   VI/CI pass; raster fallback in the meantime is noted above.
-2. **Stacked + reverse-knockout lockups** from guide §6 — shippable
-   only after vector lands.
-3. **Brand-coloured favicon.svg** — same vector dependency.
+Per Andy's WhatsApp confirmation on 15 Apr, no Figma or Illustrator
+source exists for the UniOffer mark. The previous "open items" list
+(SVG vector source, brand-coloured favicon.svg, vector-derived
+stacked + reverse-knockout lockups) is no longer on the roadmap. If
+additional mark variants are needed, Andy will provide them as
+raster masters.
 
 ---
-_Last updated: 2026-04-15 — M1 Week 2, CHUNK 4 of the landing-v1 push._
+_Last updated: 2026-04-15 — M1 Week 2, post-WhatsApp brand finalisation._
