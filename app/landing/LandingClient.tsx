@@ -136,16 +136,26 @@ export default function LandingClient() {
       {/* ── NAV ────────────────────────────────────────────────── */}
       <nav className="nav">
         {/* Per brand guide §6.2 and §8.2, the nav must use the official
-            uo icon image — never a hand-typeset wordmark. The full
-            wordmark (brand/unioffer-logo.jpg) is reserved for larger
-            surfaces where the minimum 120px width can be honoured. */}
+            uo icon image — never a hand-typeset wordmark. Andy shipped
+            the icon as a 1536×1024 presentation composite with four
+            variants (solid + gradient × light-bg + dark-bg) in a 2×2
+            grid; we cropped the two solid variants from the top row
+            into per-theme assets so exactly one renders per theme.
+            The source sheet is preserved at
+            /brand/unioffer-icon-source.png. The full wordmark
+            (/brand/unioffer-logo.jpg) is reserved for larger surfaces
+            where the minimum 120 px width can be honoured. */}
         <Link href="/landing" className="nav-logo" aria-label="UniOffer home">
           <span className="logo-mark">
             <Image
-              src="/brand/unioffer-icon.png"
+              src={
+                theme === "dark"
+                  ? "/brand/unioffer-icon-dark.png"
+                  : "/brand/unioffer-icon-light.png"
+              }
               alt="UniOffer"
-              width={96}
-              height={96}
+              width={384}
+              height={256}
               priority
             />
           </span>
