@@ -350,6 +350,86 @@
   max-width: 560px;
 }
 
+/* V3.1 — hero chat composer (placeholder-only surface pre-auth) */
+.uo-landing .hero-chat {
+  display: flex;
+  align-items: stretch;
+  gap: 0.4rem;
+  margin: 1.15rem auto 0;
+  max-width: 620px;
+  background: var(--uo-card);
+  border: 1px solid var(--uo-border-med);
+  border-radius: 12px;
+  padding: 4px 4px 4px 4px;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.uo-landing .hero-chat:focus-within {
+  border-color: var(--uo-crimson);
+  box-shadow: 0 0 0 3px rgba(163, 58, 58, 0.12);
+}
+.uo-landing .hero-chat-inp {
+  flex: 1 1 auto;
+  min-width: 0;
+  border: none;
+  outline: none;
+  background: transparent;
+  padding: 10px 10px 10px 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  color: var(--uo-text-p);
+}
+.uo-landing .hero-chat-inp::placeholder {
+  color: var(--uo-text-m);
+}
+.uo-landing .hero-chat-btn {
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--uo-blue);
+  color: var(--uo-btn-primary-fg);
+  border: none;
+  border-radius: 9px;
+  padding: 8px 13px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.12s, background 0.12s;
+}
+.uo-landing .hero-chat-btn:hover { opacity: 0.9; }
+@media (max-width: 560px) {
+  .uo-landing .hero-chat { flex-direction: column; gap: 0.3rem; padding: 6px; }
+  .uo-landing .hero-chat-btn { justify-content: center; }
+}
+
+/* V3.1 — hero bottom nav (3 anchor links with · separators) */
+.uo-landing .hero-bottom-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+  margin: 1.5rem auto 0;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+}
+.uo-landing .hero-bottom-nav a {
+  color: var(--uo-text-s);
+  text-decoration: none;
+  padding: 4px 10px;
+  transition: color 0.12s;
+}
+.uo-landing .hero-bottom-nav a:hover {
+  color: var(--uo-crimson);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.uo-landing .hero-bottom-nav-sep {
+  color: var(--uo-text-m);
+  user-select: none;
+}
+
 /* V3.1 — hero quick-action chips (four preset prompts) */
 .uo-landing .hero-chips {
   display: flex;

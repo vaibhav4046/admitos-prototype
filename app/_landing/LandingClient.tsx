@@ -359,6 +359,48 @@ export default function LandingClient() {
               essay to your final submission.
             </p>
 
+            {/* V3.1 Hero Chat Composer — placeholder-only surface for
+                the unauthenticated visitor. Submitting the composer
+                fires the coming-soon toast and focuses the auth-card
+                email input below; there is no chat route yet, and the
+                composer MUST NOT imply prediction or admission
+                probability in any state. */}
+            <form
+              className="hero-chat"
+              onSubmit={(e) => {
+                e.preventDefault();
+                flashToast("Chat is coming soon — please sign up for early access");
+                const email = document.querySelector<HTMLInputElement>(
+                  "input[name=\"email\"]",
+                );
+                email?.focus();
+              }}
+              aria-label="Ask UniOffer"
+            >
+              <input
+                type="text"
+                className="hero-chat-inp"
+                placeholder="Ask about school strategy, essay planning, test prep, application deadlines, or readiness indicators..."
+                aria-label="Ask UniOffer"
+              />
+              <button type="submit" className="hero-chat-btn">
+                <span>Ask UniOffer</span>
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  aria-hidden="true"
+                >
+                  <path d="M2 8h11M9 4l4 4-4 4" />
+                </svg>
+              </button>
+            </form>
+
             {/* V3.1 Quick Action Buttons — four preset prompts that,
                 on signed-in surfaces, open the chat with the prompt
                 pre-filled. Pre-auth we fire a coming-soon toast so the
