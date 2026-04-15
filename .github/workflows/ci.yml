@@ -34,6 +34,11 @@ jobs:
       - run: pnpm install --frozen-lockfile
       - run: pnpm lint
       - run: pnpm typecheck
+      # The canonical cross-surface isolation script (scripts/check-isolation.sh)
+      # lives alongside the inline `cross-surface-imports` job below, so the
+      # two stay in lockstep. If the rules diverge, running the pnpm script
+      # in CI surfaces the delta immediately.
+      - run: pnpm check:isolation
       # Next 15 renamed `useFormState` → `useActionState`. If the
       # codemod missed a call site (or someone reintroduces one in
       # a future PR), this grep fails the build before the rename
