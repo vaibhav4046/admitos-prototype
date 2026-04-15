@@ -627,6 +627,28 @@ export default function LandingClient() {
             UniOffer&apos;s Application Readiness Engine is calibrated to
             your nationality pool — not the general admit rate.
           </p>
+          {/* V3.1 §Module 2 — section CTA routing readers from the
+              nationality-pool framing to the agent-indexed explanation
+              of how readiness is actually computed. In-page anchor so
+              the user stays on the landing surface. */}
+          <div className="market-cta-row">
+            <a href="#how-it-works" className="market-cta">
+              See how it works
+              <svg
+                width="12"
+                height="12"
+                viewBox="0 0 16 16"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M2 8h11M9 4l4 4-4 4" />
+              </svg>
+            </a>
+          </div>
         </section>
 
         {/* V3.1 Module 4 — Features

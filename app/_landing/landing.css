@@ -1213,6 +1213,29 @@
   text-align: center;
   font-weight: 500;
 }
+.uo-landing .market-cta-row {
+  display: flex;
+  justify-content: center;
+  margin-top: 1rem;
+}
+.uo-landing .market-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--uo-blue);
+  color: var(--uo-btn-primary-fg);
+  text-decoration: none;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13.5px;
+  font-weight: 500;
+  padding: 10px 18px;
+  border-radius: 10px;
+  transition: opacity 0.12s, transform 0.12s;
+}
+.uo-landing .market-cta:hover {
+  opacity: 0.92;
+  transform: translateY(-1px);
+}
 @media (max-width: 1200px) {
   .uo-landing .market-grid { grid-template-columns: repeat(3, 1fr); }
 }
