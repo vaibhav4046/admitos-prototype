@@ -327,17 +327,81 @@ export default function LandingClient() {
         <div className="hero-band">
         <div className="card">
           <div className="hero-copy">
-            <div className="eyebrow">
+            {/* V3.1 Hero Status Tag — compliance + operating badges.
+                Copy locked to spec; never substitute or abbreviate
+                the compliance acronyms. */}
+            <div className="eyebrow" aria-label="Platform status">
+              <span className="ey-tag-lead">12 AI agents</span>
               <div className="ey-dot" />
-              AI-Powered Admissions
+              <span>Always on</span>
               <div className="ey-dot" />
-              For the AI-Native Generation
+              <span>Compliance-first</span>
+              <div className="ey-dot" />
+              <span>IECA</span>
+              <div className="ey-dot" />
+              <span>NACAC</span>
+              <div className="ey-dot" />
+              <span>UCAS</span>
             </div>
             <div className="headline">
-              <span className="hl-pre">More than offers,</span>
-              <span className="hl-main">
-                we <span className="hl-spark">spark</span> futures.
+              <span className="hl-pre">
+                The Operating System for
               </span>
+              <span className="hl-main">
+                University Applications{" "}
+                <span className="hl-spark">&amp; Preparations</span>
+              </span>
+            </div>
+            <p className="hero-sub">
+              One AI-native platform. Build your competitive candidacy,
+              execute your full application, and access expert human
+              guidance at every critical decision point — from your first
+              essay to your final submission.
+            </p>
+
+            {/* V3.1 Quick Action Buttons — four preset prompts that,
+                on signed-in surfaces, open the chat with the prompt
+                pre-filled. Pre-auth we fire a coming-soon toast so the
+                user isn't dropped into a broken chat surface.
+                Compliance note: never use "probability/chances/odds"
+                in any chip label. */}
+            <div
+              className="hero-chips"
+              role="group"
+              aria-label="Quick actions"
+            >
+              <button
+                type="button"
+                className="hero-chip"
+                onClick={() => flashToast("Coming soon to chat — Build my school shortlist")}
+              >
+                Build my school shortlist
+              </button>
+              <button
+                type="button"
+                className="hero-chip"
+                onClick={() =>
+                  flashToast(
+                    "Coming soon to chat — What-if: readiness with SAT 1550",
+                  )
+                }
+              >
+                What-if: How does my readiness change if SAT improves to 1550?
+              </button>
+              <button
+                type="button"
+                className="hero-chip"
+                onClick={() => flashToast("Coming soon to chat — Oxford MAT four-week prep plan")}
+              >
+                Oxford MAT four-week prep plan
+              </button>
+              <button
+                type="button"
+                className="hero-chip"
+                onClick={() => flashToast("Coming soon to chat — Check my essay for voice drift")}
+              >
+                Check my essay for voice drift
+              </button>
             </div>
           </div>
 

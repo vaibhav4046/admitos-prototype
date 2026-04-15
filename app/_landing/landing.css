@@ -332,6 +332,55 @@
   font-weight: 700;
 }
 
+/* V3.1 — hero status tag "lead" pill (12 AI agents) reads with
+   slightly more weight than the trailing badges. */
+.uo-landing .ey-tag-lead {
+  color: var(--uo-crimson);
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+/* V3.1 — hero subheadline below the main headline */
+.uo-landing .hero-sub {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  line-height: 1.55;
+  color: var(--uo-text-s);
+  margin: 1rem auto 0;
+  max-width: 560px;
+}
+
+/* V3.1 — hero quick-action chips (four preset prompts) */
+.uo-landing .hero-chips {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 0.55rem;
+  margin: 1.35rem auto 0;
+  max-width: 680px;
+}
+.uo-landing .hero-chip {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 500;
+  color: var(--uo-text-p);
+  background: var(--uo-surface);
+  border: 1px solid var(--uo-border-med);
+  border-radius: 999px;
+  padding: 7px 13px;
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
+  max-width: 100%;
+  white-space: normal;
+  text-align: left;
+  line-height: 1.35;
+}
+.uo-landing .hero-chip:hover {
+  background: var(--uo-hover);
+  border-color: var(--uo-crimson);
+  transform: translateY(-1px);
+}
+
 .uo-landing .divider { height: 1px; background: var(--uo-border); margin: 1.75rem 0 1.5rem; }
 
 .uo-landing .auth-label {
