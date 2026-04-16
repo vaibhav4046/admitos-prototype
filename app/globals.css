@@ -81,6 +81,20 @@
     --color-wellbeing: #0ea5a6;
   }
 
+  /* Explicit light override — matches :root defaults so theme-init.tsx
+     setting data-theme="light" wins over any stylesheet inserted later. */
+  :root[data-theme="light"] {
+    --bg:          #f7f5f1;
+    --bg-surface:  #ffffff;
+    --bg-elevated: #ffffff;
+    --bg-sunken:   #efece6;
+    --fg:          #0e1a24;
+    --fg-muted:    #4a5b6b;
+    --fg-soft:     #6b7a8a;
+    --border:      #e6e1d8;
+    --border-soft: #ede8dd;
+  }
+
   :root[data-theme="dark"] {
     --bg:          #0d2538;  /* Andy canonical logo plate — DO NOT change */
     --bg-surface:  #162130;
