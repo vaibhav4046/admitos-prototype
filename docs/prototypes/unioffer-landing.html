@@ -29,12 +29,12 @@
     /* --- Design tokens (dark default) --- */
     :root[data-theme="dark"],
     :root:not([data-theme="light"]) {
-      --bg:               #0f1722;
-      --bg-surface:       #162130;
-      --bg-elevated:      #1e2d3e;
+      --bg:               #0a3042;
+      --bg-surface:       #0f3a4f;
+      --bg-elevated:      #164454;
       --fg:               #eaf1f7;
       --fg-secondary:     #aab7c4;
-      --fg-muted:         #94a0ac;
+      --fg-muted:         #a0acb8;
       --border-subtle:    rgba(234,241,247,0.08);
       --accent:           #7c3aed;
       --accent-hover:     #8b5cf6;
@@ -294,17 +294,21 @@
       border-bottom: 1px solid var(--border-subtle);
     }
 
-    /* --- Wordmark (intentionally small, icon-scale) --- */
+    /* --- Wordmark (brand image, raster SVG from Andy's 16 Apr drop) --- */
     .uo-nav__brand {
-      font-family: 'Libre Baskerville', serif;
-      font-weight: 400;
-      font-size: 18px;
+      display: inline-flex;
+      align-items: center;
+      height: 36px;
       color: var(--fg);
-      letter-spacing: -0.01em;
     }
-    .uo-nav__brand-dot {
-      color: var(--accent);
+    .uo-nav__brand img {
+      height: 28px;
+      width: auto;
+      display: block;
     }
+    .uo-brand-img-light { display: none; }
+    :root[data-theme="light"] .uo-brand-img-dark { display: none; }
+    :root[data-theme="light"] .uo-brand-img-light { display: block; }
 
     /* --- Right-side nav cluster --- */
     .uo-nav__right {
@@ -1405,7 +1409,8 @@
     <!-- ================================================== -->
     <nav class="uo-nav" aria-label="Primary">
       <a href="#" class="uo-nav__brand" aria-label="Unioffer home">
-        <span class="uo-nav__brand-dot">u</span>nioffer
+        <img class="uo-brand-img-dark" src="/brand/v2/unioffer-wordmark-color.svg" alt="Unioffer" />
+        <img class="uo-brand-img-light" src="/brand/v2/unioffer-wordmark-black.svg" alt="" aria-hidden="true" />
       </a>
 
       <div class="uo-nav__right">

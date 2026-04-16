@@ -1,9 +1,9 @@
 {
-  "base": "https://unioffer-d4zj4568r-vaibhav4046s-projects.vercel.app",
+  "base": "https://unioffer-dmq5y2plg-vaibhav4046s-projects.vercel.app",
   "routes": [
     {
       "name": "landing",
-      "url": "https://unioffer-d4zj4568r-vaibhav4046s-projects.vercel.app/preview",
+      "url": "https://unioffer-dmq5y2plg-vaibhav4046s-projects.vercel.app/preview",
       "viewports": [
         {
           "label": "desktop-1366",
@@ -59,14 +59,14 @@
       "axe": {
         "violations": [],
         "violationCount": 0,
-        "passCount": 26,
+        "passCount": 27,
         "incompleteCount": 2
       },
       "consoleErrors": []
     },
     {
       "name": "dashboard",
-      "url": "https://unioffer-d4zj4568r-vaibhav4046s-projects.vercel.app/preview/dashboard",
+      "url": "https://unioffer-dmq5y2plg-vaibhav4046s-projects.vercel.app/preview/dashboard",
       "viewports": [
         {
           "label": "desktop-1366",
@@ -122,8 +122,8 @@
       "axe": {
         "violations": [],
         "violationCount": 0,
-        "passCount": 29,
-        "incompleteCount": 1
+        "passCount": 30,
+        "incompleteCount": 2
       },
       "consoleErrors": []
     }

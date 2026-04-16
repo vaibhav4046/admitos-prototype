@@ -1,9 +1,9 @@
 {
-  "url": "https://unioffer-d4zj4568r-vaibhav4046s-projects.vercel.app/preview",
+  "url": "https://unioffer-dmq5y2plg-vaibhav4046s-projects.vercel.app/preview",
   "scenarios": {
     "reject": {
       "bannerFound": false,
-      "totalRequests": 4,
+      "totalRequests": 6,
       "preConsentTrackingCount": 0,
       "postDecisionTrackingCount": 0,
       "preConsentTracking": [],
@@ -12,7 +12,7 @@
     },
     "accept": {
       "bannerFound": false,
-      "totalRequests": 4,
+      "totalRequests": 6,
       "preConsentTrackingCount": 0,
       "postDecisionTrackingCount": 0,
       "preConsentTracking": [],

@@ -11,12 +11,12 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root[data-theme="dark"], :root:not([data-theme="light"]) {
-    --bg:               #0f1722;
-    --bg-surface:       #162130;
-    --bg-elevated:      #1e2d3e;
+    --bg:               #0a3042;
+    --bg-surface:       #0f3a4f;
+    --bg-elevated:      #164454;
     --fg:               #eaf1f7;
     --fg-secondary:     #aab7c4;
-    --fg-muted:         #94a0ac;
+    --fg-muted:         #a0acb8;
     --border-subtle:    rgba(234,241,247,0.08);
     --accent:           #7c3aed;
     --accent-hover:     #8b5cf6;
@@ -57,7 +57,8 @@
   .uo-dashboard .ring-1 { border-top-color: var(--accent); animation: uo-spin 1.2s linear infinite; }
   .uo-dashboard .ring-2 { inset: 14px; border-right-color: var(--accent-hover); animation: uo-spin 1.6s linear infinite reverse; }
   .uo-dashboard .ring-3 { inset: 28px; border-bottom-color: var(--accent); opacity: 0.6; animation: uo-spin 2s linear infinite; }
-  .uo-dashboard .load-logo { font-family: 'Libre Baskerville', serif; font-size: 22px; color: var(--fg); z-index: 2; }
+  .uo-dashboard .load-logo { z-index: 2; display: flex; align-items: center; justify-content: center; }
+  .uo-dashboard .load-logo img { height: 28px; width: auto; }
   .uo-dashboard .load-progress { position: absolute; bottom: -44px; width: 180px; height: 3px; background: var(--border-subtle); border-radius: 2px; overflow: hidden; }
   .uo-dashboard .load-progress-fill { height: 100%; width: 0%; background: var(--accent); animation: uo-fill 1.6s ease forwards; }
   @keyframes uo-spin { to { transform: rotate(360deg); } }
@@ -70,7 +71,11 @@
   .uo-dashboard .sidebar-scroll::-webkit-scrollbar-thumb { background: var(--border-subtle); border-radius: 3px; }
 
   .uo-dashboard .brand-row { display: flex; align-items: center; justify-content: space-between; padding: 4px 6px 12px; }
-  .uo-dashboard .brand { font-family: 'Libre Baskerville', serif; font-weight: 400; font-size: 18px; color: var(--fg); letter-spacing: 0.2px; }
+  .uo-dashboard .brand { display: inline-flex; align-items: center; height: 28px; color: var(--fg); }
+  .uo-dashboard .brand img { height: 22px; width: auto; display: block; }
+  .uo-dashboard .uo-brand-img-light { display: none; }
+  :root[data-theme="light"] .uo-dashboard .uo-brand-img-dark { display: none; }
+  :root[data-theme="light"] .uo-dashboard .uo-brand-img-light { display: block; }
   .uo-dashboard .collapse-btn { width: 28px; height: 28px; border-radius: 6px; display: grid; place-items: center; color: var(--fg-muted); transition: background 0.16s ease, color 0.16s ease; }
   .uo-dashboard .collapse-btn:hover { background: var(--bg-elevated); color: var(--fg); }
 
@@ -151,7 +156,8 @@
   .uo-dashboard .content { flex: 1; padding: 32px 48px 180px; max-width: 1200px; width: 100%; margin: 0 auto; }
 
   .uo-dashboard .greeting { font-family: 'Libre Baskerville', serif; font-weight: 400; font-size: 36px; line-height: 1.1; color: var(--fg); margin: 0 0 6px; letter-spacing: -0.01em; }
-  .uo-dashboard .greeting em { font-style: italic; color: var(--accent); }
+  .uo-dashboard .greeting em { font-style: italic; color: #a78bfa; }
+  :root[data-theme="light"] .uo-dashboard .greeting em { color: var(--accent); }
   .uo-dashboard .date-sub { font-size: 14px; color: var(--fg-muted); margin-bottom: 32px; }
 
   .uo-dashboard .reveal { opacity: 0; transform: translateY(8px); transition: opacity 0.5s ease, transform 0.5s ease; }
@@ -174,8 +180,8 @@
   .uo-dashboard .agent-tag { font-size: 11px; padding: 3px 8px; background: var(--accent-glow); color: #c4b5fd; border-radius: 6px; font-weight: 500; }
   :root[data-theme="light"] .uo-dashboard .agent-tag { color: #5b21b6; }
   .uo-dashboard .due-badge { font-size: 11px; padding: 3px 8px; border-radius: 6px; background: var(--bg-elevated); color: var(--fg-secondary); font-weight: 500; min-width: 56px; text-align: center; }
-  .uo-dashboard .due-badge.today { background: rgba(239,68,68,0.12); color: #f87171; }
-  :root[data-theme="light"] .uo-dashboard .due-badge.today { color: #dc2626; }
+  .uo-dashboard .due-badge.today { background: rgba(239,68,68,0.12); color: #fca5a5; }
+  :root[data-theme="light"] .uo-dashboard .due-badge.today { color: #b91c1c; }
 
   /* Chips */
   .uo-dashboard .chip-row { display: flex; gap: 10px; overflow-x: auto; padding: 4px 2px 20px; margin-bottom: 16px; scrollbar-width: none; }
@@ -279,7 +285,7 @@
       <div class="ring ring-1"></div>
       <div class="ring ring-2"></div>
       <div class="ring ring-3"></div>
-      <div class="load-logo">unioffer</div>
+      <div class="load-logo"><img src="/brand/v2/unioffer-wordmark-color.svg" alt="Unioffer" /></div>
       <div class="load-progress"><div class="load-progress-fill"></div></div>
     </div>
   </div>
@@ -290,7 +296,10 @@
   <aside class="sidebar" aria-label="Sidebar">
     <nav aria-label="Primary navigation" class="sidebar-scroll">
       <div class="brand-row">
-        <span class="brand">unioffer</span>
+        <span class="brand" aria-label="Unioffer home">
+          <img class="uo-brand-img-dark" src="/brand/v2/unioffer-wordmark-color.svg" alt="Unioffer" />
+          <img class="uo-brand-img-light" src="/brand/v2/unioffer-wordmark-black.svg" alt="" aria-hidden="true" />
+        </span>
         <button class="collapse-btn" id="collapseBtn" aria-label="Collapse sidebar" aria-expanded="true">
           <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
         </button>

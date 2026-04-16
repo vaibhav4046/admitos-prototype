@@ -1,365 +1,946 @@
-# Unioffer Landing Page V2 — Claude Code Master Prompt
+# Unioffer V2 — Complete Deployment Prompt for Claude Code
 
-**Paste this entire prompt into Claude Code. Execute end-to-end. Do not ask for clarification unless genuinely blocked.**
-
----
-
-## 0 · SITUATION
-
-Andy Yu (CEO) rejected the V1 landing page. His exact words: "The current page is a wall of text. Every section is dense, the typography feels compressed, there is almost no breathing room. It reads like a specification document rendered as a webpage."
-
-**Two complete V2 HTML prototypes are already in the repo** at `docs/prototypes/`. They were designed to fix every issue Andy raised and are themed to match the AdmitOS Excellence V2 reference site. Your job is to:
-
-1. Complete Andy's 7-item merge checklist (Section 1)
-2. Convert the V2 prototypes into Next.js components, preserving EVERY animation (Section 2)
-3. Build, deploy to Vercel, push to GitHub, update PR #2
-
-### References to study BEFORE writing any code
-
-1. **AdmitOS Excellence V2** — `https://admitos-excellence-as-a-service-v2.pages.dev/` and `/dashboard/overview` — This is the CEO's product. Our theme MUST match.
-2. **Manus.im** — `https://manus.im` — Andy's benchmark for premium AI product polish.
-3. **Claude.ai** — Andy also referenced this as a benchmark for clean, minimal design.
-4. **V2 landing prototype** — `docs/prototypes/unioffer-landing.html` (~1500 lines) — open in browser, study every section and animation.
-5. **V2 dashboard prototype** — `docs/prototypes/unioffer-dashboard.html` (~850 lines) — open in browser.
-6. **Brand PDF** — `docs/brand/unioffer-brand-identity-guidelines.pdf`
-7. **All 14 spec documents** Andy committed — find them:
-   ```bash
-   find . -path "*/docs/*" \( -name "*.pdf" -o -name "*.docx" \) -not -path "*/node_modules/*" | head -30
-   ls -la docs/specs/ 2>/dev/null
-   ```
-   Key docs: 01 Preparation OS V2.2, 02 Application OS V2.2, 03 Landing Page V3.1, 04 Agent Chat V2.2, 05 School List Strategy V2.2, 06 Essay Writing V2.2, 07 Advising Services V2.2, 08 Candidacy Evaluation Form V2.2, 09 Adie Commons V2.2, 10 Consent Modal V2.2, 11 Terms of Service V2.2, 12 Privacy Policy V2.2, 13 Referral Credits Module V1.0, Features/How-it-works/Pricing modules.
-
-### Platform identity
-
-- Brand name: **Unioffer** (lowercase "o" in "offer" — NOT "UniOffer", NOT "UNIOFFER")
-- In code: `unioffer` (all lowercase)
-- Logo: SMALL — icon-sized (~24-32px), think manus.im logo size
-- Domain: `unioffer.ai`
-- Tagline: "More Than Offers. We Spark Futures."
-- Subtitle: "AI-Powered Admissions for the AI-Native Generation."
-
-### Codebase
-
-- Stack: Next.js 15 App Router (`"next": "15.0.8"` in package.json)
-- Branch: `feat/landing-page-v2` (create from current branch)
-- CI gates: `pnpm typecheck && pnpm test && pnpm lint && pnpm check:isolation`
-- Existing landing: `app/_landing/LandingClient.tsx` + `app/_landing/landing.css` — this is V1, being REPLACED
-- Root page: `app/page.tsx` — update to import V2
+**Paste this entire document into Claude Code. Execute end-to-end. Do not ask for clarification unless genuinely blocked.**
 
 ---
 
-## 1 · ANDY'S 7-ITEM MERGE CHECKLIST (PR #2)
+## 0 · SITUATION & MISSION
 
-**Every item below is MANDATORY before PR #2 can move from Draft to Ready for Review.**
+Andy Yu (CEO of Unioffer) rejected the V1 landing page. His exact feedback:
 
-### Item 1 — Repo rename compliance scan
-The repo is `admitos-mvp-platform`. Andy wants it renamed to `unioffer-mvp-platform` (this is a GitHub-level rename — if you cannot do it, document it). What you MUST do:
-- Run a grep scan confirming ZERO matches for `admitos` or `AdmitOS` across all source files, `.env.example`, `docs/`, `.github/workflows/`, and `README.md`
-- The 11 residual hits in `admitos-training-pipeline/` are acceptable as a deferred PR — document them explicitly in the PR description
-- Include the grep scan output in the PR description
+> "The current page is a wall of text. Every section is dense, the typography feels compressed, there is almost no breathing room. It reads like a specification document rendered as a webpage. This is not the aesthetic UniOffer needs to occupy."
+
+> "Before you do anything else: open a fresh browser window and go to manus.im. Look at their hero. It is one headline, one input box, four action buttons, and a lot of white space. Nothing else. That is the design language of modern AI-native products. Then open claude.ai. Clean, minimal, generous spacing, typography that breathes. UniOffer's landing page needs to look like it belongs in that world."
+
+**Two complete V2 HTML prototypes are already in the repo** at `docs/prototypes/`. They fix every issue Andy raised and are themed to match the AdmitOS Excellence V2 reference site. Your job:
+
+1. Run `git pull` to get Andy's latest brand assets (green cat logo uploaded 16 Apr)
+2. Complete Andy's 7-item merge checklist (Section 2)
+3. Implement Andy's 8 answered questions (Section 3)
+4. Convert the V2 prototypes into Next.js with ALL animations at 120fps (Section 4–5)
+5. Apply global brand treatment to EVERY page (Section 6)
+6. Build, deploy to Vercel, push to GitHub, update PR #2
+
+---
+
+## 1 · BEFORE YOU WRITE A SINGLE LINE OF CODE
+
+### 1.0 Pull latest
 
 ```bash
-grep -ri "admitos\|AdmitOS" --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" --include="*.json" --include="*.md" --include="*.yml" --include="*.yaml" --include="*.env*" -l . | grep -v node_modules | grep -v .next | grep -v admitos-training-pipeline
+git pull origin $(git branch --show-current)
 ```
 
-### Item 2 — Visual redesign (THE MAIN EVENT)
-This is covered in detail in Section 2 below. The V2 prototypes already solve everything Andy asked for:
-- No emoji/icons (clean typographic treatment only)
-- Generous spacing (Manus-level whitespace)
-- Typography calibrated to viewport (Libre Baskerville headlines, Inter body)
-- White space used deliberately (hero is headline + composer + chips, nothing else)
+Andy pushed final designer-made brand assets on 16 Apr. You MUST have them locally.
+
+### 1.1 Study the three benchmark references
+
+Open each in a browser. Spend real time studying them. Extract DevTools measurements.
+
+**Reference 1 — Manus.im** (`https://manus.im`)
+Andy's primary benchmark. Measure these in DevTools:
+- Hero headline: Libre Baskerville, ~36px, weight 400, generous line-height ~1.3
+- Body/nav text: Inter or similar sans-serif, 14–16px
+- Chat composer: 670–800px wide, border-radius ~24px, centered
+- Hero content: headline + one input + 4 chips + nothing else
+- Section padding: 120–160px vertical between sections
+- White space ratio: ~60% of viewport is empty space in hero
+- Color palette: near-black backgrounds, minimal accent usage
+- Loading: subtle, fast, no heavy splash
+- Overall feel: restrained, confident, nothing competes for attention
+
+**Reference 2 — Claude.ai** (`https://claude.ai`)
+Andy's secondary benchmark. Measure:
+- Headline font: Anthropic Serif (their custom), ~40px, weight ~290 (ultralight)
+- Composer width: centered, ~800px, generous padding
+- Nav: minimal, text only, 14px
+- Spacing: extreme generosity — sections float with massive margins
+- Color: warm neutrals, near-zero visual noise
+
+**Reference 3 — AdmitOS Excellence V2** (`https://admitos-excellence-as-a-service-v2.pages.dev/` and `/dashboard/overview`)
+This is Andy's existing product. Our theme MUST match exactly:
+- Body background: `#0f1722` (rgb 15, 23, 34)
+- Sidebar background: `#162130` (rgb 22, 33, 48)
+- Accent purple: `#7c3aed` (rgb 124, 58, 237)
+- Light mode content: `#f7f5f1` (rgb 247, 245, 241)
+- Primary text: `#eaf1f7` (rgb 234, 241, 247)
+- Font: Inter, heading weight 300
+- Sidebar width: 260px (full) / 64px (collapsed)
+- Nav items: Home, Overview, Preparation OS, Application OS, School List, Essays & Writing, Advising & Services, Commons, Adie
+
+### 1.2 Study the V2 prototypes
+
+```bash
+# Open these in a browser — they ARE the design spec
+open docs/prototypes/unioffer-landing.html
+open docs/prototypes/unioffer-dashboard.html
+wc -l docs/prototypes/*.html
+```
+
+The landing prototype is ~1500 lines. The dashboard is ~850 lines. Read them thoroughly. Every CSS rule, every animation, every interaction — these are your source of truth.
+
+### 1.3 Find and inventory Andy's brand assets
+
+```bash
+# Find all image/asset files
+find . -path "*/node_modules" -prune -o -path "*/.next" -prune -o \
+  \( -iname "*.png" -o -iname "*.svg" -o -iname "*.jpg" -o -iname "*.jpeg" -o -iname "*.webp" -o -iname "*.ico" \) \
+  -type f -print | grep -v node_modules | grep -v .next | sort
+
+# Check brand directories
+ls -la public/brand/ public/images/ public/logo* public/assets/ docs/brand/ 2>/dev/null
+```
+
+**The FINAL logo is: green cat icon (sitting pose) + "unioffer" wordmark in white, on dark teal/navy background.** This was made by a graphic designer and uploaded by Andy on 16 Apr. It replaces ALL previous placeholder assets (old "UO" monogram, navy/red wordmark — delete those).
+
+### 1.4 Read the 14 spec documents
+
+```bash
+find . -path "*/docs/*" \( -name "*.pdf" -o -name "*.docx" \) -not -path "*/node_modules/*" | head -30
+ls -la docs/specs/ 2>/dev/null
+```
+
+Key docs: 01 Preparation OS V2.2, 02 Application OS V2.2, 03 Landing Page V3.1, 04 Agent Chat V2.2, 05 School List Strategy V2.2, 06 Essay Writing V2.2, 07 Advising Services V2.2, 08 Candidacy Evaluation Form V2.2, 09 Adie Commons V2.2, 10 Consent Modal V2.2, 11 Terms of Service V2.2, 12 Privacy Policy V2.2, 13 Referral Credits Module V1.0, Features/How-it-works/Pricing modules.
+
+Also read: `docs/brand/unioffer-brand-identity-guidelines.pdf`
+
+---
+
+## 2 · ANDY'S 7-ITEM MERGE CHECKLIST (PR #2)
+
+**Every item is MANDATORY. Missing even one = Andy will not merge.**
+
+### Item 1 — Repo rename compliance scan
+
+```bash
+grep -ri "admitos\|AdmitOS" \
+  --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" \
+  --include="*.json" --include="*.md" --include="*.yml" --include="*.yaml" \
+  --include="*.env*" -l . \
+  | grep -v node_modules | grep -v .next | grep -v admitos-training-pipeline
+```
+
+- Must return ZERO results
+- Fix any hits by renaming admitos → unioffer
+- The 11 residual hits in `admitos-training-pipeline/` are acceptable — document them as deferred in the PR description
+- Include grep scan output in PR description
+
+### Item 2 — Visual redesign
+
+The V2 prototypes solve this. Convert them faithfully (full details in Sections 4–5):
+- Zero emoji/icons — clean typographic treatment only
+- Generous whitespace — manus.im level spacing
+- Typography calibrated to viewport — Libre Baskerville 36px headlines, Inter 16px body
+- White space is deliberate — hero is headline + composer + chips, nothing else
 - manus.im is the benchmark
 
 ### Item 3 — Contact Sales routing
-The Contact Sales button in Pricing currently routes to `/signin?mode=signup`. This is WRONG.
-- Create a `/contact-sales` placeholder route
-- Show a simple "Book a Discovery Call" message
-- Optionally embed a Calendly widget or mailto link
-- It must NOT route to the sign-up flow
+
+The Contact Sales button in Pricing currently routes to `/signin?mode=signup`. **This is wrong.**
+
+Create `/contact-sales` route:
+
+```tsx
+// app/contact-sales/page.tsx
+export default function ContactSalesPage() {
+  return (
+    <div className="uo-contact-sales" style={{
+      minHeight: '100vh',
+      background: 'var(--bg, #0f1722)',
+      color: 'var(--fg, #eaf1f7)',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      fontFamily: "'Inter', system-ui, sans-serif"
+    }}>
+      <div style={{ textAlign: 'center', maxWidth: 480, padding: '2rem' }}>
+        <h1 style={{
+          fontFamily: "'Libre Baskerville', Georgia, serif",
+          fontSize: '2rem',
+          fontWeight: 400,
+          marginBottom: '1rem'
+        }}>Book a Discovery Call</h1>
+        <p style={{ color: 'var(--fg-secondary, #aab7c4)', lineHeight: 1.6, marginBottom: '2rem' }}>
+          Our advisory team will walk you through Unioffer Premium —
+          AI + human expertise for your university applications.
+        </p>
+        <a href="mailto:andy.yu@adropedu.com?subject=Unioffer%20Premium%20Inquiry"
+           style={{
+             display: 'inline-block',
+             padding: '14px 32px',
+             background: 'var(--accent, #7c3aed)',
+             color: '#fff',
+             borderRadius: 12,
+             textDecoration: 'none',
+             fontWeight: 500,
+             fontSize: '1rem'
+           }}>
+          Contact Sales
+        </a>
+      </div>
+    </div>
+  );
+}
+```
 
 ### Item 4 — Remove stray text node
-There is an `undecided` text node visible in the page source after the Adie footer disclaimer. Find it and remove it.
 
 ```bash
 grep -rn "undecided" app/ --include="*.tsx" --include="*.ts" --include="*.jsx"
 ```
 
-### Item 5 — Language switcher correction
-Current switcher shows EN / ZH / KO / JA / AR / DE. Andy's directive:
-- **Remove DE (German)** — not a target market
-- Add the correct 10-language priority order:
+Find and delete the `undecided` text node after the Adie footer disclaimer.
 
-```
-1.  English              — active at launch
-2.  Simplified Chinese 简体中文    — Priority 1
-3.  Traditional Chinese 繁體中文   — Priority 2
-4.  Korean 한국어                  — Priority 3
-5.  Arabic العربية                 — Priority 4 (RTL layout required)
-6.  Vietnamese Tiếng Việt          — Priority 5
-7.  Malay Bahasa Melayu            — Priority 6
-8.  Thai ภาษาไทย                   — Priority 7
-9.  Hindi हिन्दी                    — Priority 8
-10. Japanese 日本語                 — Priority 9
+### Item 5 — Language switcher
+
+Remove DE (German). Implement the correct 10-language priority order:
+
+```typescript
+const LANGUAGES = [
+  { code: 'en', label: 'English', native: 'English', active: true },
+  { code: 'zh-CN', label: 'Simplified Chinese', native: '简体中文', active: false, priority: 1 },
+  { code: 'zh-TW', label: 'Traditional Chinese', native: '繁體中文', active: false, priority: 2 },
+  { code: 'ko', label: 'Korean', native: '한국어', active: false, priority: 3 },
+  { code: 'ar', label: 'Arabic', native: 'العربية', active: false, priority: 4, rtl: true },
+  { code: 'vi', label: 'Vietnamese', native: 'Tiếng Việt', active: false, priority: 5 },
+  { code: 'ms', label: 'Malay', native: 'Bahasa Melayu', active: false, priority: 6 },
+  { code: 'th', label: 'Thai', native: 'ภาษาไทย', active: false, priority: 7 },
+  { code: 'hi', label: 'Hindi', native: 'हिन्दी', active: false, priority: 8 },
+  { code: 'ja', label: 'Japanese', native: '日本語', active: false, priority: 9 },
+] as const;
 ```
 
-- All 10 languages visible in the switcher
-- EN is active, all others show "Coming soon" state with `aria-disabled`
+- All 10 visible in switcher
+- EN active, all others show "Coming soon" with `aria-disabled`
 - No i18n payload preload for inactive languages
+- **DE is REMOVED — not a target market**
 
-### Item 6 — Pricing card school count limits
-Add to the Pricing section feature lists:
-- **Basic tier**: "Up to 5 schools (US or UK track)"
-- **Plus tier**: "Up to 12 schools (US + UK dual track)"
+### Item 6 — Pricing school count limits
 
-These limits are currently missing from all materials. Andy explicitly confirmed they must be added.
+Add to pricing feature lists:
+- **Basic**: "Up to 5 schools (US or UK track)"
+- **Plus**: "Up to 12 schools (US + UK dual track)"
+
+These are currently missing from all materials. Andy explicitly confirmed they must be added.
 
 ### Item 7 — Adie FAB suppression
-The Adie floating action button must be conditionally suppressed on the unauthenticated landing page.
-- Adie icon must NOT appear for logged-out visitors
-- Confirm in the PR description that this is enforced
+
+The Adie floating action button must NOT appear on the unauthenticated landing page.
+- Check auth state before rendering the FAB
+- Suppress for logged-out visitors
+- Confirm in PR description
 
 ---
 
-## 2 · VISUAL REDESIGN — V2 PROTOTYPE CONVERSION
+## 3 · ANDY'S 8 ANSWERED QUESTIONS (implement all)
 
-### 2.0 Design tokens (already in prototypes — DO NOT CHANGE)
+Andy answered 8 open questions. Implement every answer:
 
-These match the AdmitOS Excellence V2 reference site exactly:
+| # | Question | Andy's Answer | Action |
+|---|----------|---------------|--------|
+| 1 | Route architecture | Landing at `/`, app at `/app` — confirmed, do not revert | Verify routing is correct |
+| 2 | Repo rename | YES rename to `unioffer-mvp-platform`. Zero-tolerance. Grep scan required. 11 pipeline hits deferred. | Item 1 in checklist |
+| 3 | GA4 / Search Console | New property for `unioffer.ai`. Do NOT migrate admitos.ai. Clean slate. | Add TODO comment in code |
+| 4 | OG image | Compose from brand assets: green cat + wordmark on `#0f172a`, tagline in white, 1200×630. Non-blocking — placeholder OK. | Section 8 |
+| 5 | Pipeline rename | Deferred to dedicated follow-up PR. Document 11 hits in PR description. | Document in PR |
+| 6 | V3.1 landing copy | Confirmed FINAL. Add school count limits to pricing (Basic: 5, Plus: 12). | Item 6 in checklist |
+| 7 | SKB / Credits sequencing | Path B — credits tables first, then SKB. Document as next sprint scope. | Add TODO comment |
+| 8 | Languages | Remove DE. 10-language order as specified. ZH-CN first translation sprint. No language activates without Andy's sign-off. | Item 5 in checklist |
+
+---
+
+## 4 · DESIGN SYSTEM & TOKENS
+
+### 4.0 Color tokens (match AdmitOS Excellence V2 exactly)
 
 ```css
-/* DARK (default) */
---bg:            #0f1722;    /* Body background */
---bg-surface:    #162130;    /* Sidebar/card background */
---bg-elevated:   #1e2d3e;    /* Elevated surfaces */
---fg:            #eaf1f7;    /* Primary text */
---fg-secondary:  #aab7c4;    /* Secondary text */
---fg-muted:      #5e6b78;    /* Muted text */
---accent:        #7c3aed;    /* Purple accent */
---accent-hover:  #8b5cf6;    /* Purple hover */
+/* ============================================
+   DARK THEME (default)
+   Matches admitos-excellence-as-a-service-v2.pages.dev
+   ============================================ */
+:root[data-theme="dark"],
+:root:not([data-theme="light"]) {
+  --bg:            #0f1722;    /* Body background — rgb(15,23,34) */
+  --bg-surface:    #162130;    /* Sidebar/card bg — rgb(22,33,48) */
+  --bg-elevated:   #1e2d3e;    /* Elevated surfaces */
+  --fg:            #eaf1f7;    /* Primary text — rgb(234,241,247) */
+  --fg-secondary:  #aab7c4;    /* Secondary text */
+  --fg-muted:      #94a0ac;    /* Muted text */
+  --border-subtle: rgba(234,241,247,0.08);
+  --accent:        #7c3aed;    /* Purple accent — rgb(124,58,237) */
+  --accent-hover:  #8b5cf6;    /* Purple hover */
+  --accent-glow:   rgba(124,58,237,0.32);
+}
 
-/* LIGHT */
---bg:            #f7f5f1;    /* Warm off-white */
---bg-surface:    #ffffff;
---fg:            #223042;    /* Dark navy text */
---accent:        #7c3aed;    /* Same purple */
+/* ============================================
+   LIGHT THEME
+   ============================================ */
+:root[data-theme="light"] {
+  --bg:            #f7f5f1;    /* Warm off-white — rgb(247,245,241) */
+  --bg-surface:    #ffffff;
+  --bg-elevated:   #ffffff;
+  --fg:            #223042;    /* Dark navy text */
+  --fg-secondary:  #4a5a6e;
+  --fg-muted:      #5a6a7d;
+  --border-subtle: rgba(34,48,66,0.10);
+  --accent:        #7c3aed;    /* Same purple accent */
+  --accent-hover:  #6d28d9;
+  --accent-glow:   rgba(124,58,237,0.18);
+}
 
-/* Fonts */
---font-serif: 'Libre Baskerville', Georgia, serif;   /* Headlines */
---font-sans:  'Inter', system-ui, sans-serif;         /* Body */
+/* ============================================
+   TYPOGRAPHY
+   ============================================ */
+--font-serif: 'Libre Baskerville', Georgia, serif;
+--font-sans:  'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 ```
 
-### 2.1 Conversion steps
+### 4.1 Typography scale (calibrated to manus.im)
 
-**Open `docs/prototypes/unioffer-landing.html` in a browser first. Study every section and animation. Then convert:**
+```css
+/* Headlines — Libre Baskerville */
+h1 { font-family: var(--font-serif); font-size: 3rem; font-weight: 400; line-height: 1.2; letter-spacing: -0.02em; }     /* 48px — hero only */
+h2 { font-family: var(--font-serif); font-size: 2.25rem; font-weight: 400; line-height: 1.25; letter-spacing: -0.01em; } /* 36px — section titles */
+h3 { font-family: var(--font-serif); font-size: 1.5rem; font-weight: 400; line-height: 1.3; }                            /* 24px — card titles */
 
-1. **Extract all CSS** from the `<style>` tag into `app/_landing/landing.css` (replace existing V1 CSS entirely)
-2. **Convert HTML to JSX** in `app/_landing/LandingClient.tsx` (replace existing V1 component entirely):
-   - `class` → `className`
-   - `for` → `htmlFor`
-   - Self-closing tags (`<br/>`, `<img/>`, `<input/>`)
-   - Inline `style` attributes → `style={{ }}` objects
-3. **Extract JavaScript** from `<script>` tags into `useEffect` hooks in the client component
-4. **Font setup** in the layout:
-   ```tsx
-   import { Libre_Baskerville, Inter } from 'next/font/google';
-   
-   const libreBaskerville = Libre_Baskerville({
-     subsets: ['latin'],
-     weight: ['400', '700'],
-     style: ['normal', 'italic'],
-     variable: '--font-serif',
-     display: 'swap',
-   });
-   
-   const inter = Inter({
-     subsets: ['latin'],
-     variable: '--font-sans',
-     display: 'swap',
-   });
-   ```
-5. **Scope all CSS** under `.uo-landing` to avoid Tailwind reset conflicts (the prototype CSS already does this)
-6. **Update `app/page.tsx`** to import the new V2 LandingClient
+/* Body — Inter */
+body    { font-family: var(--font-sans); font-size: 1rem; font-weight: 400; line-height: 1.55; }   /* 16px */
+.lead   { font-size: 1.25rem; line-height: 1.5; color: var(--fg-secondary); }                      /* 20px — subtitles */
+.small  { font-size: 0.875rem; line-height: 1.5; }                                                  /* 14px — nav, meta */
+.caption { font-size: 0.75rem; line-height: 1.4; color: var(--fg-muted); }                          /* 12px — captions */
+```
 
-### 2.2 Animations — PRESERVE ALL OF THESE
+### 4.2 Spacing scale
 
-The V2 prototype contains these animations. Every single one must work in the Next.js version:
+```css
+/* Manus.im-calibrated vertical rhythm */
+--space-section:  clamp(100px, 12vh, 160px);   /* Between major sections */
+--space-block:    clamp(48px, 6vh, 80px);       /* Between content blocks within a section */
+--space-element:  clamp(24px, 3vh, 40px);       /* Between elements */
+--space-tight:    clamp(12px, 1.5vh, 20px);     /* Tight groupings */
 
-| Animation | Implementation | Notes |
-|-----------|---------------|-------|
-| Loading screen (3 rings + progress bar) | CSS keyframes + JS progress | Client component with `useState` |
-| Page reveal (slide up after loader) | CSS transition on `.loaded` class | Trigger after loader completes |
-| Typing placeholder | JS `setInterval` cycling prompts | `useEffect` with cleanup, add `suppressHydrationWarning` |
-| Scroll reveals (`.reveal` class) | IntersectionObserver | `useEffect` with observer setup |
-| SVG flow lines + glowing particles | Inline SVG + CSS animations | Keep as JSX SVG |
-| Section line draw-on-scroll | IntersectionObserver + CSS | Part of scroll reveal system |
-| Composer shimmer on focus | CSS `::after` pseudo-element | Pure CSS, just preserve it |
-| Card hover lift + gradient | CSS `:hover` transitions | Pure CSS |
-| Timeline step glow | CSS `:nth-child` animations | Pure CSS |
-| Pricing card animated border | CSS `@property --angle` + `conic-gradient` | Keep the `@property` rule in CSS |
-| Theme toggle (dark↔light) | JS `data-theme` attribute toggle | `useEffect` or `useState` |
-| CTA pulse glow | CSS keyframes | Pure CSS |
-| Ambient floating orbs | CSS `@keyframes drift` | Pure CSS |
+/* Hero-specific */
+--hero-padding-top: clamp(120px, 18vh, 200px);  /* Above hero headline */
+--hero-gap:         clamp(24px, 3vh, 40px);      /* Between hero elements */
+```
 
-### 2.3 Landing page sections (all present in prototype)
+### 4.3 Component dimensions
 
-1. **Loading screen** — 3-ring spinning logo + progress bar
-2. **Navigation** — thin top bar, Unioffer logo (SMALL!) left, theme toggle right
-3. **Hero** — H1 + subtitle + composer + connect bar + action chips
-   - H1: "More Than Offers. We Spark Futures."
-   - Subtitle: "AI-Powered Admissions for the AI-Native Generation."
-   - Composer with toolbar (attach, agents, chat, emoji, mic, submit)
-   - "Connect your tools" integration bar
-   - Typing placeholder cycling through prompts
-4. **Market Reality** — stats cards with admission rates (NO flag emoji — clean typographic treatment)
-5. **How It Works** — timeline/steps
-6. **Features** — grid of AI agent features (headline + one line per card, max 18 words)
-7. **Trust/Compliance** — trust badges (IECA, NACAC, UCAS, UK GDPR)
-8. **Pricing** — 3-tier cards:
-   - Basic: £20/month, £200/year, 500 AI credits, **Up to 5 schools (US or UK track)**
-   - Plus: £50/month, £500/year, 2000 AI credits, **Up to 12 schools (US + UK dual track)**, MOST POPULAR
-   - Premium: Contact Sales → routes to `/contact-sales` (NOT `/signin?mode=signup`)
-9. **Footer** — 4 columns (Product, Company, Support, Legal), entity line, Adie disclaimer with Samaritans 116 123 and NHS 111 option 2
-10. **Readiness disclaimer** below pricing: "Readiness indicators reflect preparation strength only. Admission decisions are made entirely by universities and cannot be predicted by any third party. UniOffer makes no representation about admission outcomes."
+```css
+/* Composer — matches manus.im proportions */
+--composer-max-width: 740px;      /* manus.im: ~670-800px */
+--composer-radius:    24px;       /* manus.im: ~24px */
+--composer-padding:   16px 20px;
+--composer-min-height: 56px;
 
-### 2.4 Content from V3.1 spec (confirmed final by Andy)
+/* Cards */
+--card-radius:     16px;
+--card-padding:    clamp(24px, 3vw, 40px);
 
-The V3.1 landing copy is confirmed final. The V2 prototype already contains this content. Key items to verify are present:
-- Hero headline and subtitle (exact wording above)
-- Market Reality: China → Cambridge 10.9%, India → Oxford 4.2%, Singapore → Cambridge 26.5%, Hong Kong → Cambridge 17.6%, South Korea → Top US Extreme
-- How It Works: 4-step agent-indexed flow
-- Features: 7 cards + compliance strip
-- Trust badges: IECA Member Standards, NACAC Compliant, UCAS Aligned, UK GDPR · Online Safety Act
-- Pricing with school count limits (Item 6 from checklist)
+/* Nav */
+--nav-height:      64px;
+--nav-text-size:   14px;
+
+/* Sidebar (dashboard) */
+--sidebar-width:       260px;
+--sidebar-collapsed:   64px;
+--sidebar-bg:          var(--bg-surface);  /* #162130 */
+```
 
 ---
 
-## 3 · EXECUTION ORDER
+## 5 · ANIMATION SYSTEM — 120fps TARGET
 
-### Phase A — Blocking fixes (Items 1, 3, 4, 5, 7)
+**Every animation uses `transform` and `opacity` ONLY. No `width`, `height`, `top`, `left`, `margin`, or `padding` animations. GPU-accelerated exclusively.**
 
-Do these FIRST — they are quick and must not be forgotten:
+### 5.0 Performance rules
 
-```bash
-# 1. Grep scan for admitos references
-grep -ri "admitos\|AdmitOS" --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" --include="*.json" --include="*.md" --include="*.yml" --include="*.yaml" --include="*.env*" -l . | grep -v node_modules | grep -v .next | grep -v admitos-training-pipeline > /tmp/admitos-scan.txt
-cat /tmp/admitos-scan.txt
-# Fix any hits (rename to unioffer)
+```css
+/* Apply to all animated elements */
+.animated {
+  will-change: transform, opacity;
+  transform: translateZ(0);  /* Force GPU layer */
+}
 
-# 3. Create /contact-sales placeholder route
-mkdir -p app/contact-sales
-# Create a simple page.tsx with "Book a Discovery Call" content
-
-# 4. Remove 'undecided' text node
-grep -rn "undecided" app/ --include="*.tsx" --include="*.ts"
-# Remove the stray text
-
-# 5. Fix language switcher (remove DE, add correct 10-language order)
-# Find the language switcher component and update
-
-# 7. Suppress Adie FAB on landing page (check auth state)
-```
-
-### Phase B — Visual redesign (Item 2)
-
-This is the main work. Convert the V2 prototype:
-
-1. Read `docs/prototypes/unioffer-landing.html` completely
-2. Extract CSS → replace `app/_landing/landing.css`
-3. Convert HTML → replace `app/_landing/LandingClient.tsx`
-4. Extract JS → `useEffect` hooks in client component
-5. Update font imports in layout
-6. Add school count limits to pricing (Item 6)
-7. Verify all animations work
-
-### Phase C — Build & verify
-
-```bash
-pnpm install
-pnpm typecheck
-pnpm lint
-pnpm build
-```
-
-Fix any errors. Common issues:
-- `app/page.tsx` conflict with route groups → adjust routing
-- Tailwind reset vs landing CSS → `@layer` scoping or CSS specificity
-- Font loading → verify `next/font/google` in layout
-- Hydration mismatch from typing animation → `suppressHydrationWarning`
-
-### Phase D — Deploy
-
-```bash
-# Push to GitHub
-git add -A
-git commit -m "feat(v2): Unioffer landing redesign — Manus-level polish
-
-Visual redesign addressing all 7 merge checklist items:
-- V2 prototype conversion with all animations preserved
-- No emoji/icons, generous spacing, calibrated typography
-- Contact Sales routed to /contact-sales placeholder
-- Stray 'undecided' text node removed
-- Language switcher: 10 languages, DE removed, correct priority order
-- Pricing: school count limits added (5 Basic, 12 Plus)
-- Adie FAB suppressed on unauthenticated landing
-- Theme matches AdmitOS Excellence V2 (#0f1722 / #7c3aed)
-- admitos grep scan: zero matches (11 pipeline hits deferred)"
-
-git push origin HEAD
-
-# Deploy to Vercel
-vercel deploy --no-wait 2>&1 | tee /tmp/vercel-deploy.log
-```
-
-### Phase E — Update PR #2
-
-Update the PR description with:
-- Preview URL
-- All 7 checklist items marked as complete
-- Grep scan output showing zero admitos matches
-- 11 pipeline hits documented as deferred
-- Adie FAB suppression confirmation
-- Screenshots of dark and light mode
-
----
-
-## 4 · FALLBACK STRATEGY
-
-If Next.js conversion breaks animations or becomes too complex:
-
-```bash
-# Deploy the HTML prototypes directly as static files
-cp docs/prototypes/unioffer-landing.html public/index.html
-cp docs/prototypes/unioffer-dashboard.html public/dashboard.html
-```
-
-Then set up Next.js rewrites in `next.config.mjs`:
-```js
-async rewrites() {
-  return [
-    { source: '/', destination: '/index.html' },
-    { source: '/dashboard-preview', destination: '/dashboard.html' },
-  ];
+/* Respect user preferences */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 }
 ```
 
-Getting a live preview URL with working animations is MORE IMPORTANT than perfect Next.js architecture.
+### 5.1 Loading screen
+
+The green cat logo centered on dark teal `#0f172a`, with a breathing animation:
+
+```css
+/* Loading screen — first thing user sees */
+.uo-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0f172a;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 0.6s ease, visibility 0.6s ease;
+}
+
+.uo-loader.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* Green cat logo breathing */
+.uo-loader__logo {
+  width: 64px;
+  height: 64px;
+  animation: breathe 2s ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0%, 100% { transform: scale(0.95); opacity: 0.8; }
+  50%      { transform: scale(1.05); opacity: 1; }
+}
+
+/* Progress bar */
+.uo-loader__progress {
+  width: 200px;
+  height: 3px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+  margin-top: 32px;
+  overflow: hidden;
+}
+
+.uo-loader__bar {
+  height: 100%;
+  background: var(--accent, #7c3aed);
+  border-radius: 2px;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+```
+
+```tsx
+// Loading screen component
+'use client';
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+
+export function Loader() {
+  const [progress, setProgress] = useState(0);
+  const [hidden, setHidden] = useState(false);
+
+  useEffect(() => {
+    const steps = [30, 60, 85, 100];
+    let i = 0;
+    const interval = setInterval(() => {
+      if (i < steps.length) {
+        setProgress(steps[i]);
+        i++;
+      } else {
+        clearInterval(interval);
+        setTimeout(() => setHidden(true), 400);
+      }
+    }, 300);
+    return () => clearInterval(interval);
+  }, []);
+
+  return (
+    <div className={`uo-loader ${hidden ? 'hidden' : ''}`}>
+      {/* Use the designer-made green cat logo */}
+      <img src="/brand/unioffer-cat-icon.png" alt="" className="uo-loader__logo" />
+      <div className="uo-loader__progress">
+        <div className="uo-loader__bar" style={{ width: `${progress}%` }} />
+      </div>
+    </div>
+  );
+}
+```
+
+**NOTE:** Adjust the `src` path to match wherever Andy's green cat icon actually lives after `git pull`. Search for it:
+```bash
+find . -path "*/node_modules" -prune -o \( -iname "*cat*" -o -iname "*logo*" -o -iname "*icon*" \) -type f -print | grep -v node_modules | grep -v .next
+```
+
+### 5.2 Page entry animation
+
+```css
+/* Page content fades in after loader */
+.uo-landing {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.uo-landing.loaded {
+  opacity: 1;
+  transform: translateY(0);
+}
+```
+
+### 5.3 Scroll reveal system
+
+```css
+/* Elements start invisible, animate in when intersecting viewport */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.7s ease-out, transform 0.7s ease-out;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Staggered children — 100ms per element */
+.reveal-stagger > .reveal:nth-child(1) { transition-delay: 0ms; }
+.reveal-stagger > .reveal:nth-child(2) { transition-delay: 100ms; }
+.reveal-stagger > .reveal:nth-child(3) { transition-delay: 200ms; }
+.reveal-stagger > .reveal:nth-child(4) { transition-delay: 300ms; }
+.reveal-stagger > .reveal:nth-child(5) { transition-delay: 400ms; }
+.reveal-stagger > .reveal:nth-child(6) { transition-delay: 500ms; }
+.reveal-stagger > .reveal:nth-child(7) { transition-delay: 600ms; }
+.reveal-stagger > .reveal:nth-child(8) { transition-delay: 700ms; }
+```
+
+```tsx
+// IntersectionObserver setup — put in useEffect
+useEffect(() => {
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -60px 0px' }
+  );
+  reveals.forEach((el) => observer.observe(el));
+  return () => observer.disconnect();
+}, []);
+```
+
+### 5.4 Composer interactions
+
+```css
+/* Composer focus glow */
+.uo-composer {
+  position: relative;
+  max-width: var(--composer-max-width, 740px);
+  border-radius: var(--composer-radius, 24px);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  transition: border-color 0.2s ease, box-shadow 0.3s ease;
+}
+
+.uo-composer:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+
+/* Shimmer effect on focus */
+.uo-composer::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, var(--accent-glow), transparent);
+  background-size: 200% 100%;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.uo-composer:focus-within::after {
+  opacity: 1;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+```
+
+### 5.5 Typing placeholder animation
+
+```tsx
+// Typing placeholder — useEffect with cleanup
+const PROMPTS = [
+  'Build my school shortlist for Oxbridge and Ivy League...',
+  'What if I raise my SAT to 1550?',
+  'Create an Oxford MAT preparation plan...',
+  'Review my personal statement draft...',
+  'Check my application timeline for Early Decision...',
+];
+
+useEffect(() => {
+  const input = document.querySelector('.uo-composer__input') as HTMLInputElement;
+  if (!input) return;
+
+  let promptIdx = 0;
+  let charIdx = 0;
+  let deleting = false;
+  let timeout: ReturnType<typeof setTimeout>;
+
+  const tick = () => {
+    const prompt = PROMPTS[promptIdx];
+    if (!deleting) {
+      input.setAttribute('placeholder', prompt.slice(0, charIdx + 1));
+      charIdx++;
+      if (charIdx >= prompt.length) {
+        deleting = true;
+        timeout = setTimeout(tick, 2000); // Pause at full text
+        return;
+      }
+      timeout = setTimeout(tick, 50);
+    } else {
+      input.setAttribute('placeholder', prompt.slice(0, charIdx));
+      charIdx--;
+      if (charIdx <= 0) {
+        deleting = false;
+        promptIdx = (promptIdx + 1) % PROMPTS.length;
+        timeout = setTimeout(tick, 300);
+        return;
+      }
+      timeout = setTimeout(tick, 30);
+    }
+  };
+
+  timeout = setTimeout(tick, 500);
+  return () => clearTimeout(timeout);
+}, []);
+```
+
+Add `suppressHydrationWarning` to the input element to prevent hydration mismatch.
+
+### 5.6 Card hover effects
+
+```css
+/* Card hover — scale + shadow lift */
+.uo-card {
+  border-radius: var(--card-radius);
+  background: var(--bg-surface);
+  border: 1px solid var(--border-subtle);
+  padding: var(--card-padding);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+}
+
+.uo-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+  border-color: var(--accent-glow);
+}
+```
+
+### 5.7 Navigation
+
+```css
+/* Sticky nav with backdrop-blur */
+.uo-nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  height: var(--nav-height, 64px);
+  background: rgba(15, 23, 34, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border-subtle);
+  transition: background-color 0.3s ease;
+}
+
+/* Smooth scroll for anchor links */
+html { scroll-behavior: smooth; }
+```
+
+### 5.8 Pricing card animated border
+
+```css
+/* Conic gradient rotation on featured card */
+@property --angle {
+  syntax: '<angle>';
+  initial-value: 0deg;
+  inherits: false;
+}
+
+.uo-pricing-featured {
+  position: relative;
+  background: var(--bg-surface);
+  border-radius: var(--card-radius);
+}
+
+.uo-pricing-featured::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: inherit;
+  background: conic-gradient(from var(--angle), var(--accent), transparent 40%, var(--accent));
+  animation: rotate-border 4s linear infinite;
+  z-index: -1;
+}
+
+@keyframes rotate-border {
+  to { --angle: 360deg; }
+}
+```
+
+### 5.9 Ambient floating orbs
+
+```css
+.uo-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.15;
+  pointer-events: none;
+  animation: drift 20s ease-in-out infinite alternate;
+}
+
+.uo-orb--purple { background: var(--accent); width: 400px; height: 400px; }
+.uo-orb--blue   { background: #3b82f6; width: 300px; height: 300px; animation-delay: -7s; }
+.uo-orb--teal   { background: #14b8a6; width: 350px; height: 350px; animation-delay: -14s; }
+
+@keyframes drift {
+  0%   { transform: translate(0, 0) scale(1); }
+  33%  { transform: translate(60px, -40px) scale(1.1); }
+  66%  { transform: translate(-30px, 50px) scale(0.9); }
+  100% { transform: translate(20px, -20px) scale(1.05); }
+}
+```
+
+### 5.10 SVG flow lines
+
+Keep the SVG flow lines from the prototype exactly as-is. Convert to JSX (self-closing tags, camelCase attributes). These are the animated connection lines with glowing particles that give the page its premium feel.
+
+### 5.11 Theme toggle
+
+```css
+/* Smooth theme transition */
+body {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+* {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+```
+
+### 5.12 Dashboard skeleton loading
+
+```css
+/* Skeleton shimmer for dashboard cards */
+.uo-skeleton {
+  background: linear-gradient(90deg,
+    var(--bg-surface) 25%,
+    var(--bg-elevated) 50%,
+    var(--bg-surface) 75%
+  );
+  background-size: 200% 100%;
+  animation: skeleton-shimmer 1.5s ease-in-out infinite;
+  border-radius: 8px;
+}
+
+@keyframes skeleton-shimmer {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+/* Dashboard card entry */
+.uo-dash-card {
+  opacity: 0;
+  transform: translateY(16px);
+  animation: card-enter 0.5s ease-out forwards;
+}
+
+.uo-dash-card:nth-child(1) { animation-delay: 0ms; }
+.uo-dash-card:nth-child(2) { animation-delay: 100ms; }
+.uo-dash-card:nth-child(3) { animation-delay: 200ms; }
+.uo-dash-card:nth-child(4) { animation-delay: 300ms; }
+
+@keyframes card-enter {
+  to { opacity: 1; transform: translateY(0); }
+}
+```
+
+### 5.13 Complete animation inventory
+
+Every animation from the V2 prototypes that must work in production:
+
+| # | Animation | CSS/JS | GPU-safe | Notes |
+|---|-----------|--------|----------|-------|
+| 1 | Loading screen (green cat breathing + progress bar) | CSS keyframes + JS | Yes | `scale` only |
+| 2 | Page reveal (fade up) | CSS transition | Yes | `opacity` + `translateY` |
+| 3 | Typing placeholder | JS `setTimeout` loop | N/A | No layout changes |
+| 4 | Scroll reveals (`.reveal` → `.visible`) | IntersectionObserver + CSS | Yes | `opacity` + `translateY` |
+| 5 | SVG flow lines + glowing particles | CSS `@keyframes` | Yes | `transform` based |
+| 6 | Section line draw-on-scroll | IntersectionObserver + CSS `stroke-dashoffset` | Yes | SVG property only |
+| 7 | Composer shimmer on focus | CSS `::after` + `background-position` | Yes | No layout |
+| 8 | Card hover (lift + gradient) | CSS `:hover` + `scale(1.02)` | Yes | `transform` only |
+| 9 | Timeline step glow | CSS `:nth-child` + keyframes | Yes | `opacity` + `box-shadow` |
+| 10 | Pricing card animated border | CSS `@property --angle` + `conic-gradient` | Yes | Custom property animation |
+| 11 | Theme toggle dark↔light | JS `data-theme` + CSS transitions | Yes | `background-color` + `color` |
+| 12 | CTA pulse glow | CSS keyframes | Yes | `box-shadow` animation |
+| 13 | Ambient floating orbs | CSS `@keyframes drift` | Yes | `transform` + `filter` |
+| 14 | Sticky nav backdrop-blur | CSS `backdrop-filter` | Yes | Composited layer |
+| 15 | Dashboard skeleton shimmer | CSS `background-position` | Yes | No layout |
+| 16 | Dashboard card entry stagger | CSS `@keyframes` + `animation-delay` | Yes | `opacity` + `translateY` |
 
 ---
 
-## 5 · CSS STRATEGY
+## 6 · GLOBAL BRAND TREATMENT — EVERY PAGE
 
-**Use plain CSS files, NOT Tailwind.** The V2 prototype CSS is production-quality with complex animations, custom properties, and pseudo-element effects. Converting to Tailwind would break things.
+**The green cat logo + dark teal/navy background applies to EVERY page in the application.**
 
-- Extract prototype `<style>` → `app/_landing/landing.css`
-- Import in LandingClient: `import './landing.css'`
-- All rules scoped under `.uo-landing` to avoid conflicts with Tailwind preflight
-- Keep the `@property --angle` CSS rule for animated pricing border
+### 6.0 Root layout
+
+```tsx
+// app/layout.tsx — sets global brand baseline
+import { Libre_Baskerville, Inter } from 'next/font/google';
+
+const libreBaskerville = Libre_Baskerville({
+  subsets: ['latin'],
+  weight: ['400', '700'],
+  style: ['normal', 'italic'],
+  variable: '--font-serif',
+  display: 'swap',
+});
+
+const inter = Inter({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+
+export default function RootLayout({ children }: { children: React.ReactNode }) {
+  return (
+    <html lang="en" data-theme="dark"
+          className={`${libreBaskerville.variable} ${inter.variable}`}>
+      <body style={{ background: '#0f1722', color: '#eaf1f7', margin: 0 }}>
+        {children}
+      </body>
+    </html>
+  );
+}
+```
+
+### 6.1 Per-page brand treatment
+
+| Page | Nav | Logo | Background | Footer |
+|------|-----|------|------------|--------|
+| Landing `/` | Sticky top bar, backdrop-blur | Green cat icon (24px) left | `#0f1722` dark | Full footer with cat + wordmark |
+| Contact Sales `/contact-sales` | Same sticky nav | Green cat icon left | `#0f1722` dark | Same footer |
+| Dashboard `/app/*` | Sidebar | Green cat icon in sidebar header | Body `#0f1722`, sidebar `#162130` | Minimal |
+| Sign in `/signin` | Minimal — logo only | Green cat + wordmark centered | `#0f1722` dark | None |
+| Sign up `/signup` | Minimal — logo only | Green cat + wordmark centered | `#0f1722` dark | None |
+| Loading (all routes) | None | Green cat breathing animation | `#0f172a` dark teal | None |
+
+### 6.2 Brand asset rules
+
+1. **Green cat icon** = favicon + nav logos (24-32px, icon-sized)
+2. **Green cat + "unioffer" wordmark** = footer, auth pages, loading screen (max 200px wide)
+3. Wordmark is WHITE on dark backgrounds — do NOT invert
+4. On light theme: nav bar stays dark with white logo — only content area switches to `#f7f5f1`
+5. **Delete ALL old assets**: "UO" monogram, navy/red wordmark — they are retired
+6. Update `public/favicon.ico` and `favicon-16/32/64.png` with the green cat icon
 
 ---
 
-## 6 · COOKIE BANNER (UK GDPR)
+## 7 · LANDING PAGE SECTIONS
 
-The V1 implementation already has a compliant cookie banner. Preserve it:
+All sections are in the V2 prototype. Convert them faithfully. Verify this content exists:
+
+### 7.1 Loading screen
+Green cat logo breathing animation, progress bar, dark teal `#0f172a` background. See Section 5.1.
+
+### 7.2 Navigation
+Sticky top bar, 64px height, backdrop-blur. Green cat icon (small!) left, theme toggle right.
+
+### 7.3 Hero
+- H1: **"More Than Offers. We Spark Futures."** (Libre Baskerville, 48px, weight 400)
+- Subtitle: **"AI-Powered Admissions for the AI-Native Generation."** (Inter, 20px, `--fg-secondary`)
+- Composer: 740px max-width, rounded 24px, with toolbar (attach, agents, chat, emoji, mic, submit)
+- "Connect your tools" integration bar
+- Action chips below composer
+- Typing placeholder animation cycling through prompts
+- **NOTHING ELSE in the hero.** No status tags, no auth cards, no navigation links. Headline → composer → chips. White space does the rest.
+
+### 7.4 Market Reality
+Stats cards with admission rates. **NO flag emoji** — clean typographic treatment:
+- China → Cambridge 10.9%
+- India → Oxford 4.2%
+- Singapore → Cambridge 26.5%
+- Hong Kong → Cambridge 17.6%
+- South Korea → Top US Extreme
+
+### 7.5 How It Works
+4-step agent-indexed timeline flow:
+1. Build Your DNA (A1)
+2. Set Your Strategy (A3/A4/A11)
+3. Execute with Your Agent Team (A5-A9 via A0 with SKB awareness)
+4. Submit with Confidence (A10 Former Admissions Officer Review)
+
+### 7.6 Features
+7 cards + 1 compliance strip. **Headline + one line per card, max 18 words.**
+- 12-Agent AI Mesh
+- Student DNA Engine (8 dimensions)
+- Application Readiness Engine (nationality-pool calibrated, "never misleading probability numbers")
+- Voice Interview Simulator with Hume AI
+- Adie Wellbeing Companion
+- Commons Student Community
+- Live Student Profile + Student Knowledge Base
+- Full-width dark strip: "Compliance-First. Wellbeing-First."
+
+### 7.7 Trust/Compliance
+4 badges: IECA Member Standards, NACAC Compliant, UCAS Aligned, UK GDPR · Online Safety Act
+
+### 7.8 Pricing
+3-tier cards:
+- **Basic**: £20/month, £200/year (2 months free), 500 AI credits monthly, **Up to 5 schools (US or UK track)**, purchased credits never expire
+- **Plus** (MOST POPULAR): £50/month, £500/year, 2000 AI credits monthly with rollover, **Up to 12 schools (US + UK dual track)**
+- **Premium**: Contact Sales → routes to `/contact-sales` (NOT `/signin?mode=signup`). AI + Human Expertise, private advisory, former AO review.
+
+Mandatory readiness disclaimer below pricing:
+> "Readiness indicators reflect preparation strength only. Admission decisions are made entirely by universities and cannot be predicted by any third party. UniOffer makes no representation about admission outcomes."
+
+### 7.9 Footer
+4 columns (Product, Company, Support, Legal). Entity line: "© 2026 UniOffer. Registered in England and Wales." Non-removable Adie disclaimer with Samaritans 116 123 and NHS urgent mental health 111 option 2.
+
+---
+
+## 8 · OG IMAGE
+
+Produce a 1200×630px composition:
+- Background: `#0f172a` (dark teal)
+- Green cat icon from designer assets, centered or left
+- "unioffer" wordmark in white next to icon
+- Tagline below: "The Operating System for University Applications" in white Inter
+- Save as `public/og-image.jpg`
+
+```bash
+# Find the highest-res logo to compose from
+find . -path "*/node_modules" -prune -o \( -iname "*logo*" -o -iname "*cat*" -o -iname "*icon*" \) -iname "*.png" -type f -print | grep -v node_modules
+```
+
+Non-blocking — use a placeholder and swap after Andy reviews.
+
+---
+
+## 9 · COOKIE BANNER (UK GDPR)
+
+Preserve the existing compliant cookie banner:
 - Accept and Reject buttons with EQUAL visual prominence
 - No pre-tick, no X dismiss, no auto-dismiss, no Customize
 - Analytics gated on explicit Accept
@@ -367,46 +948,216 @@ The V1 implementation already has a compliant cookie banner. Preserve it:
 
 ---
 
-## 7 · OG IMAGE
+## 10 · CSS STRATEGY
 
-Produce a 1200×630px OG image:
-- Unioffer wordmark on dark background (#0f172a)
-- Tagline: "The Operating System for University Applications"
-- White text
-- Save as `public/og-image.jpg`
-- Reference in metadata
+**Plain CSS files. NOT Tailwind.**
 
-This is non-blocking — use a placeholder if needed and swap later.
+The V2 prototype CSS is production-quality with complex animations, custom properties, `@property` rules, pseudo-elements, and animation keyframes. Converting to Tailwind would break things.
 
----
-
-## 8 · ADDITIONAL ITEMS FROM ANDY
-
-### Post-registration flow (document only — separate from PR #2)
-After sign-up, users should land on the Overview Dashboard matching `admitos-excellence-as-a-service-v2.pages.dev/dashboard/overview`. Add a comment in the code noting this requirement for the sign-in/sign-up flow sprint.
-
-### Dashboard sidebar nav items
-The sidebar must carry ALL features from the MVP. Based on the reference site:
-```
-Home
-Overview
-─── AI Agents ───
-Preparation OS
-Application OS
-School List
-Essays & Writing
-─── Support ───
-Advising & Services
-Commons (community)
-Adie (AI assistant)
-```
-Plus any additional agents found in the 14 spec documents. The sidebar design should match the reference: 260px full / 64px collapsed, `#162130` background, purple active border.
+- Extract prototype `<style>` → `app/_landing/landing.css`
+- Import: `import './landing.css'`
+- All rules scoped under `.uo-landing` to avoid Tailwind preflight conflicts
+- Keep the `@property --angle` rule for animated pricing border
+- Use `@layer` if needed to manage specificity against Tailwind
 
 ---
 
-## 9 · QA CHECKLIST
+## 11 · CONVERSION STEPS
 
-Before marking PR as ready:
+### 11.1 Landing page
+
+1. Read `docs/prototypes/unioffer-landing.html` completely (all ~1500 lines)
+2. Extract all CSS from `<style>` → replace `app/_landing/landing.css` entirely
+3. Convert HTML body to JSX → replace `app/_landing/LandingClient.tsx` entirely
+4. Convert all `class=` to `className=`, `for=` to `htmlFor=`, self-close tags
+5. Convert inline `style=""` to `style={{ }}` objects
+6. Extract `<script>` JS into `useEffect` hooks
+7. Add `'use client'` directive at top
+8. Set up fonts in layout (Section 6.0)
+9. Wire up `app/page.tsx` to import the new LandingClient
+10. Add school count limits to pricing (Item 6)
+11. Ensure Contact Sales routes to `/contact-sales`
+12. Remove any `undecided` text node
+13. Fix language switcher to 10-language order
+
+### 11.2 Dashboard (if time permits)
+
+1. Read `docs/prototypes/unioffer-dashboard.html` completely
+2. Same extraction process as landing
+3. Place in `app/(app)/dashboard/` route
+4. Ensure sidebar has ALL MVP nav items from the reference site
+
+### 11.3 Fallback (if Next.js conversion breaks animations)
+
+```bash
+# Emergency: deploy prototypes as static HTML
+cp docs/prototypes/unioffer-landing.html public/landing-v2.html
+cp docs/prototypes/unioffer-dashboard.html public/dashboard-v2.html
+```
+
+Add to `next.config.mjs`:
+```js
+async rewrites() {
+  return [
+    { source: '/preview', destination: '/landing-v2.html' },
+    { source: '/preview/dashboard', destination: '/dashboard-v2.html' },
+  ];
+}
+```
+
+**A live URL with working animations beats a broken Next.js build.**
+
+---
+
+## 12 · EXECUTION ORDER
+
+### Phase A — Setup & blocking fixes (30 min)
+
+```bash
+# 0. Pull latest (get Andy's brand assets)
+git pull origin $(git branch --show-current)
+
+# 1. Create branch
+git checkout -b feat/landing-page-v2 2>/dev/null || git checkout feat/landing-page-v2
+
+# 2. Grep scan for admitos
+grep -ri "admitos\|AdmitOS" --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" --include="*.json" --include="*.md" --include="*.yml" --include="*.yaml" --include="*.env*" -l . | grep -v node_modules | grep -v .next | grep -v admitos-training-pipeline > /tmp/admitos-scan.txt
+echo "=== ADMITOS SCAN RESULTS ===" && cat /tmp/admitos-scan.txt
+# Fix any hits
+
+# 3. Create /contact-sales route (see Item 3 above)
+
+# 4. Remove 'undecided' text node
+grep -rn "undecided" app/ --include="*.tsx" --include="*.ts" --include="*.jsx"
+
+# 5. Fix language switcher (remove DE, 10-language order)
+
+# 6. Replace old brand assets with new green cat logo
+# Find and inventory new assets, update favicon, delete old UO monogram
+
+# 7. Suppress Adie FAB on unauthenticated landing
+```
+
+### Phase B — V2 prototype conversion (2-3 hours)
+
+1. Open `docs/prototypes/unioffer-landing.html` in browser — study thoroughly
+2. Extract CSS → `app/_landing/landing.css` (complete replacement)
+3. Convert HTML → `app/_landing/LandingClient.tsx` (complete replacement)
+4. Extract JS → `useEffect` hooks in client component
+5. Set up fonts in layout
+6. Add school count limits to pricing
+7. Apply green cat logo to nav, footer, loading screen
+8. Test every animation manually
+
+### Phase C — Build & verify (30 min)
+
+```bash
+pnpm install
+pnpm typecheck    # Must pass
+pnpm lint         # Must pass
+pnpm build        # Must pass
+pnpm test         # Must pass (345/345)
+pnpm check:isolation  # Must pass
+```
+
+Common fixes:
+- Route conflict: `app/page.tsx` vs route group → delete tombstone
+- CSS specificity: Tailwind reset vs `.uo-landing` → add `@layer` scoping
+- Font loading: verify `next/font/google` imports in layout
+- Hydration: typing animation → `suppressHydrationWarning` on input element
+
+### Phase D — Deploy (15 min)
+
+```bash
+git add -A
+git commit -m "feat(v2): Unioffer landing V2 — Manus-level premium redesign
+
+Complete visual rebuild addressing Andy's 7-item merge checklist:
+1. Repo rename scan: zero admitos matches (11 pipeline hits deferred)
+2. V2 prototype conversion: no emoji, generous spacing, calibrated typography
+3. Contact Sales: routed to /contact-sales placeholder
+4. Stray 'undecided' text node: removed
+5. Language switcher: DE removed, 10-language priority order, Coming soon states
+6. Pricing: school count limits (Basic 5, Plus 12)
+7. Adie FAB: suppressed on unauthenticated landing
+
+Design system:
+- Theme: AdmitOS Excellence V2 (#0f1722 / #7c3aed)
+- Typography: Libre Baskerville 36-48px headlines, Inter 16px body
+- Animations: 13 GPU-accelerated effects, all 120fps
+- Brand: final designer-made green cat logo throughout
+- Loading: green cat breathing animation on dark teal
+- Responsive: 375px / 768px / 1440px breakpoints"
+
+git push origin HEAD
+vercel deploy --no-wait 2>&1 | tee /tmp/vercel-deploy.log
+PREVIEW_URL=$(grep -oP 'https://[a-z0-9-]+\.vercel\.app' /tmp/vercel-deploy.log | head -1)
+echo "Preview: $PREVIEW_URL"
+```
+
+### Phase E — Update PR #2 (15 min)
+
+```bash
+gh pr edit 2 --body "$(cat <<'PREOF'
+## Preview
+
+**Landing page:** [PREVIEW_URL]
+
+## Andy's 7-Item Merge Checklist
+
+- [x] **Repo rename scan** — grep output below, zero admitos/AdmitOS matches. 11 hits in admitos-training-pipeline/ documented as deferred.
+- [x] **Visual redesign** — V2 prototype conversion. No emoji/icons, generous Manus-level spacing, Libre Baskerville + Inter typography calibrated to viewport.
+- [x] **Contact Sales** — routed to /contact-sales placeholder (Book a Discovery Call). Does NOT route to /signin.
+- [x] **Stray text node** — 'undecided' removed.
+- [x] **Language switcher** — DE removed. 10-language priority order implemented. All non-EN show "Coming soon" with aria-disabled.
+- [x] **Pricing school limits** — Basic: up to 5 schools (US or UK track). Plus: up to 12 schools (US + UK dual track).
+- [x] **Adie FAB** — suppressed on unauthenticated landing page.
+
+## Andy's 8 Answered Questions — All Implemented
+
+1. Routes: Landing at /, app at /app ✓
+2. Repo rename: grep scan included below ✓
+3. GA4: TODO comment added for new unioffer.ai property ✓
+4. OG image: placeholder deployed, pending approval ✓
+5. Pipeline rename: 11 hits documented as deferred ✓
+6. V3.1 copy: confirmed final, school limits added ✓
+7. Credits sequencing: Path B documented as next sprint ✓
+8. Languages: 10-language order, DE removed ✓
+
+## Grep Scan Output
+[PASTE SCAN OUTPUT]
+
+## Deferred Items
+- 11 admitos-training-pipeline/ hits → dedicated rename PR
+- Post-registration flow → sign-in/sign-up sprint
+- OG image final → pending Andy's review of composition
+- GA4 property creation → post-launch
+- Credits tables sprint → Week 3 Path B
+
+## Brand Assets
+- Final designer-made green cat logo used throughout (uploaded 16 Apr)
+- Old "UO" monogram and navy/red wordmark removed
+- Favicons updated to green cat icon
+- Global dark teal background (#0f1722) on all pages
+
+## Animations (all working, 120fps GPU-accelerated)
+Loading screen (breathing cat logo), page reveal, typing placeholder, scroll reveals (staggered), SVG flow lines + particles, section line draw, composer shimmer, card hover lift, timeline glow, pricing border rotation, theme toggle, CTA pulse, ambient orbs, sticky nav blur, dashboard skeleton shimmer, dashboard card entry.
+
+## Validation
+- Lighthouse Performance: __
+- Lighthouse Accessibility: __
+- axe violations: __
+- Tests: 345/345 green
+- All CI gates pass
+PREOF
+)"
+```
+
+---
+
+## 13 · QA CHECKLIST
+
+Run through every item before marking PR as ready:
 
 | # | Check | Expected |
 |---|-------|----------|
@@ -416,89 +1167,72 @@ Before marking PR as ready:
 | 4 | `pnpm build` | Pass |
 | 5 | `pnpm check:isolation` | Pass |
 | 6 | admitos grep scan | Zero matches (excl. pipeline) |
-| 7 | Loading animation | 3-ring spinner + progress bar works |
-| 8 | All scroll reveals | Every section animates on scroll |
-| 9 | Theme toggle | Smooth dark↔light transition |
-| 10 | Typing placeholder | Cycles through prompts in composer |
-| 11 | SVG flow lines | Animated with glowing particles |
-| 12 | Pricing border | Animated conic-gradient rotation on Plus card |
-| 13 | Contact Sales button | Routes to /contact-sales, NOT /signin |
-| 14 | Language switcher | 10 languages, no DE, all non-EN "Coming soon" |
-| 15 | School count limits | Basic: 5 schools, Plus: 12 schools visible |
-| 16 | No emoji/icons | Zero emoji anywhere on page |
-| 17 | Logo size | Small/icon-sized, not oversized |
-| 18 | Brand name | "Unioffer" with lowercase "o" everywhere |
-| 19 | Adie FAB | Not visible on landing page |
-| 20 | Readiness disclaimer | Present below pricing |
-| 21 | Footer | Samaritans 116 123 + NHS 111 option 2 |
-| 22 | Mobile responsive | Works at 375px, 768px, 1440px |
+| 7 | Loading screen | Green cat breathing + progress bar on `#0f172a` |
+| 8 | Page reveal | Fade-up after loader (opacity + translateY) |
+| 9 | All scroll reveals | Every section animates in on scroll, staggered |
+| 10 | Theme toggle | Smooth dark↔light, nav stays dark |
+| 11 | Typing placeholder | Cycles through 5 prompts in composer |
+| 12 | SVG flow lines | Animated with glowing particles |
+| 13 | Composer shimmer | Glow effect on focus |
+| 14 | Card hover | scale(1.02) lift + shadow |
+| 15 | Pricing border | Animated conic-gradient rotation on Plus card |
+| 16 | Ambient orbs | Drifting gradient blurs in background |
+| 17 | CTA pulse | Subtle glow animation on primary buttons |
+| 18 | Contact Sales button | Routes to /contact-sales, NOT /signin |
+| 19 | Language switcher | 10 languages, no DE, all non-EN "Coming soon" |
+| 20 | School count limits | Basic: 5 schools, Plus: 12 schools visible |
+| 21 | No emoji/icons | Zero emoji anywhere on page |
+| 22 | Logo size | Green cat icon, small/icon-sized 24-32px in nav |
+| 23 | Brand name | "Unioffer" with lowercase "o" everywhere |
+| 24 | Adie FAB | Not visible on landing page |
+| 25 | Readiness disclaimer | Present below pricing |
+| 26 | Footer | Samaritans 116 123 + NHS 111 option 2 |
+| 27 | Mobile responsive | Works at 375px, 768px, 1440px |
+| 28 | Green cat logo everywhere | On landing, dashboard, contact-sales, auth pages |
+| 29 | No old logo remnants | Zero "UO" monogram or navy/red wordmark anywhere |
+| 30 | Global dark background | `#0f1722` consistent across all pages |
+| 31 | prefers-reduced-motion | Animations disabled when user prefers reduced motion |
+| 32 | Sticky nav blur | Backdrop-filter blur on scroll |
+| 33 | Font loading | Libre Baskerville + Inter load via next/font/google, no FOUT |
+| 34 | Cookie banner | UK GDPR compliant, Accept/Reject equal prominence |
+| 35 | Lighthouse Perf | ≥ 85 |
+| 36 | Lighthouse a11y | ≥ 95 |
+| 37 | axe violations | 0 |
 
 ---
 
-## 10 · PR DESCRIPTION TEMPLATE
-
-When updating PR #2, use this structure:
-
-```markdown
-## Preview
-
-**Landing page:** [VERCEL_URL]
-**Dashboard preview:** [VERCEL_URL]/dashboard-preview
-
-## Andy's 7-Item Merge Checklist
-
-- [x] **Repo rename scan** — grep output below, zero admitos/AdmitOS matches. 11 hits in admitos-training-pipeline/ deferred to dedicated PR.
-- [x] **Visual redesign** — V2 prototype conversion. No emoji/icons, generous spacing, Libre Baskerville + Inter typography, manus.im benchmark met.
-- [x] **Contact Sales** — routed to /contact-sales placeholder (Book a Discovery Call)
-- [x] **Stray text node** — 'undecided' removed
-- [x] **Language switcher** — DE removed, 10-language priority order implemented, non-EN show "Coming soon"
-- [x] **Pricing school limits** — Basic: up to 5 schools (US or UK), Plus: up to 12 schools (US + UK dual)
-- [x] **Adie FAB** — suppressed on unauthenticated landing page
-
-## Grep Scan Output
-[PASTE OUTPUT HERE]
-
-## Deferred Items
-- 11 admitos-training-pipeline/ hits → dedicated rename PR
-- Post-registration flow → sign-in/sign-up sprint
-- OG image → pending Andy's approval
-
-## Validation
-- Lighthouse Performance: __
-- Lighthouse Accessibility: __
-- axe violations: __
-- Tests: 345/345 green
-- All CI gates pass
-
-## Animations Preserved
-Loading screen, SVG flow lines, scroll reveals, typing placeholder, composer shimmer, card hover, timeline glow, pricing border rotation, theme toggle, CTA pulse, ambient orbs — all working.
-```
-
----
-
-## 11 · CONSTRAINTS
+## 14 · CONSTRAINTS — DO NOT VIOLATE
 
 - Do NOT redesign the prototypes. They are approved V2 design. Convert faithfully.
-- Do NOT use Tailwind for the landing page CSS. Plain CSS only.
-- Do NOT introduce new colors. Stick to the token system in Section 2.0.
-- Do NOT make the logo large. Icon-sized only.
+- Do NOT use Tailwind for landing page CSS. Plain CSS only.
+- Do NOT introduce new colors. Stick to the token system in Section 4.0.
+- Do NOT make the logo large. Icon-sized (24-32px) in nav.
 - Do NOT route Contact Sales to /signin. Use /contact-sales.
 - Do NOT include DE in the language switcher.
 - Do NOT show Adie FAB on the landing page.
 - Do NOT skip any animation from the prototype.
+- Do NOT use the old "UO" monogram or navy/red wordmark. Use ONLY the designer-made green cat logo.
+- Do NOT apply brand assets only to the landing page. Green cat + dark bg = GLOBAL, every page.
+- Do NOT animate layout properties (width, height, top, left, margin, padding). Use transform + opacity ONLY.
+- Do NOT forget `suppressHydrationWarning` on the typing placeholder input.
+- Do NOT forget `git pull` before starting.
+- Do NOT forget to read the prototypes in a browser before coding.
 
 ---
 
-## 12 · CRITICAL REMINDERS
+## 15 · CRITICAL REMINDERS
 
-1. **Study the references FIRST** (Section 0). Open manus.im, the Excellence V2 site, and the HTML prototypes in a browser before writing any code.
-2. **The V2 prototypes are the source of truth.** They already fix every issue Andy raised. Convert them faithfully.
-3. **All 7 checklist items are MANDATORY.** Missing even one means Andy will not merge.
-4. **Theme consistency with the MVP reference site is non-negotiable.** The colors must match exactly so the landing page blends seamlessly with the dashboard at `admitos-excellence-as-a-service-v2.pages.dev`.
-5. **If Next.js conversion breaks animations, use the static fallback** (Section 4). A live URL with working animations beats a broken Next.js build.
-6. **Deploy to Vercel.** Andy needs to see a live preview URL.
-7. **Push to GitHub and update PR #2** with the template from Section 10.
+1. **`git pull` FIRST.** Andy pushed brand assets on 16 Apr.
+2. **Study references FIRST.** Open manus.im, claude.ai, and the Excellence V2 site before coding.
+3. **The V2 prototypes are the source of truth.** `docs/prototypes/unioffer-landing.html` is the design spec.
+4. **All 7 checklist items are MANDATORY.** Missing one = Andy will not merge.
+5. **All 8 answered questions must be implemented.** They are decisions, not suggestions.
+6. **Theme consistency is non-negotiable.** Colors must match `admitos-excellence-as-a-service-v2.pages.dev` exactly.
+7. **Every animation must hit 120fps.** GPU-accelerated only. Test on mobile.
+8. **If Next.js conversion breaks animations, use the static fallback** (Section 11.3). A live URL with working animations beats a broken build.
+9. **Deploy to Vercel.** Andy needs a live preview URL.
+10. **Use ONLY the designer-made green cat logo.** The old assets are dead.
 
 ---
 
-**End of master prompt. Start with the research phase — study references and read prototypes. Then execute Phase A → B → C → D → E.**
+**END OF PROMPT. Execute: `git pull` → Phase A → Phase B → Phase C → Phase D → Phase E. Do not stop until PR #2 is updated with a live preview URL.**
