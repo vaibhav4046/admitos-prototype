@@ -287,83 +287,6 @@
        - The "u" glyph is Libre Baskerville for brand cohesion.
        - prefers-reduced-motion freezes both arcs at their starting
          transform; the rings + glyph remain visible. */
-  .uo-loading {
-    position: fixed; inset: 0;
-    display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 18px;
-    background: var(--bg);
-    color: var(--fg);
-    z-index: 999;
-  }
-  .uo-loading__mark {
-    position: relative;
-    width: 120px;
-    height: 120px;
-  }
-  .uo-loading__ring {
-    fill: none;
-    stroke: var(--border);
-    stroke-width: 1;
-    opacity: 0.55;
-  }
-  .uo-loading__arc {
-    fill: none;
-    stroke-width: 1.6;
-    stroke-linecap: round;
-    /* pathLength=100 set on the element, so 18 units of dash = 18%
-       of the circumference is the visible accent arc. The 100
-       behind keeps the rest of the ring transparent. */
-    stroke-dasharray: 18 100;
-    transform-origin: 60px 60px;
-  }
-  .uo-loading__arc--outer {
-    stroke: var(--accent);
-    animation: uoLoadSpin 1.6s linear infinite;
-  }
-  .uo-loading__arc--inner {
-    stroke: var(--cat);
-    animation: uoLoadSpinReverse 2.4s linear infinite;
-  }
-  .uo-loading__u {
-    font-family: var(--font-serif);
-    font-size: 38px;
-    font-weight: 400;
-    fill: var(--fg);
-    dominant-baseline: middle;
-  }
-  .uo-loading__rule {
-    width: 220px;
-    height: 1px;
-    background: linear-gradient(
-      90deg,
-      transparent 0%,
-      var(--accent) 50%,
-      transparent 100%
-    );
-    opacity: 0.7;
-    margin-top: 4px;
-  }
-  .uo-loading__word {
-    font-family: var(--font-sans);
-    font-size: 13px;
-    font-weight: 500;
-    letter-spacing: 0.42em;
-    color: var(--fg-soft);
-    text-transform: uppercase;
-  }
-  @keyframes uoLoadSpin {
-    0%   { transform: rotate(-90deg); }
-    100% { transform: rotate(270deg); }
-  }
-  @keyframes uoLoadSpinReverse {
-    0%   { transform: rotate(90deg); }
-    100% { transform: rotate(-270deg); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .uo-loading__arc--outer,
-    .uo-loading__arc--inner { animation: none; }
-  }
-
   /* Cookie banner — UK-GDPR Accept + Reject equal prominence. */
   .uo-cookie {
     position: fixed; bottom: 16px; left: 16px; right: 16px;
@@ -430,5 +353,80 @@
   @keyframes shimmer {
     0%   { background-position: 200% 0; }
     100% { background-position: -200% 0; }
+  }
+
+  /* ── First-paint loading splash (LoadingScreen client island) ───────
+     Mounted as the first child of <body> in app/layout.tsx. Auto-fades
+     after ~900ms then unmounts. Lives in globals.css (not landing-v3.css)
+     so it works identically across landing, admissions, wellbeing. */
+  .uo-loading {
+    position: fixed;
+    inset: 0;
+    z-index: 100;
+    display: grid;
+    place-items: center;
+    grid-auto-flow: row;
+    gap: 24px;
+    background: var(--bg);
+    animation: uo-loading-out 0.5s ease-in 0.7s forwards;
+    pointer-events: none;
+  }
+  .uo-loading-mark {
+    position: relative;
+    width: 120px;
+    height: 120px;
+    display: grid;
+    place-items: center;
+  }
+  .uo-loading-cat {
+    width: 64px;
+    height: 64px;
+    animation: uo-cat-breathe 2s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+  .uo-loading-ring {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    transform: rotate(0deg);
+    transform-origin: center;
+    animation: uo-ring-rotate 3.2s linear infinite;
+  }
+  .uo-loading-arc {
+    fill: none;
+    stroke: var(--cat);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-dasharray: 22 300;
+    opacity: 0.7;
+  }
+  .uo-loading-arc-2 {
+    stroke-width: 1;
+    stroke-dasharray: 14 280;
+    opacity: 0.4;
+    animation: uo-ring-rotate-rev 4.1s linear infinite;
+    transform-origin: center;
+  }
+  .uo-loading-label {
+    font-family: var(--font-serif);
+    font-size: 18px;
+    letter-spacing: 0.02em;
+    color: var(--fg);
+    opacity: 0.72;
+  }
+
+  @keyframes uo-cat-breathe {
+    0%, 100% { transform: scale(1);    opacity: 0.85; }
+    50%      { transform: scale(1.06); opacity: 1;    }
+  }
+  @keyframes uo-ring-rotate     { to { transform: rotate(360deg);  } }
+  @keyframes uo-ring-rotate-rev { to { transform: rotate(-360deg); } }
+  @keyframes uo-loading-out     { to { opacity: 0; visibility: hidden; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .uo-loading-cat,
+    .uo-loading-ring,
+    .uo-loading-arc-2 { animation: none; }
   }
 }

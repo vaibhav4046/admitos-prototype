@@ -1,67 +1,44 @@
 /**
- * Global loading UI — manus.im-style rotating arcs around the
- * UniOffer "u" mark.
+ * Route-level loading boundary.
  *
- * Composition:
- *   - Centered serif "u" glyph (Libre Baskerville, --fg).
- *   - Two static concentric ring outlines (thin, --border).
- *   - One outer accent arc that rotates clockwise (--accent).
- *   - One inner accent arc (--cat) rotating the other way for visual
- *     depth — staggered duration so the rings don't sync.
- *   - Below: a short accent underline + "UNIOFFER" wordmark in
- *     widely-tracked Inter caps.
+ * Fires while a route segment is streaming. Uses the same visual
+ * language as the first-paint splash (LoadingScreen) — Andy's green
+ * cat icon breathing, with two counter-rotating arcs in --cat green.
  *
- * Pure server component — no client deps. The animations are CSS
- * transforms on the SVG circles and respect `prefers-reduced-motion`
- * (rings freeze, glyph stays visible).
+ * No auto-fade here: Next unmounts the boundary as soon as the route
+ * is ready. CSS lives in globals.css under the .uo-loading namespace
+ * so this file stays a pure server component (no client deps).
  */
 
 export default function Loading() {
   return (
-    <div className="uo-loading" role="status" aria-label="Loading UniOffer">
-      <div className="uo-loading__mark" aria-hidden="true">
-        <svg viewBox="0 0 120 120" width="120" height="120">
-          {/* Static rings */}
-          <circle
-            cx="60"
-            cy="60"
-            r="54"
-            className="uo-loading__ring"
-          />
-          <circle
-            cx="60"
-            cy="60"
-            r="42"
-            className="uo-loading__ring"
-          />
-          {/* Rotating accent arcs (purple outer, green inner) */}
-          <circle
-            cx="60"
-            cy="60"
-            r="54"
-            className="uo-loading__arc uo-loading__arc--outer"
-            pathLength={100}
-          />
-          <circle
-            cx="60"
-            cy="60"
-            r="42"
-            className="uo-loading__arc uo-loading__arc--inner"
-            pathLength={100}
-          />
-          {/* "u" mark */}
-          <text
-            x="60"
-            y="72"
-            textAnchor="middle"
-            className="uo-loading__u"
-          >
-            u
-          </text>
+    <div
+      className="uo-loading"
+      role="status"
+      aria-live="polite"
+      aria-label="Loading UniOffer"
+    >
+      <div className="uo-loading-mark">
+        <svg
+          className="uo-loading-ring"
+          viewBox="0 0 120 120"
+          aria-hidden="true"
+        >
+          <circle cx="60" cy="60" r="52" className="uo-loading-arc uo-loading-arc-1" />
+          <circle cx="60" cy="60" r="44" className="uo-loading-arc uo-loading-arc-2" />
         </svg>
+        {/* eslint-disable-next-line @next/next/no-img-element -- inline SVG splash, next/image not needed */}
+        <img
+          src="/brand/v2/unioffer-cat-icon.svg"
+          alt=""
+          aria-hidden="true"
+          className="uo-loading-cat"
+          width={64}
+          height={64}
+          draggable={false}
+        />
       </div>
-      <span className="uo-loading__rule" aria-hidden="true" />
-      <span className="uo-loading__word">UNIOFFER</span>
+      <span className="uo-loading-label">UniOffer</span>
     </div>
   );
 }

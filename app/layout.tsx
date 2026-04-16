@@ -27,6 +27,7 @@ import { Libre_Baskerville, Inter } from "next/font/google";
 
 import { RouteProgress } from "@/components/ui";
 
+import { LoadingScreen } from "./_components/LoadingScreen";
 import { ThemeInit } from "./theme-init";
 import "./globals.css";
 
@@ -66,6 +67,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <ThemeInit />
       </head>
       <body className="min-h-screen antialiased" suppressHydrationWarning>
+        {/* First-paint splash — green cat + counter-rotating arcs.
+            Auto-fades after ~900ms then unmounts. Sits above all
+            content (z-index: 100). pointer-events: none so it never
+            blocks user interaction during the fade. */}
+        <LoadingScreen />
         {/* Top route-progress bar — wrapped in Suspense because it
             uses useSearchParams(), which Next requires to be inside a
             Suspense boundary at the layout level. */}
