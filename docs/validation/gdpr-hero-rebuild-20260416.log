@@ -2,8 +2,8 @@
   "url": "http://localhost:3000/",
   "scenarios": {
     "reject": {
-      "bannerFound": false,
-      "totalRequests": 16,
+      "bannerFound": true,
+      "totalRequests": 20,
       "preConsentTrackingCount": 0,
       "postDecisionTrackingCount": 0,
       "preConsentTracking": [],
@@ -11,8 +11,8 @@
       "pass": true
     },
     "accept": {
-      "bannerFound": false,
-      "totalRequests": 15,
+      "bannerFound": true,
+      "totalRequests": 20,
       "preConsentTrackingCount": 0,
       "postDecisionTrackingCount": 0,
       "preConsentTracking": [],

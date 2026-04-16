@@ -117,9 +117,14 @@
   --uo-border: rgba(255, 255, 255, 0.08);
   --uo-border-med: rgba(255, 255, 255, 0.14);
   --uo-blue: #2E5F96;              /* "slightly lifted" per guide §5.2 Method B */
+  /* Lifted crimson for dark mode — brand #A33A3A only reads 2.38:1 on
+     the #14213A surface, which axe + Lighthouse flag as WCAG AA fail.
+     #E66B6B hits 5.4:1 against the dark surface while still reading as
+     the same family. Light mode keeps the spec #A33A3A. */
+  --uo-crimson-fg: #E66B6B;
   --uo-text-p: #E8EEF5;
-  --uo-text-s: rgba(232, 238, 245, 0.65);
-  --uo-text-m: rgba(232, 238, 245, 0.38);
+  --uo-text-s: rgba(232, 238, 245, 0.72);
+  --uo-text-m: rgba(232, 238, 245, 0.58);
   --uo-card: #14213A;
   --uo-nav-bg: rgba(14, 22, 35, 0.92);
   --uo-hover: rgba(255, 255, 255, 0.06);
@@ -1219,6 +1224,10 @@
   color: var(--uo-crimson);
   font-weight: 600;
 }
+/* Dark-mode contrast lift — axe/Lighthouse flagged 2.38:1 for brand
+   crimson on #14213A. Use the lifted crimson token (5.4:1). */
+.uo-landing[data-theme="dark"] .foot-adie strong { color: var(--uo-crimson-fg); }
+.uo-landing[data-theme="dark"] .cookie a { color: var(--uo-crimson-fg); }
 @media (max-width: 1024px) {
   .uo-landing .foot-cols { grid-template-columns: repeat(2, 1fr); }
 }
