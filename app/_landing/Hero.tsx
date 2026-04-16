@@ -33,6 +33,11 @@ export function Hero() {
         12 AI agents and former admissions officers, working together on the
         single most consequential application of your life.
       </p>
+      <div className="uo-hero__cta">
+        <Link href="/signin" className="uo-btn uo-btn--primary uo-hero__primary" prefetch>
+          Get UniOffer
+        </Link>
+      </div>
       <HeroComposer />
       <ul className="uo-hero__chips" aria-label="Sample prompts">
         {CHIPS.map((c) => (

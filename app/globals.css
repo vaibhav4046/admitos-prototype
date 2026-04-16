@@ -318,7 +318,7 @@
   }
   .uo-aurora::before, .uo-aurora::after, .uo-aurora > span {
     position: absolute; content: ""; border-radius: 50%;
-    filter: blur(80px); opacity: 0.22;
+    filter: blur(90px); opacity: 0.15;
     will-change: transform, opacity;
   }
   .uo-aurora::before {
@@ -334,12 +334,12 @@
   .uo-aurora > span {
     background: radial-gradient(closest-side, #22d3ee, transparent);
     top: 30%; left: 40%; width: 45vw; height: 45vw;
-    opacity: 0.14;
+    opacity: 0.10;
     animation: uoAuroraDrift 40s ease-in-out -12s infinite alternate;
   }
   :root[data-theme="dark"] .uo-aurora::before,
-  :root[data-theme="dark"] .uo-aurora::after { opacity: 0.18; }
-  :root[data-theme="dark"] .uo-aurora > span { opacity: 0.12; }
+  :root[data-theme="dark"] .uo-aurora::after { opacity: 0.15; }
+  :root[data-theme="dark"] .uo-aurora > span { opacity: 0.10; }
   @keyframes uoAuroraDrift {
     0%   { transform: translate3d(0, 0, 0) scale(1); }
     100% { transform: translate3d(6%, -4%, 0) scale(1.08); }

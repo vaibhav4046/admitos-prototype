@@ -44,17 +44,20 @@
   padding: 0 clamp(20px, 4vw, 56px);
 }
 .uo-section {
-  padding: clamp(72px, 10vh, 128px) 0;
+  padding-block: 120px;
   scroll-margin-top: 80px;
   contain: layout paint;
+}
+@media (max-width: 768px) {
+  .uo-section { padding-block: 72px; }
 }
 .uo-eyebrow {
   font-family: var(--font-sans);
   font-size: 11px;
-  letter-spacing: 0.22em;
+  letter-spacing: 0.24em;
   text-transform: uppercase;
   color: var(--fg-soft);
-  margin: 0 0 12px;
+  margin: 0 0 24px;
 }
 .uo-section__h2 {
   font-family: var(--font-serif);
@@ -155,24 +158,32 @@
 
 /* ── Hero ──────────────────────────────────────────────────────────*/
 .uo-hero {
-  padding: clamp(64px, 12vh, 144px) 0 clamp(40px, 8vh, 80px);
+  padding: clamp(96px, 14vh, 180px) 0 clamp(64px, 10vh, 120px);
   text-align: left;
 }
 .uo-hero__h1 {
   font-family: var(--font-serif);
-  font-size: clamp(40px, 6vw, 72px);
+  font-size: clamp(40px, 5.6vw, 68px);
   font-weight: 400;
-  line-height: 1.05;
-  letter-spacing: -0.02em;
+  line-height: 1.04;
+  letter-spacing: -0.022em;
   margin: 0 0 20px;
   max-width: 16ch;
 }
 .uo-hero__lede {
-  font-size: clamp(16px, 1.5vw, 19px);
-  line-height: 1.6;
+  font-size: 18px;
+  line-height: 1.65;
   color: var(--fg-muted);
-  max-width: 56ch;
+  max-width: 52ch;
+  margin: 20px 0 40px;
+}
+.uo-hero__cta {
   margin: 0 0 28px;
+}
+.uo-hero__primary {
+  height: 44px;
+  padding: 0 20px;
+  font-size: 14px;
 }
 .uo-hero__sub {
   margin: 24px 0 0;
@@ -311,21 +322,25 @@
 /* ── Features ──────────────────────────────────────────────────────*/
 .uo-feat-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  grid-template-columns: 1fr;
   gap: 16px;
+}
+@media (min-width: 640px) {
+  .uo-feat-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 960px) {
+  .uo-feat-grid { grid-template-columns: repeat(3, 1fr); }
 }
 .uo-feat-card {
   border: 1px solid var(--border);
   background: var(--bg-surface);
   border-radius: var(--r-lg);
   padding: 24px;
-  transition: transform 220ms ease, box-shadow 220ms ease, border-color 220ms ease;
-  will-change: transform;
+  transition: border-color 220ms ease, box-shadow 220ms ease;
 }
 .uo-feat-card:hover {
-  transform: translateY(-2px);
   border-color: var(--accent-soft);
-  box-shadow: var(--shadow-2);
+  box-shadow: var(--shadow-1);
 }
 .uo-feat__title {
   font-family: var(--font-serif);
