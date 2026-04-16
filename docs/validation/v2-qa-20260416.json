@@ -1,9 +1,9 @@
 {
-  "base": "https://unioffer-g75eeb3z8-vaibhav4046s-projects.vercel.app",
+  "base": "https://unioffer-bzd2btaju-vaibhav4046s-projects.vercel.app",
   "routes": [
     {
       "name": "landing",
-      "url": "https://unioffer-g75eeb3z8-vaibhav4046s-projects.vercel.app/preview",
+      "url": "https://unioffer-bzd2btaju-vaibhav4046s-projects.vercel.app/preview",
       "viewports": [
         {
           "label": "desktop-1366",
@@ -66,7 +66,7 @@
     },
     {
       "name": "dashboard",
-      "url": "https://unioffer-g75eeb3z8-vaibhav4046s-projects.vercel.app/preview/dashboard",
+      "url": "https://unioffer-bzd2btaju-vaibhav4046s-projects.vercel.app/preview/dashboard",
       "viewports": [
         {
           "label": "desktop-1366",
