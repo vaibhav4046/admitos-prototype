@@ -1,6 +1,11 @@
 /** @type {import('next').NextConfig} */
 
 /**
+ * V3 — single canonical site at `/`. The static prototypes
+ * (`public/landing.html`, `public/dashboard-preview.html`) are deleted
+ * and `/preview` rewrites are gone. Andy's old preview links keep
+ * working via 307 redirects below so the email link doesn't 404.
+ *
  * Baseline security headers applied to every HTML response. Kept in
  * one place so we can review them when threat model changes.
  *
@@ -16,8 +21,7 @@
  * The full Content-Security-Policy isn't set here yet — it depends on
  * which third-party origins (Sentry, PostHog, Supabase, fonts CDN) we
  * end up loading at runtime, and those land with the OAuth + LangSmith
- * wiring in M1 Week 2. The Vercel-default CSP is good enough for the
- * scaffolding phase.
+ * wiring in M1 Week 2.
  */
 const SECURITY_HEADERS = [
   { key: "X-Frame-Options", value: "DENY" },
@@ -40,8 +44,16 @@ const nextConfig = {
   // Renamed from `experimental.serverComponentsExternalPackages` in
   // Next 15 — the new key is top-level and no longer experimental.
   serverExternalPackages: ["bullmq", "ioredis", "@sentry/nextjs"],
+  experimental: { optimizePackageImports: ["lucide-react"] },
   // Route-group isolation is enforced at the middleware layer, not via rewrites.
   // See middleware.ts.
+  async redirects() {
+    return [
+      // V2 prototype URLs in Andy's email — keep working as 307s.
+      { source: "/preview", destination: "/", permanent: false },
+      { source: "/preview/dashboard", destination: "/app", permanent: false },
+    ];
+  },
   async headers() {
     return [
       {
@@ -63,24 +75,6 @@ const nextConfig = {
         ],
       },
     ];
-  },
-  // V2 landing + dashboard prototype rewrites. Static HTML served from /public
-  // so Andy sees the v2 prototype at `/` (beforeFiles pre-empts the v1
-  // Next.js marketing page that still lives at app/page.tsx), while the React
-  // conversion happens in M2. /preview and /preview/dashboard remain as
-  // stable preview URLs for reviewer bookmarks.
-  async rewrites() {
-    return {
-      beforeFiles: [
-        { source: "/", destination: "/landing.html" },
-        { source: "/app", destination: "/dashboard-preview.html" },
-      ],
-      afterFiles: [
-        { source: "/preview", destination: "/landing.html" },
-        { source: "/preview/dashboard", destination: "/dashboard-preview.html" },
-      ],
-      fallback: [],
-    };
   },
 };
 

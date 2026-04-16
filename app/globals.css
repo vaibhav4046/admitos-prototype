@@ -190,4 +190,152 @@
     background-size: 200% 100%;
     animation: shimmer 1.6s linear infinite;
   }
+
+  /* Theme toggle — sits in the nav between lang switcher and CTAs.
+     Uses currentColor for the SVG so it inherits theme fg. */
+  .uo-theme-toggle {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    color: var(--fg);
+    cursor: pointer;
+    transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
+  }
+  .uo-theme-toggle:hover {
+    background: var(--bg-elevated);
+    border-color: var(--accent-soft);
+  }
+
+  /* Language switcher — globe + EN, dropdown lists 10 markets. */
+  .uo-lang { position: relative; display: inline-flex; }
+  .uo-lang__btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    height: 36px; padding: 0 10px;
+    border-radius: var(--r-md);
+    border: 1px solid var(--border);
+    background: var(--bg-surface);
+    color: var(--fg);
+    font: inherit; font-size: 13px; font-weight: 500;
+    cursor: pointer;
+  }
+  .uo-lang__btn:hover { border-color: var(--accent-soft); }
+  .uo-lang__menu {
+    position: absolute; top: calc(100% + 6px); right: 0;
+    min-width: 200px; max-height: 320px; overflow-y: auto;
+    margin: 0; padding: 6px; list-style: none;
+    background: var(--bg-elevated);
+    border: 1px solid var(--border);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow-2);
+    z-index: 60;
+  }
+  .uo-lang__opt {
+    display: flex; align-items: center; justify-content: space-between;
+    width: 100%; padding: 8px 10px;
+    background: transparent; border: 0; border-radius: var(--r-sm);
+    color: var(--fg); font: inherit; font-size: 14px;
+    text-align: left; cursor: pointer;
+  }
+  .uo-lang__opt[aria-disabled="true"] { color: var(--fg-soft); cursor: default; }
+  .uo-lang__opt:hover:not([aria-disabled="true"]) { background: var(--bg-sunken); }
+  .uo-lang__opt.is-active { color: var(--accent); font-weight: 600; }
+  .uo-lang__cs {
+    font-size: 11px; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--fg-soft);
+  }
+  .uo-lang__toast {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    background: var(--bg-elevated); color: var(--fg);
+    border: 1px solid var(--border); border-radius: var(--r-md);
+    padding: 10px 16px; box-shadow: var(--shadow-2); z-index: 100;
+    font-size: 13px;
+  }
+
+  /* Loading screen — green cat breathing. */
+  .uo-loading {
+    position: fixed; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 12px;
+    background: var(--bg);
+    z-index: 999;
+  }
+  .uo-loading__txt { color: var(--fg-soft); font-size: 13px; letter-spacing: 0.04em; }
+  .uo-cat-breath { animation: catBreath 2s ease-in-out infinite; }
+  @keyframes catBreath {
+    0%, 100% { transform: scale(1); opacity: 0.8; }
+    50%      { transform: scale(1.06); opacity: 1; }
+  }
+
+  /* Cookie banner — UK-GDPR Accept + Reject equal prominence. */
+  .uo-cookie {
+    position: fixed; bottom: 16px; left: 16px; right: 16px;
+    max-width: 720px; margin: 0 auto;
+    background: var(--bg-elevated); color: var(--fg);
+    border: 1px solid var(--border); border-radius: var(--r-lg);
+    box-shadow: var(--shadow-2);
+    padding: 16px 20px;
+    display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
+    z-index: 90;
+  }
+  .uo-cookie__txt { flex: 1 1 280px; font-size: 13px; line-height: 1.5; color: var(--fg-muted); }
+  .uo-cookie__btns { display: inline-flex; gap: 8px; }
+  .uo-cookie__btn {
+    height: 36px; padding: 0 14px; border-radius: var(--r-md);
+    border: 1px solid var(--border); background: var(--bg-surface);
+    color: var(--fg); font: inherit; font-size: 13px; font-weight: 600;
+    cursor: pointer;
+  }
+  .uo-cookie__btn--accept {
+    background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
+  }
+  .uo-cookie__btn:hover { filter: brightness(1.05); }
+
+  /* Aurora background — three radial blobs + drift. */
+  .uo-aurora {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    overflow: hidden; contain: strict;
+  }
+  .uo-aurora::before, .uo-aurora::after, .uo-aurora > span {
+    position: absolute; content: ""; border-radius: 50%;
+    filter: blur(80px); opacity: 0.22;
+    will-change: transform, opacity;
+  }
+  .uo-aurora::before {
+    background: radial-gradient(closest-side, var(--cat), transparent);
+    top: -10%; left: -10%; width: 60vw; height: 60vw;
+    animation: uoAuroraDrift 28s ease-in-out infinite alternate;
+  }
+  .uo-aurora::after {
+    background: radial-gradient(closest-side, var(--accent), transparent);
+    bottom: -20%; right: -15%; width: 70vw; height: 70vw;
+    animation: uoAuroraDrift 34s ease-in-out -6s infinite alternate;
+  }
+  .uo-aurora > span {
+    background: radial-gradient(closest-side, #22d3ee, transparent);
+    top: 30%; left: 40%; width: 45vw; height: 45vw;
+    opacity: 0.14;
+    animation: uoAuroraDrift 40s ease-in-out -12s infinite alternate;
+  }
+  :root[data-theme="dark"] .uo-aurora::before,
+  :root[data-theme="dark"] .uo-aurora::after { opacity: 0.18; }
+  :root[data-theme="dark"] .uo-aurora > span { opacity: 0.12; }
+  @keyframes uoAuroraDrift {
+    0%   { transform: translate3d(0, 0, 0) scale(1); }
+    100% { transform: translate3d(6%, -4%, 0) scale(1.08); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .uo-aurora::before, .uo-aurora::after, .uo-aurora > span {
+      animation: none;
+    }
+  }
+
+  @keyframes shimmer {
+    0%   { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
 }
