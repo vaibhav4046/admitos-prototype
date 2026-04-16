@@ -134,6 +134,30 @@ const serverValues = {
 
 const isServer = typeof window === "undefined";
 
+/**
+ * Build-time detection.
+ *
+ * Next.js sets `process.env.NEXT_PHASE === "phase-production-build"` during
+ * `next build`. During that phase the framework imports every API route and
+ * page module to collect static data — but production secrets (Anthropic,
+ * Supabase service roles, LangSmith, CSRF) are NOT present in the build
+ * environment. They're injected at runtime by Vercel / the host. Running
+ * strict Zod validation at build time would require shipping secrets into
+ * the build runner, which we refuse to do.
+ *
+ * During the build phase we skip the server-env Zod parse and return a
+ * `process.env`-backed stub. At server startup (`next start`, Vercel
+ * runtime) `NEXT_PHASE` is unset and the full validation runs — so missing
+ * or malformed secrets still hard-fail there, which is the place we actually
+ * care about.
+ *
+ * `SKIP_ENV_VALIDATION=1` is kept as an emergency escape hatch for local
+ * audits where a developer has every real secret except ANTHROPIC_API_KEY.
+ */
+const isBuildPhase = process.env.NEXT_PHASE === "phase-production-build";
+const skipServerValidation =
+  isBuildPhase || process.env.SKIP_ENV_VALIDATION === "1";
+
 function parseEnv() {
   const clientParsed = clientSchema.safeParse(clientValues);
   if (!clientParsed.success) {
@@ -147,6 +171,22 @@ function parseEnv() {
   if (!isServer) {
     // Client bundle — only expose client-safe env
     return { ...clientParsed.data } as const;
+  }
+
+  if (skipServerValidation) {
+    // Build-phase stub: return process.env-backed values without Zod
+    // validation. Runtime consumers (API routes, middleware) must guard
+    // against missing/empty secrets themselves — see
+    // `src/services/env-runtime-guard.ts`.
+    if (isBuildPhase) {
+      console.warn(
+        "[env] NEXT_PHASE=phase-production-build detected — skipping strict server env validation; runtime guards enforce missing-secret handling."
+      );
+    }
+    return {
+      ...clientParsed.data,
+      ...(serverValues as unknown as z.infer<typeof serverSchema>),
+    } as const;
   }
 
   const serverParsed = serverSchema.safeParse(serverValues);
