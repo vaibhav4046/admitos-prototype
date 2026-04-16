@@ -68,7 +68,7 @@ export default async function AdmissionsLayout({
       data-unioffer-namespace="admissions"
       // V3: bg/fg driven by --bg / --fg tokens (globals.css). When
       // ThemeInit sets data-theme='dark' on <html>, the admissions
-      // dashboard automatically flips to Andy's canonical #0d2538.
+      // dashboard automatically flips to Andy's canonical #0a3042.
       // The min-h-screen Tailwind utility stays — only the colour
       // anchors move to tokens.
       className="min-h-screen"

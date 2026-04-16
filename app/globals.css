@@ -13,8 +13,11 @@
  * setting `data-theme="dark"` on <html> (see app/theme-init.tsx, which
  * runs before hydration to prevent FOUC and persist via localStorage).
  *
- * #0d2538 is Andy's canonical night bg (lifted from the logo plate in
- * public/brand/v2/unioffer-wordmark-on-navy.svg). Never substitute.
+ * #0a3042 is Andy's canonical night bg — sampled from the actual pixel
+ * data of public/brand/v2/unioffer-android.png and unioffer-icon-padded.png
+ * (rgb 10, 48, 66). The legacy wordmark-on-navy.svg uses an older,
+ * lighter navy, but the designer-made plate icons are the source of
+ * truth. Never substitute.
  */
 
 @tailwind base;
@@ -96,29 +99,29 @@
   }
 
   :root[data-theme="dark"] {
-    --bg:          #0d2538;  /* Andy canonical logo plate — DO NOT change */
-    --bg-surface:  #162130;
-    --bg-elevated: #1b2a3c;
-    --bg-sunken:   #0a1e2e;
+    --bg:          #0a3042;  /* canonical plate — rgb(10, 48, 66) — DO NOT change */
+    --bg-surface:  #103a4f;
+    --bg-elevated: #154457;
+    --bg-sunken:   #072635;
     --fg:          #eaf1f7;
     --fg-muted:    #a8b8c5;
     --fg-soft:     #7d8f9e;
-    --border:      #203447;
-    --border-soft: #1a2c3d;
+    --border:      #1c4255;
+    --border-soft: #15384a;
   }
 
   /* System-preference fallback — only applies before theme-init.tsx runs */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
-      --bg:          #0d2538;
-      --bg-surface:  #162130;
-      --bg-elevated: #1b2a3c;
-      --bg-sunken:   #0a1e2e;
+      --bg:          #0a3042;
+      --bg-surface:  #103a4f;
+      --bg-elevated: #154457;
+      --bg-sunken:   #072635;
       --fg:          #eaf1f7;
       --fg-muted:    #a8b8c5;
       --fg-soft:     #7d8f9e;
-      --border:      #203447;
-      --border-soft: #1a2c3d;
+      --border:      #1c4255;
+      --border-soft: #15384a;
     }
   }
 

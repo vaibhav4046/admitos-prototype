@@ -51,7 +51,7 @@ export default function WellbeingLayout({
     <div
       data-unioffer-namespace="wellbeing"
       // V3: in dark theme, the chat surface flips to Andy's canonical
-      // #0d2538 via the --bg token (set by :root[data-theme='dark'] in
+      // #0a3042 via the --bg token (set by :root[data-theme='dark'] in
       // globals.css). Light theme keeps the calm wellbeing gradient.
       // The gradient is suppressed in dark mode by leaving background
       // tied to var(--bg). Cards inside still use their wellbeing-tinted
