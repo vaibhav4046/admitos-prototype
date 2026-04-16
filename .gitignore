@@ -57,6 +57,13 @@ next-env.d.ts
 # raw data snapshots (ADR-002) — NOT committed to git
 data/
 
+# validation artefacts (large Lighthouse JSON dumps)
+docs/validation/lighthouse-*.json
+.lh-tmp/
+
+# working files
+pr2-body-current.md
+
 # Python
 __pycache__/
 *.pyc
