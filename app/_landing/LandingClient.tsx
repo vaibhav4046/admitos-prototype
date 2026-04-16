@@ -491,19 +491,15 @@ export default function LandingClient() {
         </div>
         </div>
         {/* /.hero-band — closes the centered hero band; sections below
-            are full-width and stack vertically. */}
+            are full-width and stack vertically.
 
-        {/* V3.1 §Hero Bottom Navigation — three text links with
-            middle-dot separators. Smooth-scroll handled by the
-            `html { scroll-behavior: smooth }` rule in globals.css,
-            plus scroll-margin-top on each target section anchor. */}
-        <nav className="hero-bottom-nav" aria-label="Jump to section">
-          <a href="#how-it-works">How it works</a>
-          <span className="hero-bottom-nav-sep" aria-hidden="true">·</span>
-          <a href="#pricing">See pricing</a>
-          <span className="hero-bottom-nav-sep" aria-hidden="true">·</span>
-          <a href="#features">Meet all 12 agents</a>
-        </nav>
+            Phase E (16 Apr 2026): removed the tertiary `.hero-bottom-nav`
+            row ("How it works · See pricing · Meet all 12 agents") per
+            Andy's spec. Benchmarks (manus.im, claude.ai) put the
+            composer + chips at the resting point below the fold; extra
+            jump-links dilute that focus and add visual noise. Nav
+            anchors are still reachable via the top-nav `.nav-center`
+            links, which is the canonical jump surface. */}
 
         {/* V3.1 Module 2 — Market Reality
             Five data cards surface the nationality-pool admit rates that

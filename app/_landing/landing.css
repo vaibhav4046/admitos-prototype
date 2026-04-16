@@ -369,28 +369,46 @@
    modal (FIX B). The old 372px was sized for the auth form; now the
    card only wraps hero-copy (headline, chat composer, chips) and
    needs room for the full-width chat input (FIX C) and horizontal
-   chip row (FIX D). */
+   chip row (FIX D). Phase E: max-width raised to --composer-max-width
+   (760px) so the composer can render at its intended width; the
+   headline still caps at --hero-max-width via `.headline` / `.hero-sub`
+   rules. */
 .uo-landing .card {
   width: 100%;
-  max-width: 720px;
+  max-width: var(--composer-max-width);
   display: flex;
   flex-direction: column;
   align-items: stretch;
 }
 
-.uo-landing .hero-copy { text-align: center; margin-bottom: 2rem; }
+/* Phase E: cap the headline and subheadline at --hero-max-width so
+   they don't stretch the full composer width on desktop — benchmarks
+   keep headlines narrower than the input surface. */
+.uo-landing .headline,
+.uo-landing .hero-sub {
+  max-width: var(--hero-max-width);
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.uo-landing .hero-copy { text-align: center; margin-bottom: 0; }
 .uo-landing .eyebrow {
   font-family: var(--uo-font-body);
-  font-size: 10px;
-  font-weight: 500;
-  letter-spacing: 0.20em;
+  font-size: 11px;
+  font-weight: var(--fw-body);
+  letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--uo-crimson);            /* WCAG AA: 6.5:1 on #FFF */
-  margin-bottom: 1.1rem;
+  /* Phase E: demote the status tag from brand-red-shouty to a quieter
+     compliance ribbon. Red was visually competing with the headline and
+     pulling the eye above it; the neutral secondary colour lets the
+     headline own the top of the hero. The lead tag (".ey-tag-lead")
+     still reads red for recognition. */
+  color: var(--uo-text-s);
+  margin-bottom: 1.4rem;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 .uo-landing .ey-dot {
@@ -428,11 +446,13 @@
 }
 
 /* V3.1 — hero status tag "lead" pill (12 AI agents) reads with
-   slightly more weight than the trailing badges. */
+   slightly more weight than the trailing badges. Phase E: reduced
+   to weight 500 and kept crimson for recognition; previous 600 +
+   shouty-red ribbon was demoted per Andy's 16 Apr spec. */
 .uo-landing .ey-tag-lead {
   color: var(--uo-crimson);
-  font-weight: 600;
-  letter-spacing: 0.14em;
+  font-weight: var(--fw-display);
+  letter-spacing: 0.12em;
 }
 
 /* V3.1 — hero subheadline below the main headline */
@@ -446,17 +466,21 @@
   max-width: 560px;
 }
 
-/* V3.1 — hero chat composer (placeholder-only surface pre-auth) */
+/* V3.1 — hero chat composer (placeholder-only surface pre-auth).
+   Phase E: widened from 620 → 760px (matches manus.im ≈800px, claude.ai
+   672px) and lifted padding so it reads as the primary focal point of
+   the hero band. `--hero-headline-to-composer-gap` spaces it below the
+   subheadline. */
 .uo-landing .hero-chat {
   display: flex;
   align-items: stretch;
-  gap: 0.4rem;
-  margin: 1.15rem auto 0;
-  max-width: 620px;
+  gap: 0.5rem;
+  margin: var(--hero-headline-to-composer-gap) auto 0;
+  max-width: var(--composer-max-width);
   background: var(--uo-card);
   border: 1px solid var(--uo-border-med);
-  border-radius: 12px;
-  padding: 4px 4px 4px 4px;
+  border-radius: 14px;
+  padding: 8px;
   transition: border-color 0.12s, box-shadow 0.12s;
 }
 .uo-landing .hero-chat:focus-within {
@@ -469,9 +493,9 @@
   border: none;
   outline: none;
   background: transparent;
-  padding: 10px 10px 10px 12px;
+  padding: 14px 14px 14px 16px;
   font-family: var(--uo-font-body);
-  font-size: 13.5px;
+  font-size: 15px;
   color: var(--uo-text-p);
 }
 .uo-landing .hero-chat-inp::placeholder {
@@ -499,41 +523,23 @@
   .uo-landing .hero-chat-btn { justify-content: center; }
 }
 
-/* V3.1 — hero bottom nav (3 anchor links with · separators) */
-.uo-landing .hero-bottom-nav {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
-  gap: 0;
-  margin: 1.5rem auto 0;
-  font-family: var(--uo-font-body);
-  font-size: 13px;
-}
-.uo-landing .hero-bottom-nav a {
-  color: var(--uo-text-s);
-  text-decoration: none;
-  padding: 4px 10px;
-  transition: color 0.12s;
-}
-.uo-landing .hero-bottom-nav a:hover {
-  color: var(--uo-crimson);
-  text-decoration: underline;
-  text-underline-offset: 3px;
-}
-.uo-landing .hero-bottom-nav-sep {
-  color: var(--uo-text-m);
-  user-select: none;
-}
+/* Phase E (16 Apr 2026): `.hero-bottom-nav` CSS removed alongside the
+   JSX block in LandingClient.tsx. The tertiary jump-link row was
+   pulling focus from the composer; top-nav `.nav-center` links are
+   the canonical section-jump surface. */
 
-/* V3.1 — hero quick-action chips (four preset prompts) */
+/* V3.1 — hero quick-action chips (four preset prompts).
+   Phase E: gap and top-margin pulled into tokens
+   (--hero-composer-to-chips-gap, --hero-chips-gap) so the hero's
+   vertical rhythm stays consistent. No icons — pure text chips per
+   Andy's "no icons on chips" directive. */
 .uo-landing .hero-chips {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  gap: 0.55rem;
-  margin: 1.35rem auto 0;
-  max-width: 680px;
+  gap: var(--hero-chips-gap);
+  margin: var(--hero-composer-to-chips-gap) auto 0;
+  max-width: var(--composer-max-width);
 }
 .uo-landing .hero-chip {
   font-family: var(--uo-font-body);
