@@ -38,14 +38,16 @@
   --uo-font-display: var(--font-syne, 'Syne'), system-ui, sans-serif;
   --uo-font-tagline: var(--font-cormorant, 'Cormorant Garamond'), serif;
 
-  /* ── Spacing system (Phase C, 16 Apr 2026) ─────────────────────────
-     Calibrated to manus.im at 1440px: hero occupies ≈85vh with generous
-     padding, sections breathe with clamp(120px, 15vh, 200px) vertical
-     rhythm, internal stacks step through 80 / 48 / 32 / 16 px. The old
-     layout used 4rem / 1.5rem — which read as a "wall of text" per
-     Andy's 16 Apr note. */
-  --section-pad-y-desktop: clamp(120px, 15vh, 200px);
-  --section-pad-y-mobile:  clamp(80px, 12vh, 120px);
+  /* ── Spacing system (Hard-mode rebuild, 16 Apr 2026) ───────────────
+     Calibrated to manus.im at 1440px. Sections use a dense/spacious
+     rhythm: each section carries an inner clamp(96, 12vh, 160) padding
+     block, and consecutive sections add an extra top clamp(120, 15vh,
+     200) so there's a visible "breath" between panels. Hero uses its
+     own inline clamp (80-160 / 12vh) so the headline + composer sit
+     centred in ≥85vh without fighting the section system. */
+  --section-pad-y-desktop: clamp(96px, 12vh, 160px);
+  --section-pad-y-between: clamp(120px, 15vh, 200px);
+  --section-pad-y-mobile:  clamp(72px, 10vh, 112px);
   --section-pad-x-desktop: clamp(32px, 6vw, 96px);
   --section-pad-x-mobile:  20px;
 
@@ -54,9 +56,13 @@
   --stack-gap-md: 32px;
   --stack-gap-sm: 16px;
 
+  /* Hero rhythm — nav-bottom → headline gap, headline → composer gap,
+     composer → chips gap, chips → next-section gap. All align with the
+     manus.im measurement ladder (clamp 80-160, 40, 24, clamp 120-200). */
+  --hero-pad-y: clamp(80px, 12vh, 160px);
   --hero-headline-to-composer-gap: 40px;
-  --hero-composer-to-chips-gap: 32px;
-  --hero-chips-gap: 12px;
+  --hero-composer-to-chips-gap: 24px;
+  --hero-chips-gap: 10px;
 
   --content-max-width: 1200px;
   --hero-max-width: 720px;
@@ -222,7 +228,9 @@
   bottom: -6px;
   height: 2px;
   border-radius: 2px;
-  background: var(--uo-crimson);
+  /* Hard-mode rebuild: active-link underline drops to a quiet primary
+     colour rather than crimson. Nav should whisper, not shout. */
+  background: var(--uo-text-p);
 }
 .uo-landing .nav-lnk .soon {
   font-size: 9px;
@@ -342,225 +350,153 @@
 .uo-landing .btn-get:hover { opacity: .85; }
 
 /* ── MAIN ──
-   The hero card sits at the top (centered horizontally inside a
-   padded hero band), then Features / How it Works / Pricing stack
-   underneath as full-width sections. Before this rewrite `.main`
-   was `display:flex` with default row direction, which laid the
-   three sections out HORIZONTALLY beside the hero card and pushed
-   them off-screen on both sides. Now it's a simple block container
-   and each section owns its own centering. */
+   Block container; each section owns its own centering. Before this
+   rewrite `.main` was `display:flex` with default row direction and
+   laid Features / How it Works / Pricing out HORIZONTALLY beside the
+   hero card. */
 .uo-landing .main {
   flex: 1;
   display: block;
   width: 100%;
 }
-.uo-landing .hero-band {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  /* Phase C: manus.im puts the hero at ~85vh and centres it inside
-     generous vertical padding. Inner `.card` supplies the max-width. */
+
+/* ── HERO (Hard-mode rebuild, 16 Apr 2026) ──────────────────────────
+   Three content elements only: <h1.hero-headline>, <form.composer>,
+   <div.chips>. No status tag, no pre-heading, no spark accent, no
+   subheadline, no bottom nav. Everything else was clutter. Target:
+   manus.im hero rhythm at 1440px — single-sentence h1 at clamp(32-48)
+   weight-500, composer at 760px, four short equal-weight pills. */
+.uo-landing .hero {
+  width: 100%;
   min-height: 85vh;
-  padding-block: var(--section-pad-y-desktop);
-  padding-inline: var(--section-pad-x-desktop);
-  width: 100%;
-}
-/* Hero card container — widened after auth card was extracted into a
-   modal (FIX B). The old 372px was sized for the auth form; now the
-   card only wraps hero-copy (headline, chat composer, chips) and
-   needs room for the full-width chat input (FIX C) and horizontal
-   chip row (FIX D). Phase E: max-width raised to --composer-max-width
-   (760px) so the composer can render at its intended width; the
-   headline still caps at --hero-max-width via `.headline` / `.hero-sub`
-   rules. */
-.uo-landing .card {
-  width: 100%;
-  max-width: var(--composer-max-width);
   display: flex;
   flex-direction: column;
-  align-items: stretch;
-}
-
-/* Phase E: cap the headline and subheadline at --hero-max-width so
-   they don't stretch the full composer width on desktop — benchmarks
-   keep headlines narrower than the input surface. */
-.uo-landing .headline,
-.uo-landing .hero-sub {
-  max-width: var(--hero-max-width);
-  margin-left: auto;
-  margin-right: auto;
-}
-
-.uo-landing .hero-copy { text-align: center; margin-bottom: 0; }
-.uo-landing .eyebrow {
-  font-family: var(--uo-font-body);
-  font-size: 11px;
-  font-weight: var(--fw-body);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  /* Phase E: demote the status tag from brand-red-shouty to a quieter
-     compliance ribbon. Red was visually competing with the headline and
-     pulling the eye above it; the neutral secondary colour lets the
-     headline own the top of the hero. The lead tag (".ey-tag-lead")
-     still reads red for recognition. */
-  color: var(--uo-text-s);
-  margin-bottom: 1.4rem;
-  display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
+  padding-block: var(--hero-pad-y);
+  padding-inline: var(--section-pad-x-desktop);
+  gap: 0;
+  text-align: center;
 }
-.uo-landing .ey-dot {
-  width: 3px;
-  height: 3px;
-  border-radius: 50%;
-  background: var(--uo-crimson);
-  flex-shrink: 0;
-}
-.uo-landing .headline { margin-bottom: 0; }
-.uo-landing .hl-pre {
-  font-family: var(--uo-font-tagline);
-  font-size: 18px;
-  font-weight: 300;
-  font-style: italic;
-  color: var(--uo-text-s);
-  display: block;
-  letter-spacing: 0.01em;
-  line-height: 1;
-  margin-bottom: 2px;
-}
-.uo-landing .hl-main {
+
+/* Single semantic h1 — Syne weight-500 (NOT 700/800), single colour,
+   no italic, no two-font composition. text-wrap: balance prevents
+   orphan words on wide viewports. */
+.uo-landing .hero-headline {
   font-family: var(--uo-font-display);
   font-size: var(--fs-hero);
   font-weight: var(--fw-display);
+  font-style: normal;
+  line-height: 1.25;
   letter-spacing: var(--tracking-tight);
   color: var(--uo-text-p);
-  line-height: var(--lh-heading);
-  display: block;
-}
-.uo-landing .hl-spark {
-  color: var(--uo-crimson);
-  font-style: italic;
-  font-weight: var(--fw-strong);
+  max-width: var(--hero-max-width);
+  margin: 0 0 var(--hero-headline-to-composer-gap);
+  text-wrap: balance;
 }
 
-/* V3.1 — hero status tag "lead" pill (12 AI agents) reads with
-   slightly more weight than the trailing badges. Phase E: reduced
-   to weight 500 and kept crimson for recognition; previous 600 +
-   shouty-red ribbon was demoted per Andy's 16 Apr spec. */
-.uo-landing .ey-tag-lead {
-  color: var(--uo-crimson);
-  font-weight: var(--fw-display);
-  letter-spacing: 0.12em;
-}
-
-/* V3.1 — hero subheadline below the main headline */
-.uo-landing .hero-sub {
-  font-family: var(--uo-font-body);
-  font-size: var(--fs-body-lg);
-  font-weight: var(--fw-body);
-  line-height: var(--lh-body);
-  color: var(--uo-text-s);
-  margin: 1rem auto 0;
-  max-width: 560px;
-}
-
-/* V3.1 — hero chat composer (placeholder-only surface pre-auth).
-   Phase E: widened from 620 → 760px (matches manus.im ≈800px, claude.ai
-   672px) and lifted padding so it reads as the primary focal point of
-   the hero band. `--hero-headline-to-composer-gap` spaces it below the
-   subheadline. */
-.uo-landing .hero-chat {
-  display: flex;
-  align-items: stretch;
-  gap: 0.5rem;
-  margin: var(--hero-headline-to-composer-gap) auto 0;
+/* Composer — roomy AI-chat input, not a form field. Textarea scales
+   from 2 → 8 lines via max-height; icon row lives at the bottom. */
+.uo-landing .composer {
+  width: 100%;
   max-width: var(--composer-max-width);
   background: var(--uo-card);
   border: 1px solid var(--uo-border-med);
-  border-radius: 14px;
-  padding: 8px;
+  border-radius: 20px;
+  padding: 14px 16px 10px;
+  box-shadow: 0 4px 24px rgba(23, 59, 99, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   transition: border-color 0.12s, box-shadow 0.12s;
 }
-.uo-landing .hero-chat:focus-within {
-  border-color: var(--uo-crimson);
-  box-shadow: 0 0 0 3px rgba(163, 58, 58, 0.12);
+.uo-landing .composer:focus-within {
+  border-color: var(--uo-blue);
+  box-shadow: 0 4px 24px rgba(23, 59, 99, 0.12);
 }
-.uo-landing .hero-chat-inp {
-  flex: 1 1 auto;
-  min-width: 200px;
+.uo-landing .composer-input {
+  width: 100%;
+  min-height: 52px;
+  max-height: 200px;
+  background: transparent;
   border: none;
   outline: none;
-  background: transparent;
-  padding: 14px 14px 14px 16px;
+  resize: none;
   font-family: var(--uo-font-body);
   font-size: 15px;
+  line-height: 1.5;
   color: var(--uo-text-p);
+  padding: 4px 0 0;
+  text-align: left;
 }
-.uo-landing .hero-chat-inp::placeholder {
-  color: var(--uo-text-m);
+.uo-landing .composer-input::placeholder { color: var(--uo-text-m); }
+
+.uo-landing .composer-actions {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
-.uo-landing .hero-chat-btn {
-  flex-shrink: 0;
+.uo-landing .composer-plus,
+.uo-landing .composer-submit {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: var(--uo-blue);
-  color: var(--uo-btn-primary-fg);
-  border: none;
-  border-radius: 9px;
-  padding: 8px 13px;
-  font-family: var(--uo-font-body);
-  font-size: 13px;
-  font-weight: 500;
+  justify-content: center;
   cursor: pointer;
-  transition: opacity 0.12s, background 0.12s;
+  transition: background 0.12s, border-color 0.12s, opacity 0.12s;
 }
-.uo-landing .hero-chat-btn:hover { opacity: 0.9; }
-@media (max-width: 560px) {
-  .uo-landing .hero-chat { flex-direction: column; gap: 0.3rem; padding: 6px; }
-  .uo-landing .hero-chat-btn { justify-content: center; }
+.uo-landing .composer-plus {
+  background: transparent;
+  border: 1px solid var(--uo-border-med);
+  color: var(--uo-text-s);
 }
+.uo-landing .composer-plus:hover {
+  background: var(--uo-hover);
+  color: var(--uo-text-p);
+}
+.uo-landing .composer-submit {
+  background: var(--uo-btn-primary-bg);
+  border: none;
+  color: var(--uo-btn-primary-fg);
+}
+.uo-landing .composer-submit:hover { opacity: 0.88; }
 
-/* Phase E (16 Apr 2026): `.hero-bottom-nav` CSS removed alongside the
-   JSX block in LandingClient.tsx. The tertiary jump-link row was
-   pulling focus from the composer; top-nav `.nav-center` links are
-   the canonical section-jump surface. */
-
-/* V3.1 — hero quick-action chips (four preset prompts).
-   Phase E: gap and top-margin pulled into tokens
-   (--hero-composer-to-chips-gap, --hero-chips-gap) so the hero's
-   vertical rhythm stays consistent. No icons — pure text chips per
-   Andy's "no icons on chips" directive. */
-.uo-landing .hero-chips {
+/* Chips — four short equal-weight pills on one row at desktop; wraps
+   on mobile. white-space:nowrap guarantees no two-line chips, which is
+   why labels are capped at ≤24 chars in the JSX. */
+.uo-landing .chips {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   gap: var(--hero-chips-gap);
-  margin: var(--hero-composer-to-chips-gap) auto 0;
   max-width: var(--composer-max-width);
+  margin: var(--hero-composer-to-chips-gap) 0 0;
 }
-.uo-landing .hero-chip {
+.uo-landing .chip {
   font-family: var(--uo-font-body);
-  font-size: 12.5px;
+  font-size: 14px;
   font-weight: 500;
-  color: var(--uo-text-p);
-  background: var(--uo-surface);
-  border: 1px solid var(--uo-border-med);
-  border-radius: 999px;
-  padding: 7px 13px;
-  cursor: pointer;
-  transition: background 0.12s, border-color 0.12s, transform 0.12s;
-  max-width: 100%;
-  white-space: normal;
-  text-align: left;
   line-height: 1.35;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 1px solid var(--uo-border-med);
+  background: transparent;
+  color: var(--uo-text-p);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.12s, border-color 0.12s, transform 0.12s;
 }
-.uo-landing .hero-chip:hover {
+.uo-landing .chip:hover {
   background: var(--uo-hover);
-  border-color: var(--uo-crimson);
   transform: translateY(-1px);
+}
+
+@media (max-width: 560px) {
+  .uo-landing .composer { padding: 12px 14px 8px; border-radius: 16px; }
+  .uo-landing .composer-input { min-height: 44px; font-size: 15px; }
+  .uo-landing .chip { font-size: 13px; padding: 7px 12px; }
 }
 
 .uo-landing .divider { height: 1px; background: var(--uo-border); margin: 1.75rem 0 1.5rem; }
@@ -888,6 +824,14 @@
   text-align: center;
   box-sizing: border-box;
 }
+/* Consecutive sections breathe — adds extra top padding so each panel
+   feels like a discrete beat, not a continuous scroll of cards. */
+.uo-landing .uo-section + .uo-section,
+.uo-landing .uo-section + .uo-section-alt,
+.uo-landing .uo-section-alt + .uo-section,
+.uo-landing .uo-section-alt + .uo-section-alt {
+  padding-top: var(--section-pad-y-between);
+}
 .uo-landing .uo-section-alt {
   max-width: none;
   background: var(--uo-surface);
@@ -902,10 +846,13 @@
 .uo-landing .sec-eyebrow {
   font-family: var(--uo-font-body);
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--uo-crimson);
+  /* Hard-mode rebuild — crimson pulled from section eyebrows. Reads as
+     quiet label text, not brand shout. Accent is reserved for the
+     single primary CTA button per the consolidated palette. */
+  color: var(--uo-text-s);
   margin-bottom: 0.9rem;
 }
 .uo-landing .sec-h2 {
@@ -952,21 +899,10 @@
   box-shadow: 0 4px 18px rgba(23, 59, 99, 0.06);
   transform: translateY(-2px);
 }
-.uo-landing .feat-ico {
-  width: 38px;
-  height: 38px;
-  border-radius: 9px;
-  background: rgba(163, 58, 58, 0.10);
-  color: var(--uo-crimson);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--uo-font-display);
-  font-weight: var(--fw-strong);
-  font-size: 13px;
-  letter-spacing: 0.04em;
-  margin-bottom: 0.9rem;
-}
+/* Feature number badges removed from JSX in the hard-mode rebuild.
+   Rule retained as a no-op in case a future spec restores them; any
+   live `.feat-ico` node will simply not render. */
+.uo-landing .feat-ico { display: none; }
 .uo-landing .feat-h {
   font-family: var(--uo-font-display);
   font-size: var(--fs-h3);
@@ -1028,14 +964,16 @@
   margin-bottom: 0.6rem;
 }
 
-/* V3.1 — per-step agent-index tag (e.g. "A5 – A9 · via A0") */
+/* V3.1 — per-step agent-index tag (e.g. "A5 – A9 · via A0").
+   Hard-mode rebuild: crimson pulled in favour of muted secondary so
+   the tag reads as metadata, not accent. */
 .uo-landing .how-agents {
   font-family: var(--uo-font-body);
   font-size: 10.5px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--uo-crimson);
-  font-weight: 600;
+  color: var(--uo-text-s);
+  font-weight: 500;
   margin-bottom: 0.5rem;
 }
 
@@ -1365,10 +1303,15 @@
 }
 .uo-landing .market-stat-n {
   font-family: var(--uo-font-display);
-  font-size: var(--fs-h3);
+  font-size: clamp(28px, 3vw, 36px);
   font-weight: var(--fw-display);
-  letter-spacing: var(--tracking-tight);
-  color: var(--uo-crimson);
+  font-style: normal;
+  letter-spacing: -0.02em;
+  /* Hard-mode rebuild — stats drop from crimson to primary-text colour
+     so the numeric signal lands without the typography shouting. The
+     data is striking on its own; the palette does not need to amplify
+     it. */
+  color: var(--uo-text-p);
   line-height: var(--lh-tight);
 }
 .uo-landing .market-stat-l {
@@ -1479,11 +1422,12 @@
   .uo-landing .trust-grid { grid-template-columns: 1fr; }
 }
 
-/* V3.1 — year-plan line under the price-amt */
+/* V3.1 — year-plan line under the price-amt. Hard-mode rebuild: crimson
+   pulled, reads as quiet supporting copy. */
 .uo-landing .price-year {
   font-family: var(--uo-font-body);
   font-size: 12.5px;
-  color: var(--uo-crimson);
+  color: var(--uo-text-s);
   font-weight: 500;
   margin: -0.15rem 0 0.75rem;
   letter-spacing: 0.01em;
@@ -1567,14 +1511,12 @@
   .uo-landing .nav-r { gap: 6px; }
   .uo-landing .desktop-row { display: none; }
 
-  /* Hero typography compresses but never below readable sizes. */
-  .uo-landing .hero-band {
+  /* Hero compresses on mobile but keeps centred composition. */
+  .uo-landing .hero {
     padding-block: var(--section-pad-y-mobile);
     padding-inline: var(--section-pad-x-mobile);
     min-height: 80vh;
   }
-  .uo-landing .card { max-width: 100%; }
-  .uo-landing .hl-pre { font-size: 16px; }
 
   /* Sections: 1 column, mobile-sized vertical rhythm. Typography sizes
      are clamp()-driven and shrink naturally with viewport. */
@@ -1613,11 +1555,8 @@
   .uo-landing .feat-card,
   .uo-landing .how-step,
   .uo-landing .price-card { padding: 1.25rem 1.1rem; }
-  .uo-landing .card { padding: 1.25rem 1.1rem; }
-  /* The eyebrow row wraps cleanly on phones thanks to flex-wrap, but
-     give it a touch more breathing room when it does. */
-  .uo-landing .eyebrow { gap: 6px; font-size: 9.5px; }
-  /* Headline sizes now clamp()-driven, no font-size override needed. */
+  /* Headline sizes clamp()-driven; hero-specific mobile tweaks live in
+     the hero block above. */
 }
 
 @media (max-width: 380px) {
@@ -1633,7 +1572,7 @@
 /* Landscape-orientation phones: don't blow the hero up to full screen
    when there's only ~400px of vertical room. */
 @media (max-height: 500px) and (orientation: landscape) {
-  .uo-landing .hero-band { padding: 1rem 1rem 1.5rem; min-height: auto; }
+  .uo-landing .hero { padding: 1rem 1rem 1.5rem; min-height: auto; }
 }
 
 /* Tap-target minimum on touch devices — 40px is the WCAG 2.2 floor. */

@@ -374,63 +374,68 @@ export default function LandingClient() {
 
       {/* ── MAIN ───────────────────────────────────────────────── */}
       <main className="main">
-        <div className="hero-band">
-        <div className="card">
-          <div className="hero-copy">
-            {/* V3.1 Hero Status Tag — compliance + operating badges.
-                Copy locked to spec; never substitute or abbreviate
-                the compliance acronyms. */}
-            <div className="eyebrow" aria-label="Platform status">
-              <span className="ey-tag-lead">12 AI agents</span>
-              <div className="ey-dot" />
-              <span>Always on</span>
-              <div className="ey-dot" />
-              <span>Compliance-first</span>
-              <div className="ey-dot" />
-              <span>IECA</span>
-              <div className="ey-dot" />
-              <span>NACAC</span>
-              <div className="ey-dot" />
-              <span>UCAS</span>
-            </div>
-            <div className="headline">
-              <span className="hl-pre">
-                The Operating System for
-              </span>
-              <span className="hl-main">
-                University Applications{" "}
-                <span className="hl-spark">&amp; Preparations</span>
-              </span>
-            </div>
-            <p className="hero-sub">
-              One AI-native platform. Build your competitive candidacy,
-              execute your full application, and access expert human
-              guidance at every critical decision point — from your first
-              essay to your final submission.
-            </p>
+        {/* Hard-mode hero rebuild (16 Apr 2026) — manus.im parity.
+            Three content elements only: single semantic h1, composer
+            form (textarea + plus/submit icon row), and a 4-chip quick-
+            action row. Deleted in this pass: .eyebrow status tag, the
+            two-font .headline composition (.hl-pre / .hl-main /
+            .hl-spark), the long .hero-sub paragraph, and the hero
+            bottom nav (removed earlier in Phase E). The previous
+            `.hero-band > .card > .hero-copy` wrapper nesting has been
+            collapsed — the section now owns its own centering + min-
+            height so the hero reads as a single focal composition.
+            Compliance note: chip labels MUST NOT use "probability /
+            chances / odds" language in any state. */}
+        <section className="hero" aria-label="UniOffer hero">
+          <h1 className="hero-headline">
+            UniOffer is the operating system for university applications.
+          </h1>
 
-            {/* V3.1 Hero Chat Composer — placeholder-only surface for
-                the unauthenticated visitor. Submitting the composer
-                fires the coming-soon toast and focuses the auth-card
-                email input below; there is no chat route yet, and the
-                composer MUST NOT imply prediction or admission
-                probability in any state. */}
-            <form
-              className="hero-chat"
-              onSubmit={(e) => {
-                e.preventDefault();
-                setAuthModal(true);
-              }}
+          <form
+            className="composer"
+            onSubmit={(e) => {
+              e.preventDefault();
+              setAuthModal(true);
+            }}
+            aria-label="Ask UniOffer"
+          >
+            <textarea
+              className="composer-input"
+              placeholder="Ask about your school list, essays, test prep, or deadlines."
               aria-label="Ask UniOffer"
-            >
-              <input
-                type="text"
-                className="hero-chat-inp"
-                placeholder="Ask about school strategy, essay planning, test prep, application deadlines, or readiness indicators..."
-                aria-label="Ask UniOffer"
-              />
-              <button type="submit" className="hero-chat-btn">
-                <span>Ask UniOffer</span>
+              rows={2}
+              onKeyDown={(e) => {
+                if (e.key === "Enter" && !e.shiftKey) {
+                  e.preventDefault();
+                  setAuthModal(true);
+                }
+              }}
+            />
+            <div className="composer-actions">
+              <button
+                type="button"
+                className="composer-plus"
+                aria-label="Add attachment (coming soon)"
+                onClick={() => flashToast("Attachments — coming soon")}
+              >
+                <svg
+                  width="14"
+                  height="14"
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  aria-hidden="true"
+                >
+                  <path d="M8 3v10M3 8h10" />
+                </svg>
+              </button>
+              <button
+                type="submit"
+                className="composer-submit"
+                aria-label="Send to UniOffer"
+              >
                 <svg
                   width="14"
                   height="14"
@@ -442,64 +447,47 @@ export default function LandingClient() {
                   strokeLinejoin="round"
                   aria-hidden="true"
                 >
-                  <path d="M2 8h11M9 4l4 4-4 4" />
+                  <path d="M3 8h10M9 4l4 4-4 4" />
                 </svg>
               </button>
-            </form>
-
-            {/* V3.1 Quick Action Buttons — four preset prompts that,
-                on signed-in surfaces, open the chat with the prompt
-                pre-filled. Pre-auth we fire a coming-soon toast so the
-                user isn't dropped into a broken chat surface.
-                Compliance note: never use "probability/chances/odds"
-                in any chip label. */}
-            <div
-              className="hero-chips"
-              role="group"
-              aria-label="Quick actions"
-            >
-              <button
-                type="button"
-                className="hero-chip"
-                onClick={() => setAuthModal(true)}
-              >
-                Build my school shortlist
-              </button>
-              <button
-                type="button"
-                className="hero-chip"
-                onClick={() => setAuthModal(true)}
-              >
-                What-if: How does my readiness change if SAT improves to 1550?
-              </button>
-              <button
-                type="button"
-                className="hero-chip"
-                onClick={() => setAuthModal(true)}
-              >
-                Oxford MAT four-week prep plan
-              </button>
-              <button
-                type="button"
-                className="hero-chip"
-                onClick={() => setAuthModal(true)}
-              >
-                Check my essay for voice drift
-              </button>
             </div>
-          </div>
-        </div>
-        </div>
-        {/* /.hero-band — closes the centered hero band; sections below
-            are full-width and stack vertically.
+          </form>
 
-            Phase E (16 Apr 2026): removed the tertiary `.hero-bottom-nav`
-            row ("How it works · See pricing · Meet all 12 agents") per
-            Andy's spec. Benchmarks (manus.im, claude.ai) put the
-            composer + chips at the resting point below the fold; extra
-            jump-links dilute that focus and add visual noise. Nav
-            anchors are still reachable via the top-nav `.nav-center`
-            links, which is the canonical jump surface. */}
+          <div
+            className="chips"
+            role="group"
+            aria-label="Quick actions"
+          >
+            <button
+              type="button"
+              className="chip"
+              onClick={() => setAuthModal(true)}
+            >
+              Build my shortlist
+            </button>
+            <button
+              type="button"
+              className="chip"
+              onClick={() => setAuthModal(true)}
+            >
+              SAT what-if to 1550
+            </button>
+            <button
+              type="button"
+              className="chip"
+              onClick={() => setAuthModal(true)}
+            >
+              Oxford MAT plan
+            </button>
+            <button
+              type="button"
+              className="chip"
+              onClick={() => setAuthModal(true)}
+            >
+              Voice drift check
+            </button>
+          </div>
+        </section>
 
         {/* V3.1 Module 2 — Market Reality
             Five data cards surface the nationality-pool admit rates that
@@ -621,52 +609,45 @@ export default function LandingClient() {
                 "Meet the 12 agents" page (coming soon) — here we want
                 scannable value statements only. */}
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">01</div>
               <h3 className="feat-h">12-Agent AI Mesh</h3>
               <p className="feat-p">
-                Twelve specialists working in parallel. Not a chatbot — a full expert team.
+                Twelve specialists in parallel — a full expert team, not a chatbot.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">02</div>
               <h3 className="feat-h">Student DNA Engine</h3>
               <p className="feat-p">
-                Candidacy profile in 8 dimensions. Every output tuned to your voice.
+                Candidacy profile in 8 dimensions, tuned to your voice.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">03</div>
               <h3 className="feat-h">Application Readiness Engine</h3>
               <p className="feat-p">
-                Preparation strength, calibrated to your nationality pool. No probability numbers.
+                Preparation strength, calibrated to your nationality pool.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">04</div>
               <h3 className="feat-h">Voice Interview Simulator</h3>
               <p className="feat-p">
-                Oxbridge, medical MMI, US alumni modes. Hume-powered emotion analysis.
+                Oxbridge, MMI, and US alumni modes with Hume-powered emotion analysis.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">05</div>
               <h3 className="feat-h">Adie — Wellbeing Companion</h3>
               <p className="feat-p">
-                Peer support at every tier. Not a substitute for clinical care.
+                Peer support at every tier — not a substitute for clinical care.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">06</div>
               <h3 className="feat-h">Commons — Student Community</h3>
               <p className="feat-p">
-                Governed, moderated peer space. Admissions topics only.
+                Governed, moderated peer space for admissions topics only.
               </p>
             </article>
             <article className="feat-card">
-              <div className="feat-ico" aria-hidden="true">07</div>
               <h3 className="feat-h">Live Student Profile</h3>
               <p className="feat-p">
-                Private knowledge base. Your circle stays informed throughout your journey.
+                A private knowledge base that keeps your circle informed throughout.
               </p>
             </article>
           </div>
