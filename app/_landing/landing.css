@@ -76,7 +76,7 @@
      which read as shouty marketing-brochure copy. Clamp()-based sizes
      also let us drop most of the per-breakpoint font-size overrides at
      1024 / 768 / 560 / 380 px. */
-  --fs-hero:    clamp(36px, 3.5vw, 48px);
+  --fs-hero:    clamp(32px, 3.5vw, 48px);
   --fs-h1:      clamp(32px, 3vw,   40px);
   --fs-h2:      clamp(24px, 2.2vw, 32px);
   --fs-h3:      clamp(20px, 1.8vw, 24px);
@@ -407,28 +407,28 @@
   max-width: var(--composer-max-width);
   background: var(--uo-card);
   border: 1px solid var(--uo-border-med);
-  border-radius: 20px;
-  padding: 14px 16px 10px;
-  box-shadow: 0 4px 24px rgba(23, 59, 99, 0.05);
+  border-radius: 24px;
+  padding: 16px 20px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.06);
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 12px;
   transition: border-color 0.12s, box-shadow 0.12s;
 }
 .uo-landing .composer:focus-within {
   border-color: var(--uo-blue);
-  box-shadow: 0 4px 24px rgba(23, 59, 99, 0.12);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.12);
 }
 .uo-landing .composer-input {
   width: 100%;
-  min-height: 52px;
+  min-height: 56px;
   max-height: 200px;
   background: transparent;
   border: none;
   outline: none;
   resize: none;
   font-family: var(--uo-font-body);
-  font-size: 15px;
+  font-size: 16px;
   line-height: 1.5;
   color: var(--uo-text-p);
   padding: 4px 0 0;
