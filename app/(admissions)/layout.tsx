@@ -66,7 +66,13 @@ export default async function AdmissionsLayout({
   return (
     <div
       data-unioffer-namespace="admissions"
-      className="min-h-screen bg-slate-50 text-slate-900"
+      // V3: bg/fg driven by --bg / --fg tokens (globals.css). When
+      // ThemeInit sets data-theme='dark' on <html>, the admissions
+      // dashboard automatically flips to Andy's canonical #0d2538.
+      // The min-h-screen Tailwind utility stays — only the colour
+      // anchors move to tokens.
+      className="min-h-screen"
+      style={{ background: "var(--bg)", color: "var(--fg)" }}
     >
       <AdmissionsHeader user={headerUser} />
       <main className="mx-auto w-full max-w-6xl px-4 py-8 sm:px-6">

@@ -50,7 +50,14 @@ export default function WellbeingLayout({
   return (
     <div
       data-unioffer-namespace="wellbeing"
-      className="min-h-screen bg-gradient-to-b from-wellbeing-50 via-white to-white text-slate-900"
+      // V3: in dark theme, the chat surface flips to Andy's canonical
+      // #0d2538 via the --bg token (set by :root[data-theme='dark'] in
+      // globals.css). Light theme keeps the calm wellbeing gradient.
+      // The gradient is suppressed in dark mode by leaving background
+      // tied to var(--bg). Cards inside still use their wellbeing-tinted
+      // surfaces — kept deliberately distinct from admissions chrome.
+      className="min-h-screen"
+      style={{ background: "var(--bg)", color: "var(--fg)" }}
     >
       <header
         role="banner"
