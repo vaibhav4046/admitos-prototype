@@ -65,12 +65,22 @@ const nextConfig = {
     ];
   },
   // V2 landing + dashboard prototype rewrites. Static HTML served from /public
-  // under friendlier preview URLs while the React conversion happens in M2.
+  // so Andy sees the v2 prototype at `/` (beforeFiles pre-empts the v1
+  // Next.js marketing page that still lives at app/page.tsx), while the React
+  // conversion happens in M2. /preview and /preview/dashboard remain as
+  // stable preview URLs for reviewer bookmarks.
   async rewrites() {
-    return [
-      { source: "/preview", destination: "/landing.html" },
-      { source: "/preview/dashboard", destination: "/dashboard-preview.html" },
-    ];
+    return {
+      beforeFiles: [
+        { source: "/", destination: "/landing.html" },
+        { source: "/app", destination: "/dashboard-preview.html" },
+      ],
+      afterFiles: [
+        { source: "/preview", destination: "/landing.html" },
+        { source: "/preview/dashboard", destination: "/dashboard-preview.html" },
+      ],
+      fallback: [],
+    };
   },
 };
 

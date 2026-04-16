@@ -11,9 +11,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
 <style>
   :root[data-theme="dark"], :root:not([data-theme="light"]) {
-    --bg:               #0a3042;
-    --bg-surface:       #0a3042;
-    --bg-elevated:      #0e3a4d;
+    --bg:               #0d2538;
+    --bg-surface:       #0d2538;
+    --bg-elevated:      #122d42;
     --fg:               #eaf1f7;
     --fg-secondary:     #aab7c4;
     --fg-muted:         #a0acb8;
@@ -44,8 +44,8 @@
 
   /* Aurora background — barely-visible brand-green glow over image navy */
   .uo-aurora { position: fixed; inset: 0; z-index: -1; pointer-events: none; overflow: hidden; contain: strict; }
-  .uo-aurora__glow { position: absolute; width: 70vmax; height: 70vmax; left: 50%; top: 40%; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(100,238,133,0.05) 0%, rgba(100,238,133,0) 65%); filter: blur(40px); will-change: transform; animation: uoGlow 60s ease-in-out infinite alternate; }
-  [data-theme="light"] .uo-aurora__glow { background: radial-gradient(circle, rgba(100,238,133,0.06) 0%, rgba(100,238,133,0) 65%); }
+  .uo-aurora__glow { position: absolute; width: 70vmax; height: 70vmax; left: 50%; top: 40%; transform: translate(-50%, -50%); border-radius: 50%; background: radial-gradient(circle, rgba(100,238,133,0.035) 0%, rgba(100,238,133,0) 65%); filter: blur(40px); will-change: transform; animation: uoGlow 60s ease-in-out infinite alternate; }
+  [data-theme="light"] .uo-aurora__glow { background: radial-gradient(circle, rgba(100,238,133,0.04) 0%, rgba(100,238,133,0) 65%); }
   @keyframes uoGlow { 0% { transform: translate(-52%, -52%) scale(1); } 100% { transform: translate(-48%, -46%) scale(1.08); } }
   @media (prefers-reduced-motion: reduce) { .uo-aurora__glow { animation: none; } }
 
