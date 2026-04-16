@@ -59,7 +59,7 @@ Andy's secondary benchmark. Measure:
 
 **Reference 3 — AdmitOS Excellence V2** (`https://admitos-excellence-as-a-service-v2.pages.dev/` and `/dashboard/overview`)
 This is Andy's existing product. Our theme MUST match exactly:
-- Body background: `#0f1722` (rgb 15, 23, 34)
+- Body background: `#0d2538` (rgb 15, 23, 34)
 - Sidebar background: `#162130` (rgb 22, 33, 48)
 - Accent purple: `#7c3aed` (rgb 124, 58, 237)
 - Light mode content: `#f7f5f1` (rgb 247, 245, 241)
@@ -146,7 +146,7 @@ export default function ContactSalesPage() {
   return (
     <div className="uo-contact-sales" style={{
       minHeight: '100vh',
-      background: 'var(--bg, #0f1722)',
+      background: 'var(--bg, #0d2538)',
       color: 'var(--fg, #eaf1f7)',
       display: 'flex',
       alignItems: 'center',
@@ -241,7 +241,7 @@ Andy answered 8 open questions. Implement every answer:
 | 1 | Route architecture | Landing at `/`, app at `/app` — confirmed, do not revert | Verify routing is correct |
 | 2 | Repo rename | YES rename to `unioffer-mvp-platform`. Zero-tolerance. Grep scan required. 11 pipeline hits deferred. | Item 1 in checklist |
 | 3 | GA4 / Search Console | New property for `unioffer.ai`. Do NOT migrate admitos.ai. Clean slate. | Add TODO comment in code |
-| 4 | OG image | Compose from brand assets: green cat + wordmark on `#0f172a`, tagline in white, 1200×630. Non-blocking — placeholder OK. | Section 8 |
+| 4 | OG image | Compose from brand assets: green cat + wordmark on `#0d2538`, tagline in white, 1200×630. Non-blocking — placeholder OK. | Section 8 |
 | 5 | Pipeline rename | Deferred to dedicated follow-up PR. Document 11 hits in PR description. | Document in PR |
 | 6 | V3.1 landing copy | Confirmed FINAL. Add school count limits to pricing (Basic: 5, Plus: 12). | Item 6 in checklist |
 | 7 | SKB / Credits sequencing | Path B — credits tables first, then SKB. Document as next sprint scope. | Add TODO comment |
@@ -260,7 +260,7 @@ Andy answered 8 open questions. Implement every answer:
    ============================================ */
 :root[data-theme="dark"],
 :root:not([data-theme="light"]) {
-  --bg:            #0f1722;    /* Body background — rgb(15,23,34) */
+  --bg:            #0d2538;    /* Body background — rgb(15,23,34) */
   --bg-surface:    #162130;    /* Sidebar/card bg — rgb(22,33,48) */
   --bg-elevated:   #1e2d3e;    /* Elevated surfaces */
   --fg:            #eaf1f7;    /* Primary text — rgb(234,241,247) */
@@ -375,7 +375,7 @@ body    { font-family: var(--font-sans); font-size: 1rem; font-weight: 400; line
 
 ### 5.1 Loading screen
 
-The green cat logo centered on dark teal `#0f172a`, with a breathing animation:
+The green cat logo centered on dark teal `#0d2538`, with a breathing animation:
 
 ```css
 /* Loading screen — first thing user sees */
@@ -383,7 +383,7 @@ The green cat logo centered on dark teal `#0f172a`, with a breathing animation:
   position: fixed;
   inset: 0;
   z-index: 9999;
-  background: #0f172a;
+  background: #0d2538;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -804,6 +804,25 @@ Every animation from the V2 prototypes that must work in production:
 
 **The green cat logo + dark teal/navy background applies to EVERY page in the application.**
 
+### 6.−1 CANONICAL NIGHT-MODE BACKGROUND — `#0d2538`
+
+Andy sampled the official logo plate (green cat + "unioffer" wordmark). The exact background color is:
+
+```
+--bg-night: #0d2538;   /* rgb(13, 37, 56) — the plate behind the green cat logo */
+```
+
+**This is the single source of truth for dark-mode backgrounds.** Apply to:
+- Landing page `/` (body + all sections)
+- Chat agent `/app` + all agent routes (body + conversation canvas)
+- Loading screen (replace the earlier `#0d2538` reference)
+- Dashboard body behind the sidebar
+- Sign in / sign up pages
+- Contact Sales page
+- Any future route unless an explicit light-mode context overrides it
+
+Update the color token system in Section 4.0 so `--bg` resolves to `#0d2538` in dark theme. The old `#0d2538` / `#0d2538` values are retired — do not use them. Favicons, OG image background, loading screen, nav bar translucent fill, all use `#0d2538` as the base. Translucent nav should be `rgba(13, 37, 56, 0.85)` with `backdrop-filter: blur(16px)`.
+
 ### 6.0 Root layout
 
 ```tsx
@@ -828,7 +847,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" data-theme="dark"
           className={`${libreBaskerville.variable} ${inter.variable}`}>
-      <body style={{ background: '#0f1722', color: '#eaf1f7', margin: 0 }}>
+      <body style={{ background: '#0d2538', color: '#eaf1f7', margin: 0 }}>
         {children}
       </body>
     </html>
@@ -840,12 +859,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 | Page | Nav | Logo | Background | Footer |
 |------|-----|------|------------|--------|
-| Landing `/` | Sticky top bar, backdrop-blur | Green cat icon (24px) left | `#0f1722` dark | Full footer with cat + wordmark |
-| Contact Sales `/contact-sales` | Same sticky nav | Green cat icon left | `#0f1722` dark | Same footer |
-| Dashboard `/app/*` | Sidebar | Green cat icon in sidebar header | Body `#0f1722`, sidebar `#162130` | Minimal |
-| Sign in `/signin` | Minimal — logo only | Green cat + wordmark centered | `#0f1722` dark | None |
-| Sign up `/signup` | Minimal — logo only | Green cat + wordmark centered | `#0f1722` dark | None |
-| Loading (all routes) | None | Green cat breathing animation | `#0f172a` dark teal | None |
+| Landing `/` | Sticky top bar, backdrop-blur | Green cat icon (24px) left | `#0d2538` (night canonical) | Full footer with cat + wordmark |
+| Chat Agent `/app/chat`, `/app/agents/*` | Minimal top bar | Green cat icon (24px) left | `#0d2538` (night canonical) — match landing exactly | Minimal |
+| Contact Sales `/contact-sales` | Same sticky nav | Green cat icon left | `#0d2538` | Same footer |
+| Dashboard `/app/*` | Sidebar | Green cat icon in sidebar header | Body `#0d2538`, sidebar `#162130` | Minimal |
+| Sign in `/signin` | Minimal — logo only | Green cat + wordmark centered | `#0d2538` | None |
+| Sign up `/signup` | Minimal — logo only | Green cat + wordmark centered | `#0d2538` | None |
+| Loading (all routes) | None | Green cat breathing animation | `#0d2538` | None |
+
+**Landing and Chat Agent MUST use identical `#0d2538` backgrounds** — Andy confirmed via WhatsApp that the night version of both surfaces must match the logo plate exactly. No per-page tweaks, no gradient overlays that shift the base tone, no "slightly lighter" conversation canvas. The canvas is `#0d2538`; bubbles/cards sit on top via `--bg-surface` elevation.
 
 ### 6.2 Brand asset rules
 
@@ -863,7 +885,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 All sections are in the V2 prototype. Convert them faithfully. Verify this content exists:
 
 ### 7.1 Loading screen
-Green cat logo breathing animation, progress bar, dark teal `#0f172a` background. See Section 5.1.
+Green cat logo breathing animation, progress bar, dark teal `#0d2538` background. See Section 5.1.
 
 ### 7.2 Navigation
 Sticky top bar, 64px height, backdrop-blur. Green cat icon (small!) left, theme toggle right.
@@ -923,7 +945,7 @@ Mandatory readiness disclaimer below pricing:
 ## 8 · OG IMAGE
 
 Produce a 1200×630px composition:
-- Background: `#0f172a` (dark teal)
+- Background: `#0d2538` (dark teal)
 - Green cat icon from designer assets, centered or left
 - "unioffer" wordmark in white next to icon
 - Tagline below: "The Operating System for University Applications" in white Inter
@@ -1082,7 +1104,7 @@ Complete visual rebuild addressing Andy's 7-item merge checklist:
 7. Adie FAB: suppressed on unauthenticated landing
 
 Design system:
-- Theme: AdmitOS Excellence V2 (#0f1722 / #7c3aed)
+- Theme: AdmitOS Excellence V2 (#0d2538 / #7c3aed)
 - Typography: Libre Baskerville 36-48px headlines, Inter 16px body
 - Animations: 13 GPU-accelerated effects, all 120fps
 - Brand: final designer-made green cat logo throughout
@@ -1138,7 +1160,7 @@ gh pr edit 2 --body "$(cat <<'PREOF'
 - Final designer-made green cat logo used throughout (uploaded 16 Apr)
 - Old "UO" monogram and navy/red wordmark removed
 - Favicons updated to green cat icon
-- Global dark teal background (#0f1722) on all pages
+- Global dark teal background (#0d2538) on all pages
 
 ## Animations (all working, 120fps GPU-accelerated)
 Loading screen (breathing cat logo), page reveal, typing placeholder, scroll reveals (staggered), SVG flow lines + particles, section line draw, composer shimmer, card hover lift, timeline glow, pricing border rotation, theme toggle, CTA pulse, ambient orbs, sticky nav blur, dashboard skeleton shimmer, dashboard card entry.
@@ -1167,7 +1189,7 @@ Run through every item before marking PR as ready:
 | 4 | `pnpm build` | Pass |
 | 5 | `pnpm check:isolation` | Pass |
 | 6 | admitos grep scan | Zero matches (excl. pipeline) |
-| 7 | Loading screen | Green cat breathing + progress bar on `#0f172a` |
+| 7 | Loading screen | Green cat breathing + progress bar on `#0d2538` |
 | 8 | Page reveal | Fade-up after loader (opacity + translateY) |
 | 9 | All scroll reveals | Every section animates in on scroll, staggered |
 | 10 | Theme toggle | Smooth dark↔light, nav stays dark |
@@ -1190,7 +1212,7 @@ Run through every item before marking PR as ready:
 | 27 | Mobile responsive | Works at 375px, 768px, 1440px |
 | 28 | Green cat logo everywhere | On landing, dashboard, contact-sales, auth pages |
 | 29 | No old logo remnants | Zero "UO" monogram or navy/red wordmark anywhere |
-| 30 | Global dark background | `#0f1722` consistent across all pages |
+| 30 | Global dark background | `#0d2538` consistent across all pages |
 | 31 | prefers-reduced-motion | Animations disabled when user prefers reduced motion |
 | 32 | Sticky nav blur | Backdrop-filter blur on scroll |
 | 33 | Font loading | Libre Baskerville + Inter load via next/font/google, no FOUT |

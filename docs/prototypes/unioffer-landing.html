@@ -84,7 +84,9 @@
       isolation: isolate;
     }
     /* =========================================================
-       AURORA BACKGROUND — multi-layer drift + conic sweep
+       AURORA BACKGROUND — barely-visible, brand-only
+       Single brand-green glow over the image navy (#0a3042).
+       No purple, no cyan, no conic sweep, no grain.
        ========================================================= */
     .uo-aurora {
       position: fixed;
@@ -94,85 +96,28 @@
       overflow: hidden;
       contain: strict;
     }
-    .uo-aurora__blob {
+    .uo-aurora__glow {
       position: absolute;
+      width: 70vmax;
+      height: 70vmax;
+      left: 50%;
+      top: 40%;
+      transform: translate(-50%, -50%);
       border-radius: 50%;
-      filter: blur(80px);
-      opacity: 0.55;
-      mix-blend-mode: screen;
+      background: radial-gradient(circle, rgba(100,238,133,0.06) 0%, rgba(100,238,133,0) 65%);
+      filter: blur(40px);
       will-change: transform;
+      animation: uoGlow 60s ease-in-out infinite alternate;
     }
-    .uo-aurora__blob--a {
-      width: 62vmax; height: 62vmax;
-      left: -18vmax; top: -22vmax;
-      background: radial-gradient(circle, #64ee85 0%, rgba(100,238,133,0) 62%);
-      animation: uoBlobA 32s ease-in-out infinite alternate;
+    [data-theme="light"] .uo-aurora__glow {
+      background: radial-gradient(circle, rgba(100,238,133,0.07) 0%, rgba(100,238,133,0) 65%);
     }
-    .uo-aurora__blob--b {
-      width: 56vmax; height: 56vmax;
-      right: -20vmax; top: 20vmax;
-      background: radial-gradient(circle, #7c3aed 0%, rgba(124,58,237,0) 62%);
-      animation: uoBlobB 38s ease-in-out infinite alternate;
-      opacity: 0.45;
-    }
-    .uo-aurora__blob--c {
-      width: 48vmax; height: 48vmax;
-      left: 22vmax; bottom: -18vmax;
-      background: radial-gradient(circle, #22d3ee 0%, rgba(34,211,238,0) 62%);
-      animation: uoBlobC 44s ease-in-out infinite alternate;
-      opacity: 0.28;
-    }
-    .uo-aurora__sweep {
-      position: absolute;
-      inset: -30%;
-      background: conic-gradient(
-        from 0deg at 50% 50%,
-        transparent 0deg,
-        rgba(100,238,133,0.10) 40deg,
-        transparent 90deg,
-        rgba(124,58,237,0.10) 200deg,
-        transparent 260deg,
-        rgba(100,238,133,0.06) 330deg,
-        transparent 360deg
-      );
-      mix-blend-mode: screen;
-      animation: uoSweep 90s linear infinite;
-      will-change: transform;
-    }
-    .uo-aurora__grain {
-      position: absolute;
-      inset: 0;
-      opacity: 0.035;
-      mix-blend-mode: overlay;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-      background-size: 160px 160px;
-    }
-    [data-theme="light"] .uo-aurora__blob { mix-blend-mode: multiply; opacity: 0.35; }
-    [data-theme="light"] .uo-aurora__sweep { mix-blend-mode: multiply; opacity: 0.6; }
-    [data-theme="light"] .uo-aurora__grain { opacity: 0.025; }
-
-    @keyframes uoBlobA {
-      0%   { transform: translate3d(0, 0, 0) scale(1); }
-      50%  { transform: translate3d(8vmax, 6vmax, 0) scale(1.12); }
-      100% { transform: translate3d(3vmax, 12vmax, 0) scale(0.95); }
-    }
-    @keyframes uoBlobB {
-      0%   { transform: translate3d(0, 0, 0) scale(1); }
-      50%  { transform: translate3d(-10vmax, 4vmax, 0) scale(1.08); }
-      100% { transform: translate3d(-4vmax, -8vmax, 0) scale(1.15); }
-    }
-    @keyframes uoBlobC {
-      0%   { transform: translate3d(0, 0, 0) scale(1); }
-      50%  { transform: translate3d(-6vmax, -10vmax, 0) scale(1.1); }
-      100% { transform: translate3d(8vmax, -4vmax, 0) scale(0.9); }
-    }
-    @keyframes uoSweep {
-      0%   { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
+    @keyframes uoGlow {
+      0%   { transform: translate(-52%, -52%) scale(1); }
+      100% { transform: translate(-48%, -46%) scale(1.08); }
     }
     @media (prefers-reduced-motion: reduce) {
-      .uo-aurora__blob,
-      .uo-aurora__sweep { animation: none; }
+      .uo-aurora__glow { animation: none; }
     }
 
     /* --- Universal box-sizing inside scope --- */
@@ -1463,11 +1408,7 @@
     <!-- AURORA BACKGROUND                                  -->
     <!-- ================================================== -->
     <div class="uo-aurora" aria-hidden="true">
-      <div class="uo-aurora__sweep"></div>
-      <div class="uo-aurora__blob uo-aurora__blob--a"></div>
-      <div class="uo-aurora__blob uo-aurora__blob--b"></div>
-      <div class="uo-aurora__blob uo-aurora__blob--c"></div>
-      <div class="uo-aurora__grain"></div>
+      <div class="uo-aurora__glow"></div>
     </div>
 
     <!-- ================================================== -->
