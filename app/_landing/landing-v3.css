@@ -180,7 +180,12 @@
   color: var(--fg-soft);
   max-width: 62ch;
 }
-.uo-hero__sub a { color: var(--accent-soft); }
+.uo-hero__sub a {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
 .uo-hero__chips {
   list-style: none;
   display: flex;

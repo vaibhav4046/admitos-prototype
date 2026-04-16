@@ -34,7 +34,7 @@ export function Footer() {
           </p>
         </div>
         <div>
-          <h4 className="uo-foot__h4">Product</h4>
+          <h3 className="uo-foot__h4">Product</h3>
           <ul>
             <li><Link href="/#features">Features</Link></li>
             <li><Link href="/#how-it-works">How it works</Link></li>
@@ -43,7 +43,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className="uo-foot__h4">Company</h4>
+          <h3 className="uo-foot__h4">Company</h3>
           <ul>
             <li><Link href="/contact-sales">Contact sales</Link></li>
             <li><Link href="/signin">Log in</Link></li>
@@ -51,7 +51,7 @@ export function Footer() {
           </ul>
         </div>
         <div>
-          <h4 className="uo-foot__h4">Legal</h4>
+          <h3 className="uo-foot__h4">Legal</h3>
           <ul>
             <li><Link href="/signin">Privacy Policy</Link></li>
             <li><Link href="/signin">Terms of Service</Link></li>
@@ -61,7 +61,7 @@ export function Footer() {
           </ul>
         </div>
         <aside className="uo-foot__adie" aria-labelledby="foot-adie-h">
-          <h4 id="foot-adie-h" className="uo-foot__h4">Adie wellbeing</h4>
+          <h3 id="foot-adie-h" className="uo-foot__h4">Adie wellbeing</h3>
           <p>
             Adie is a wellbeing companion, not a substitute for clinical
             care. If you or someone you know is in crisis, contact your
