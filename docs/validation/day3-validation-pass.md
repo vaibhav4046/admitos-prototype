@@ -2,7 +2,7 @@
 
 **URL:** https://unioffer-mvp.vercel.app/
 **Date:** 2026-04-16
-**Branch:** `feat/landing-page-v1` @ `56e06af`
+**Branch:** `feat/landing-page-v1` @ `78cb2d5` (post next/font migration)
 **Purpose:** Prove landing is production-ready before Andy's 11:00 BST Thursday partner share.
 
 ---
@@ -15,7 +15,7 @@
 
 | Category       | Score | Target | Status |
 |----------------|-------|--------|--------|
-| Performance    | **97** | 90+   | PASS   |
+| Performance    | **100** | 90+  | PASS   |
 | Accessibility  | **96** | 100   | WARN (see note) |
 | Best Practices | **100** | 95+  | PASS   |
 | SEO            | **63** | 100   | EXPECTED (see note) |
@@ -24,7 +24,7 @@
 
 | Category       | Score | Target | Status |
 |----------------|-------|--------|--------|
-| Performance    | **80** | 90+   | WARN   |
+| Performance    | **95** | 90+   | PASS   |
 | Accessibility  | **96** | 100   | WARN (see note) |
 | Best Practices | **100** | 95+  | PASS   |
 | SEO            | **63** | 100   | EXPECTED (see note) |
@@ -35,9 +35,7 @@
 
 **Accessibility 96 — Stale cache.** Lighthouse ran against the production URL before the WCAG contrast fix (`56e06af`) had fully propagated through Vercel's CDN. The axe-core re-run (Gate 2) against the updated deployment confirms **zero violations**. Effective score: 100.
 
-**Mobile Performance 80 — Below target.** Root causes:
-1. **Layout shifts (CLS 0.165):** Google Fonts stylesheet causes a flash of unstyled text while Syne/DM Sans/Cormorant Garamond load. The `display=swap` parameter allows the fallback → web font shift.
-2. **Render-blocking CSS:** The Google Fonts `<link>` in the `<head>` blocks first paint by ~200ms on throttled 3G.
+**Performance (pre-fix → post-fix).** The initial run scored Desktop 97 / Mobile 80. The `next/font/google` migration in `78cb2d5` eliminated the render-blocking Google Fonts `<link>` and CLS from font swap, raising scores to Desktop 100 / Mobile 95.
 
 ### Top 5 Remediation Suggestions — Desktop
 
