@@ -1,56 +1,82 @@
 /**
- * /contact-sales — Discovery-call placeholder for the Premium tier.
+ * /contact-sales — Enterprise inquiry surface (V3).
  *
- * Replaces the prior `/signin?mode=signup` deep-link used by the Premium
- * pricing-card CTA. The production Calendly link is not yet issued, so
- * this page ships a placeholder card with a mailto fallback to
- * `contact@unioffer.ai`. Swap the card body for the live embed the
- * moment Andy lands the Calendly URL.
+ * Replaces the v1 Discovery-Call placeholder. Now ships a real form
+ * (POSTs to /api/contact-sales — endpoint stub lands with M1 Week 2
+ * sales pipeline). Same V3 token chrome as `/`, no `landing.css`
+ * dependency. Form fields and copy follow Andy's V3 §4 Item 3 spec
+ * verbatim.
  *
- * Design tokens reuse the marketing surface (Syne display, DM Sans body,
- * same light/dark palette) so the jump from pricing → contact-sales
- * keeps the same visual language.
+ * Robots remain noindex/nofollow until Andy's GA + Search Console
+ * property is wired in M1 Week 2.
  */
 
 import type { Metadata } from "next";
-import Link from "next/link";
 
-import "../_landing/landing.css";
+import { Footer } from "../_components/Footer";
+import { Nav } from "../_components/Nav";
+
+import "../_landing/landing-v3.css";
+import "./contact-sales.css";
 
 export const metadata: Metadata = {
-  title: "Book a Discovery Call — UniOffer",
+  title: "Contact Sales — UniOffer",
   description:
-    "Speak to the UniOffer team about Premium advisory, former Admissions Officer review, and bespoke school-list strategy.",
+    "For multi-cohort schools, universities, and counselling teams. Speak to the UniOffer team about Premium advisory, former Admissions Officer review, and bespoke school-list strategy.",
   robots: { index: false, follow: false },
 };
 
 export default function ContactSalesPage() {
   return (
-    <main className="uo-landing">
-      <section className="uo-section uo-contact-section">
-        <Link href="/" className="uo-contact-back">
-          ← Back to UniOffer
-        </Link>
-        <h1 className="uo-contact-h1">Book a Discovery Call</h1>
-        <p className="uo-contact-sub">
-          Speak to the UniOffer team about Premium advisory, former
-          Admissions Officer review, and bespoke school-list strategy.
-        </p>
-        <div className="uo-contact-card">
-          <p className="uo-contact-card-label">Calendar loading</p>
-          <p className="uo-contact-card-body">
-            Our Discovery Call scheduler is being finalised. In the
-            meantime, email{" "}
+    <div className="uo-shell">
+      <Nav />
+      <main className="uo-main uo-cs-main" id="main">
+        <section className="uo-cs-card">
+          <p className="uo-eyebrow">Enterprise</p>
+          <h1 className="uo-cs__h1">Let&apos;s talk.</h1>
+          <p className="uo-cs__lede">
+            For multi-cohort schools, universities, and counselling teams.
+            We&apos;ll reply within one business day.
+          </p>
+          <form action="/api/contact-sales" method="POST" className="uo-cs__form">
+            <label className="uo-cs__label">
+              <span>Full name</span>
+              <input required name="name" autoComplete="name" />
+            </label>
+            <label className="uo-cs__label">
+              <span>Work email</span>
+              <input
+                required
+                type="email"
+                name="email"
+                autoComplete="email"
+              />
+            </label>
+            <label className="uo-cs__label">
+              <span>Organisation</span>
+              <input required name="org" />
+            </label>
+            <label className="uo-cs__label">
+              <span>How can we help?</span>
+              <textarea required name="message" rows={5} />
+            </label>
+            <button type="submit" className="uo-btn uo-btn--primary uo-cs__submit">
+              Send
+            </button>
+          </form>
+          <p className="uo-cs__alt">
+            Or email{" "}
             <a
-              className="uo-contact-mailto"
-              href="mailto:contact@unioffer.ai?subject=UniOffer%20Premium%20Discovery%20Call"
+              className="uo-cs__mailto"
+              href="mailto:contact@unioffer.ai?subject=UniOffer%20Enterprise%20Inquiry"
             >
               contact@unioffer.ai
             </a>{" "}
-            and we&apos;ll reply with a slot within one business day.
+            directly.
           </p>
-        </div>
-      </section>
-    </main>
+        </section>
+      </main>
+      <Footer />
+    </div>
   );
 }

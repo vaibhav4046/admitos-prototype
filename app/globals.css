@@ -256,19 +256,95 @@
     font-size: 13px;
   }
 
-  /* Loading screen — green cat breathing. */
+  /* Loading screen — manus.im-style UniOffer u-mark with rotating
+     concentric arcs.
+
+     Composition rules:
+       - Two static rings live behind two rotating accent arcs.
+       - Outer arc: --accent (purple), 1.6s clockwise.
+       - Inner arc: --cat (green), 2.4s anti-clockwise — different
+         duration so the rings never sync visually.
+       - Each accent arc is a circle with stroke-dasharray drawn from
+         pathLength=100 so changing the dash chunk changes how much
+         of the ring is the accent stripe.
+       - The "u" glyph is Libre Baskerville for brand cohesion.
+       - prefers-reduced-motion freezes both arcs at their starting
+         transform; the rings + glyph remain visible. */
   .uo-loading {
     position: fixed; inset: 0;
     display: flex; flex-direction: column; align-items: center; justify-content: center;
-    gap: 12px;
+    gap: 18px;
     background: var(--bg);
+    color: var(--fg);
     z-index: 999;
   }
-  .uo-loading__txt { color: var(--fg-soft); font-size: 13px; letter-spacing: 0.04em; }
-  .uo-cat-breath { animation: catBreath 2s ease-in-out infinite; }
-  @keyframes catBreath {
-    0%, 100% { transform: scale(1); opacity: 0.8; }
-    50%      { transform: scale(1.06); opacity: 1; }
+  .uo-loading__mark {
+    position: relative;
+    width: 120px;
+    height: 120px;
+  }
+  .uo-loading__ring {
+    fill: none;
+    stroke: var(--border);
+    stroke-width: 1;
+    opacity: 0.55;
+  }
+  .uo-loading__arc {
+    fill: none;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    /* pathLength=100 set on the element, so 18 units of dash = 18%
+       of the circumference is the visible accent arc. The 100
+       behind keeps the rest of the ring transparent. */
+    stroke-dasharray: 18 100;
+    transform-origin: 60px 60px;
+  }
+  .uo-loading__arc--outer {
+    stroke: var(--accent);
+    animation: uoLoadSpin 1.6s linear infinite;
+  }
+  .uo-loading__arc--inner {
+    stroke: var(--cat);
+    animation: uoLoadSpinReverse 2.4s linear infinite;
+  }
+  .uo-loading__u {
+    font-family: var(--font-serif);
+    font-size: 38px;
+    font-weight: 400;
+    fill: var(--fg);
+    dominant-baseline: middle;
+  }
+  .uo-loading__rule {
+    width: 220px;
+    height: 1px;
+    background: linear-gradient(
+      90deg,
+      transparent 0%,
+      var(--accent) 50%,
+      transparent 100%
+    );
+    opacity: 0.7;
+    margin-top: 4px;
+  }
+  .uo-loading__word {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.42em;
+    color: var(--fg-soft);
+    text-transform: uppercase;
+  }
+  @keyframes uoLoadSpin {
+    0%   { transform: rotate(-90deg); }
+    100% { transform: rotate(270deg); }
+  }
+  @keyframes uoLoadSpinReverse {
+    0%   { transform: rotate(90deg); }
+    100% { transform: rotate(-270deg); }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .uo-loading__arc--outer,
+    .uo-loading__arc--inner { animation: none; }
   }
 
   /* Cookie banner — UK-GDPR Accept + Reject equal prominence. */

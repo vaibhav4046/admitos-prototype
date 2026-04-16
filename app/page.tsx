@@ -1,53 +1,45 @@
 /**
- * / — UniOffer marketing landing page v1 (public root).
+ * / — UniOffer marketing landing (V3 RSC tree).
  *
- * Deliberately lives OUTSIDE `(admissions)` and `(wellbeing)`: the
- * marketing surface has its own chrome, fonts, and theme tokens and
- * must never pull PostHog/Sentry-scoped providers from either route
- * group. Only the root layout wraps it.
+ * Single canonical site at `/`. Server-rendered shell with the
+ * minimum number of client islands needed to power the typing
+ * placeholder (HeroComposer), the cookie banner, the language
+ * switcher, the theme toggle, and the scroll-reveal observer.
  *
- * Signed-in students land at /app (moved here from the old root in
- * the same commit) via `app/(admissions)/app/page.tsx`, so the
- * admissions dashboard is one Link away but never hydrates on the
- * marketing page.
+ * Lives outside the `(admissions)` and `(wellbeing)` route groups so
+ * neither route group's PostHog/Sentry providers ever hydrate on the
+ * marketing surface. `app/layout.tsx` is the only ancestor.
  *
- * Andy's spec (v4 HTML comp at public/unioffer-landing.html) is
- * reproduced in JSX; interactive bits (theme, language picker,
- * cookie banner, coming-soon toast) live in LandingClient under
- * app/_landing/ (the underscore prefix keeps it out of the router).
+ * AdieFAB is intentionally NOT imported here — Andy item 7. The
+ * V3 grep test guards this file at PR review.
  */
 
 import type { Metadata } from "next";
 
-import LandingClient from "./_landing/LandingClient";
-import "./_landing/landing.css";
+import { CookieBanner } from "./_components/CookieBanner";
+import { Footer } from "./_components/Footer";
+import { Nav } from "./_components/Nav";
 
-/**
- * Landing-page metadata per V3.1 spec §"SEO and Open Graph".
- *
- * Title, description, and OG/Twitter tags are copied verbatim from
- * Andy's 03_Landing_Page_V3.1.pdf (committed to repo root 15 Apr)
- * so the marketing surface matches what compliance + marketing
- * signed off on.
- *
- * The OG image at `/public/brand/og-image.jpg` is NOT yet shipped —
- * Andy has not delivered the asset (not among the 14 files dropped
- * on 15 Apr). The URL is still declared so the moment the asset
- * lands in `/public/brand/`, the crawler cache will pick it up
- * without another metadata change.
- *
- * The root layout sets `robots: { index: false, follow: false }` for
- * M1; flip that gate once Andy signs off on the GA / Search Console
- * property.
- */
+import { Aurora } from "./_landing/Aurora";
+import { Features } from "./_landing/Features";
+import { Hero } from "./_landing/Hero";
+import { HowItWorks } from "./_landing/HowItWorks";
+import { LandingObservers } from "./_landing/LandingObservers";
+import { MarketReality } from "./_landing/MarketReality";
+import { Pricing } from "./_landing/Pricing";
+import { SocialProof } from "./_landing/SocialProof";
+import { Timeline } from "./_landing/Timeline";
+
+import "./_landing/landing-v3.css";
+
 export const metadata: Metadata = {
-  title: "UniOffer — The Operating System for University Applications",
+  title: "UniOffer — More Than Offers. We Spark Futures.",
   description:
-    "12 AI agents. One platform. Build your competitive candidacy, execute your full application, and access expert human guidance — from your first essay to your final submission.",
+    "12 AI agents and former admissions officers, working together on the single most consequential application of your life. IECA · NACAC · UCAS compliant.",
   openGraph: {
     title: "UniOffer — AI-Native University Admissions Platform",
     description:
-      "The world's first compliance-first, wellbeing-first AI platform for top university applications. IECA · NACAC · UCAS compliant.",
+      "Pool-aware school lists, voice-protected essay drafting, Hume-AI interview reps, and a wellbeing companion that respects you. Built with former Cambridge, Oxford, and Ivy admissions officers.",
     url: "https://unioffer.ai",
     siteName: "UniOffer",
     images: [{ url: "/brand/og-image.jpg" }],
@@ -57,20 +49,40 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "UniOffer — AI-Native University Admissions Platform",
     description:
-      "The world's first compliance-first, wellbeing-first AI platform for top university applications. IECA · NACAC · UCAS compliant.",
+      "Pool-aware school lists, voice-protected essay drafting, Hume-AI interview reps, and a wellbeing companion that respects you.",
     images: ["/brand/og-image.jpg"],
   },
 };
 
 export default function LandingPage() {
   return (
-    <>
-      {/* Fonts are self-hosted via next/font/google in layout.tsx.
-          CSS variables --font-syne, --font-dm-sans, --font-cormorant
-          are applied to <html> and consumed in landing.css. No external
-          Google Fonts request is made — eliminates CLS from font swap
-          and the render-blocking stylesheet. */}
-      <LandingClient />
-    </>
+    <div className="uo-shell">
+      <Aurora />
+      <Nav />
+      <main className="uo-main" id="main">
+        <Hero />
+        <div data-reveal>
+          <MarketReality />
+        </div>
+        <div data-reveal>
+          <HowItWorks />
+        </div>
+        <div data-reveal>
+          <Features />
+        </div>
+        <div data-reveal>
+          <Pricing />
+        </div>
+        <div data-reveal>
+          <Timeline />
+        </div>
+        <div data-reveal>
+          <SocialProof />
+        </div>
+      </main>
+      <Footer />
+      <CookieBanner />
+      <LandingObservers />
+    </div>
   );
 }

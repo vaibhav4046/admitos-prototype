@@ -1,0 +1,88 @@
+/**
+ * /contact-sales — page-scoped styles.
+ *
+ * Same V3 tokens as the landing surface. The card sits centred,
+ * 640px max width, with the same border / surface treatment as
+ * pricing tiers so the jump from pricing → contact-sales feels
+ * continuous.
+ */
+
+.uo-cs-main {
+  padding-top: clamp(48px, 8vh, 96px);
+  padding-bottom: clamp(48px, 8vh, 96px);
+}
+.uo-cs-card {
+  max-width: 640px;
+  margin: 0 auto;
+  border: 1px solid var(--border);
+  background: var(--bg-surface);
+  border-radius: var(--r-xl);
+  padding: clamp(28px, 4vw, 48px);
+  box-shadow: var(--shadow-1);
+}
+.uo-cs__h1 {
+  font-family: var(--font-serif);
+  font-size: clamp(32px, 4vw, 44px);
+  font-weight: 400;
+  letter-spacing: -0.01em;
+  margin: 0 0 12px;
+  color: var(--fg);
+}
+.uo-cs__lede {
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--fg-muted);
+  margin: 0 0 28px;
+  max-width: 56ch;
+}
+.uo-cs__form {
+  display: grid;
+  gap: 16px;
+}
+.uo-cs__label {
+  display: grid;
+  gap: 6px;
+}
+.uo-cs__label span {
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--fg-soft);
+}
+.uo-cs__label input,
+.uo-cs__label textarea {
+  border: 1px solid var(--border);
+  background: var(--bg-elevated);
+  color: var(--fg);
+  border-radius: var(--r-md);
+  padding: 12px 14px;
+  font: inherit;
+  font-size: 15px;
+  transition: border-color 180ms ease, box-shadow 180ms ease;
+}
+.uo-cs__label input:focus-visible,
+.uo-cs__label textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent-soft);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 18%, transparent);
+}
+.uo-cs__label textarea {
+  resize: vertical;
+  min-height: 120px;
+}
+.uo-cs__submit {
+  height: 44px;
+  margin-top: 8px;
+  justify-self: start;
+  padding: 0 24px;
+}
+.uo-cs__alt {
+  margin: 20px 0 0;
+  font-size: 13px;
+  color: var(--fg-soft);
+}
+.uo-cs__mailto {
+  color: var(--accent-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}

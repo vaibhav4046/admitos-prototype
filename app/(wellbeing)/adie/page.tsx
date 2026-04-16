@@ -36,13 +36,13 @@ export default function AdieIndexPage() {
   return (
     <div className="space-y-10">
       <div className="text-balance">
-        <p className="text-xs font-semibold uppercase tracking-wider text-wellbeing-700">
+        <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--accent-soft)" }}>
           A calm space
         </p>
-        <h1 className="mt-2 text-balance text-3xl font-semibold tracking-tight text-slate-900 sm:text-4xl">
+        <h1 className="mt-2 text-balance text-3xl font-semibold tracking-tight sm:text-4xl" style={{ color: "var(--fg)" }}>
           Hi. I&apos;m Adie.
         </h1>
-        <p className="mt-3 max-w-xl text-balance text-base leading-relaxed text-slate-600">
+        <p className="mt-3 max-w-xl text-balance text-base leading-relaxed" style={{ color: "var(--fg-muted)" }}>
           A calm space to talk about how the admissions process is landing
           for you. I&apos;m a companion, not a therapist — and nothing you
           say here is ever shared with your counsellor or attached to your
@@ -50,11 +50,11 @@ export default function AdieIndexPage() {
         </p>
       </div>
 
-      <Card className="border-wellbeing-100 bg-white/70 shadow-card">
+      <Card style={{ background: "var(--bg-surface)", borderColor: "var(--border)" }}>
         <CardBody className="px-6 py-6">
           <div className="space-y-4">
-            <div className="rounded-lg bg-wellbeing-50/60 px-4 py-3 text-sm leading-relaxed text-slate-700">
-              <p className="text-xs font-semibold uppercase tracking-wider text-wellbeing-700">
+            <div className="rounded-lg px-4 py-3 text-sm leading-relaxed" style={{ background: "var(--bg-elevated)", color: "var(--fg-muted)" }}>
+              <p className="text-xs font-semibold uppercase tracking-wider" style={{ color: "var(--accent-soft)" }}>
                 Adie
               </p>
               <p className="mt-1">
@@ -70,15 +70,17 @@ export default function AdieIndexPage() {
               id="adie-msg"
               rows={3}
               placeholder="Take your time. Type whatever&apos;s on your mind…"
-              className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 placeholder:text-slate-400 focus:border-wellbeing-500 focus:outline-none focus:ring-1 focus:ring-wellbeing-500"
+              className="w-full rounded-lg px-3 py-2 text-sm focus:outline-none"
+              style={{ background: "var(--bg-elevated)", color: "var(--fg)", border: "1px solid var(--border)" }}
             />
             <div className="flex items-center justify-between gap-3">
-              <p className="text-xs text-slate-500">
+              <p className="text-xs" style={{ color: "var(--fg-soft)" }}>
                 Nothing you type is stored or shared with your counsellor.
               </p>
               <button
                 type="button"
-                className="inline-flex items-center rounded-md bg-wellbeing-700 px-3.5 py-2 text-sm font-medium text-white shadow-sm hover:bg-wellbeing-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-wellbeing-700 focus-visible:ring-offset-2"
+                className="inline-flex items-center rounded-md px-3.5 py-2 text-sm font-medium shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+                style={{ background: "var(--accent)", color: "var(--accent-ink)" }}
               >
                 Send
               </button>
@@ -89,11 +91,13 @@ export default function AdieIndexPage() {
 
       <section
         aria-labelledby="adie-crisis-heading"
-        className="rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm text-amber-900"
+        className="rounded-xl p-5 text-sm"
+        style={{ background: "color-mix(in srgb, var(--warn) 14%, var(--bg-surface))", color: "var(--fg)", border: "1px solid color-mix(in srgb, var(--warn) 40%, transparent)" }}
       >
         <h2
           id="adie-crisis-heading"
           className="text-xs font-semibold uppercase tracking-wider"
+          style={{ color: "var(--warn)" }}
         >
           If you&apos;re in crisis right now
         </h2>
@@ -109,9 +113,12 @@ export default function AdieIndexPage() {
         </p>
       </section>
 
-      <aside className="rounded-xl border border-slate-200 bg-white/80 px-5 py-4 text-xs leading-relaxed text-slate-600">
+      <aside
+        className="rounded-xl px-5 py-4 text-xs leading-relaxed"
+        style={{ background: "var(--bg-surface)", color: "var(--fg-muted)", border: "1px solid var(--border)" }}
+      >
         <p>
-          <span className="font-semibold text-slate-900">
+          <span className="font-semibold" style={{ color: "var(--fg)" }}>
             Your privacy is structurally protected.
           </span>{" "}
           Adie lives in a separate area from your admissions record.
