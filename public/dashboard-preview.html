@@ -90,6 +90,10 @@
   .uo-dashboard .nav-list { list-style: none; padding: 0; margin: 0; }
   .uo-dashboard .nav-item { position: relative; display: flex; align-items: center; gap: 10px; height: 40px; padding: 0 12px; border-radius: 8px; color: var(--fg-secondary); font-size: 13.5px; font-weight: 500; cursor: pointer; transition: background 0.16s ease, color 0.16s ease; white-space: nowrap; overflow: hidden; }
   .uo-dashboard .nav-item .ico { width: 18px; height: 18px; flex-shrink: 0; color: var(--fg-muted); transition: color 0.16s ease; }
+  /* Cat-icon variant: img-based, keep its own green regardless of nav state */
+  .uo-dashboard .ico-cat { object-fit: contain; filter: none; opacity: 1; }
+  .uo-dashboard .nav-item:hover .ico-cat,
+  .uo-dashboard .nav-item.active .ico-cat { opacity: 1; }
   .uo-dashboard .nav-item:hover { background: var(--bg-elevated); color: var(--fg); }
   .uo-dashboard .nav-item:hover .ico { color: var(--fg-secondary); }
   .uo-dashboard .nav-item[aria-current="page"] { background: var(--accent-glow); color: var(--fg); }
@@ -375,7 +379,7 @@
             <span class="lbl">Commons</span>
           </li>
           <li class="nav-item" data-nav="adie">
-            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>
+            <img class="ico ico-cat" src="/brand/v2/unioffer-cat-icon.svg" alt="" aria-hidden="true" />
             <span class="lbl">Adie — Wellbeing</span>
           </li>
         </ul>
@@ -498,7 +502,7 @@
         <button class="chip" role="listitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/></svg>Run mock interview</button>
         <button class="chip" role="listitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/></svg>Update school list</button>
         <button class="chip" role="listitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>Readiness check</button>
-        <button class="chip" role="listitem"><svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/></svg>Talk to Adie</button>
+        <button class="chip" role="listitem"><img class="ico ico-cat" src="/brand/v2/unioffer-cat-icon.svg" alt="" aria-hidden="true" />Talk to Adie</button>
       </div>
 
       <!-- Recent cards -->

@@ -903,6 +903,27 @@
       margin: 0 0 10px;
       color: var(--fg);
     }
+    .uo-feature__icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 44px;
+      height: 44px;
+      margin: 0 0 14px;
+      border-radius: 12px;
+      background: color-mix(in srgb, var(--accent) 14%, transparent);
+      border: 1px solid color-mix(in srgb, var(--accent) 30%, transparent);
+    }
+    .uo-feature__icon img {
+      width: 28px;
+      height: 28px;
+      object-fit: contain;
+      display: block;
+    }
+    .uo-feature--adie .uo-feature__icon {
+      background: color-mix(in srgb, #64ee85 16%, transparent);
+      border-color: color-mix(in srgb, #64ee85 36%, transparent);
+    }
     .uo-feature__text {
       font-family: 'Inter', sans-serif;
       font-size: 15px;
@@ -1134,6 +1155,27 @@
     .uo-footer__inner {
       max-width: 1200px;
       margin: 0 auto;
+    }
+    .uo-footer__brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin: 0 0 32px;
+    }
+    .uo-footer__brand img {
+      height: 32px;
+      width: auto;
+      display: block;
+    }
+    .uo-footer__brand-dark { display: block; }
+    .uo-footer__brand-light { display: none; }
+    [data-theme="light"] .uo-footer__brand-dark { display: none; }
+    [data-theme="light"] .uo-footer__brand-light { display: block; }
+    .uo-footer__tagline {
+      font-family: 'Libre Baskerville', serif;
+      font-style: italic;
+      font-size: 14px;
+      color: var(--fg-secondary);
     }
     .uo-footer__grid {
       display: grid;
@@ -1679,7 +1721,10 @@
               <p class="uo-feature__text">Oxbridge, MMI, and US alumni modes with Hume-powered emotion analysis.</p>
             </article>
 
-            <article class="uo-feature">
+            <article class="uo-feature uo-feature--adie">
+              <span class="uo-feature__icon" aria-hidden="true">
+                <img src="/brand/v2/unioffer-cat-icon.svg" alt="" />
+              </span>
               <h3 class="uo-feature__title">Adie — Wellbeing Companion</h3>
               <p class="uo-feature__text">Peer support at every tier — not a substitute for clinical care.</p>
             </article>
@@ -1814,6 +1859,12 @@
     <!-- ================================================== -->
     <footer class="uo-footer" aria-label="Footer">
       <div class="uo-footer__inner">
+
+        <div class="uo-footer__brand">
+          <img class="uo-footer__brand-dark" src="/brand/v2/unioffer-wordmark-color.svg" alt="Unioffer" />
+          <img class="uo-footer__brand-light" src="/brand/v2/unioffer-wordmark-black.svg" alt="" aria-hidden="true" />
+          <span class="uo-footer__tagline">More than offers. We spark futures.</span>
+        </div>
 
         <div class="uo-footer__grid">
           <div>
