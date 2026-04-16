@@ -1,0 +1,131 @@
+{
+  "base": "https://unioffer-d4zj4568r-vaibhav4046s-projects.vercel.app",
+  "routes": [
+    {
+      "name": "landing",
+      "url": "https://unioffer-d4zj4568r-vaibhav4046s-projects.vercel.app/preview",
+      "viewports": [
+        {
+          "label": "desktop-1366",
+          "width": 1366,
+          "height": 900,
+          "scrollWidth": 1366,
+          "innerWidth": 1366,
+          "bodyScrollWidth": 1366,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        },
+        {
+          "label": "laptop-1024",
+          "width": 1024,
+          "height": 800,
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        },
+        {
+          "label": "tablet-768",
+          "width": 768,
+          "height": 1024,
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "bodyScrollWidth": 768,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        },
+        {
+          "label": "mobile-480",
+          "width": 480,
+          "height": 800,
+          "scrollWidth": 480,
+          "innerWidth": 480,
+          "bodyScrollWidth": 480,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        },
+        {
+          "label": "mobile-375",
+          "width": 375,
+          "height": 812,
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "bodyScrollWidth": 375,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        }
+      ],
+      "axe": {
+        "violations": [],
+        "violationCount": 0,
+        "passCount": 26,
+        "incompleteCount": 2
+      },
+      "consoleErrors": []
+    },
+    {
+      "name": "dashboard",
+      "url": "https://unioffer-d4zj4568r-vaibhav4046s-projects.vercel.app/preview/dashboard",
+      "viewports": [
+        {
+          "label": "desktop-1366",
+          "width": 1366,
+          "height": 900,
+          "scrollWidth": 1366,
+          "innerWidth": 1366,
+          "bodyScrollWidth": 1366,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        },
+        {
+          "label": "laptop-1024",
+          "width": 1024,
+          "height": 800,
+          "scrollWidth": 1024,
+          "innerWidth": 1024,
+          "bodyScrollWidth": 1024,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        },
+        {
+          "label": "tablet-768",
+          "width": 768,
+          "height": 1024,
+          "scrollWidth": 768,
+          "innerWidth": 768,
+          "bodyScrollWidth": 768,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        },
+        {
+          "label": "mobile-480",
+          "width": 480,
+          "height": 800,
+          "scrollWidth": 480,
+          "innerWidth": 480,
+          "bodyScrollWidth": 480,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        },
+        {
+          "label": "mobile-375",
+          "width": 375,
+          "height": 812,
+          "scrollWidth": 375,
+          "innerWidth": 375,
+          "bodyScrollWidth": 375,
+          "horizontalOverflow": false,
+          "consoleErrorCount": 0
+        }
+      ],
+      "axe": {
+        "violations": [],
+        "violationCount": 0,
+        "passCount": 29,
+        "incompleteCount": 1
+      },
+      "consoleErrors": []
+    }
+  ]
+}
