@@ -528,7 +528,6 @@ export default function LandingClient() {
           </p>
           <ul className="market-grid">
             <li className="market-card">
-              <div className="market-flag" aria-hidden="true">🇨🇳</div>
               <h3 className="market-h">China → Cambridge</h3>
               <div className="market-stat">
                 <span className="market-stat-n">10.9%</span>
@@ -541,7 +540,6 @@ export default function LandingClient() {
               </p>
             </li>
             <li className="market-card">
-              <div className="market-flag" aria-hidden="true">🇮🇳</div>
               <h3 className="market-h">India → Oxford</h3>
               <div className="market-stat">
                 <span className="market-stat-n">4.2%</span>
@@ -553,7 +551,6 @@ export default function LandingClient() {
               </p>
             </li>
             <li className="market-card">
-              <div className="market-flag" aria-hidden="true">🇸🇬</div>
               <h3 className="market-h">Singapore → Cambridge</h3>
               <div className="market-stat">
                 <span className="market-stat-n">26.5%</span>
@@ -566,7 +563,6 @@ export default function LandingClient() {
               </p>
             </li>
             <li className="market-card">
-              <div className="market-flag" aria-hidden="true">🇭🇰</div>
               <h3 className="market-h">Hong Kong → Cambridge</h3>
               <div className="market-stat">
                 <span className="market-stat-n">17.6%</span>
@@ -578,7 +574,6 @@ export default function LandingClient() {
               </p>
             </li>
             <li className="market-card">
-              <div className="market-flag" aria-hidden="true">🇰🇷</div>
               <h3 className="market-h">South Korea → Top US</h3>
               <div className="market-stat">
                 <span className="market-stat-n">Extreme</span>

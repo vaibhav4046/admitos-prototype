@@ -1276,10 +1276,6 @@
   flex-direction: column;
   gap: 0.45rem;
 }
-.uo-landing .market-flag {
-  font-size: 22px;
-  line-height: 1;
-}
 .uo-landing .market-h {
   font-family: var(--uo-font-display);
   font-size: 13.5px;
