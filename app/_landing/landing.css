@@ -38,6 +38,30 @@
   --uo-font-display: var(--font-syne, 'Syne'), system-ui, sans-serif;
   --uo-font-tagline: var(--font-cormorant, 'Cormorant Garamond'), serif;
 
+  /* ── Spacing system (Phase C, 16 Apr 2026) ─────────────────────────
+     Calibrated to manus.im at 1440px: hero occupies ≈85vh with generous
+     padding, sections breathe with clamp(120px, 15vh, 200px) vertical
+     rhythm, internal stacks step through 80 / 48 / 32 / 16 px. The old
+     layout used 4rem / 1.5rem — which read as a "wall of text" per
+     Andy's 16 Apr note. */
+  --section-pad-y-desktop: clamp(120px, 15vh, 200px);
+  --section-pad-y-mobile:  clamp(80px, 12vh, 120px);
+  --section-pad-x-desktop: clamp(32px, 6vw, 96px);
+  --section-pad-x-mobile:  20px;
+
+  --stack-gap-xl: 80px;
+  --stack-gap-lg: 48px;
+  --stack-gap-md: 32px;
+  --stack-gap-sm: 16px;
+
+  --hero-headline-to-composer-gap: 40px;
+  --hero-composer-to-chips-gap: 32px;
+  --hero-chips-gap: 12px;
+
+  --content-max-width: 1200px;
+  --hero-max-width: 720px;
+  --composer-max-width: 760px;
+
   font-family: var(--uo-font-body);
   background: var(--uo-bg);
   color: var(--uo-text-p);
@@ -305,7 +329,11 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 2.5rem 1.5rem 4rem;
+  /* Phase C: manus.im puts the hero at ~85vh and centres it inside
+     generous vertical padding. Inner `.card` supplies the max-width. */
+  min-height: 85vh;
+  padding-block: var(--section-pad-y-desktop);
+  padding-inline: var(--section-pad-x-desktop);
   width: 100%;
 }
 /* Hero card container — widened after auth card was extracted into a
@@ -817,19 +845,21 @@
    max-width pattern. */
 .uo-landing .uo-section {
   width: 100%;
-  max-width: 1040px;
+  max-width: var(--content-max-width);
   margin: 0 auto;
-  padding: 4rem 1.5rem 4rem;
+  padding-block: var(--section-pad-y-desktop);
+  padding-inline: var(--section-pad-x-desktop);
   text-align: center;
   box-sizing: border-box;
 }
 .uo-landing .uo-section-alt {
   max-width: none;
   background: var(--uo-surface);
-  padding: 4rem 1.5rem 4rem;
+  padding-block: var(--section-pad-y-desktop);
+  padding-inline: var(--section-pad-x-desktop);
 }
 .uo-landing .uo-section-alt > * {
-  max-width: 1040px;
+  max-width: var(--content-max-width);
   margin-left: auto;
   margin-right: auto;
 }
@@ -1473,14 +1503,13 @@
 
 @media (max-width: 1200px) {
   .uo-landing .nav { padding: 0 1.25rem; }
-  .uo-landing .uo-section { padding: 3.5rem 1.25rem; }
-  .uo-landing .uo-section-alt { padding: 3.5rem 1.25rem; }
+  /* Section padding now driven by clamp() tokens, no per-breakpoint
+     override needed at 1200px — the tokens shrink with viewport. */
 }
 
 @media (max-width: 1024px) {
   .uo-landing .feat-grid { grid-template-columns: repeat(2, 1fr); }
   .uo-landing .how-steps { grid-template-columns: repeat(2, 1fr); }
-  .uo-landing .hero-band { padding: 2rem 1.25rem 3rem; }
   .uo-landing .sec-h2 { font-size: 30px; }
 }
 
@@ -1494,14 +1523,21 @@
   .uo-landing .desktop-row { display: none; }
 
   /* Hero typography compresses but never below readable sizes. */
-  .uo-landing .hero-band { padding: 1.5rem 1rem 2.5rem; }
+  .uo-landing .hero-band {
+    padding-block: var(--section-pad-y-mobile);
+    padding-inline: var(--section-pad-x-mobile);
+    min-height: 80vh;
+  }
   .uo-landing .card { max-width: 100%; }
   .uo-landing .hl-main { font-size: 30px; }
   .uo-landing .hl-pre { font-size: 16px; }
 
-  /* Sections: 1 column, smaller vertical rhythm. */
+  /* Sections: 1 column, mobile-sized vertical rhythm. */
   .uo-landing .uo-section,
-  .uo-landing .uo-section-alt { padding: 2.75rem 1rem; }
+  .uo-landing .uo-section-alt {
+    padding-block: var(--section-pad-y-mobile);
+    padding-inline: var(--section-pad-x-mobile);
+  }
   .uo-landing .sec-h2 { font-size: 26px; }
   .uo-landing .sec-sub { font-size: 14px; margin-bottom: 1.75rem; }
   .uo-landing .feat-grid,
