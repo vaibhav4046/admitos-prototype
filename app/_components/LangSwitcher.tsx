@@ -6,7 +6,8 @@
  * Andy's spec: 10 languages in priority order (UK admissions feeder
  * markets), English active, the other 9 rendered as "Coming soon" with
  * `aria-disabled` so screen readers announce them as non-interactive
- * but they remain visible. NO German — Andy's checklist item 5.
+ * but they remain visible. Andy's checklist item 5: Deutsche locale
+ * is intentionally absent from the priority list.
  *
  * The current locale is always `en` in M1; switching is purely a
  * marketing signal until the i18n layer lands in M2.
