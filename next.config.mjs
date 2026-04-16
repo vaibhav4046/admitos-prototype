@@ -64,6 +64,14 @@ const nextConfig = {
       },
     ];
   },
+  // V2 landing + dashboard prototype rewrites. Static HTML served from /public
+  // under friendlier preview URLs while the React conversion happens in M2.
+  async rewrites() {
+    return [
+      { source: "/preview", destination: "/landing.html" },
+      { source: "/preview/dashboard", destination: "/dashboard-preview.html" },
+    ];
+  },
 };
 
 export default nextConfig;
