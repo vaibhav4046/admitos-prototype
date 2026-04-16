@@ -517,11 +517,12 @@ export default function LandingClient() {
             The competition is not who you think it is.
           </h2>
           <p className="sec-sub">
-            International applicants don&apos;t compete against all
-            applicants. You compete within your own nationality pool — at
-            admit rates that are 2 to 3 times harder than the headline
-            numbers suggest.
+            You compete within your nationality pool — often 2–3× harder than the headline rate.
           </p>
+          {/* Phase F (16 Apr 2026): descriptions compressed to a single
+              terse fact per card so the stat reads as the lead signal
+              and the prose carries only the sourcing detail. Numbers
+              stay verbatim from the PDF — do not alter. */}
           <ul className="market-grid">
             <li className="market-card">
               <h3 className="market-h">China → Cambridge</h3>
@@ -530,9 +531,7 @@ export default function LandingClient() {
                 <span className="market-stat-l">admit rate</span>
               </div>
               <p className="market-p">
-                2,308 applicants · 252 admitted. The general Cambridge
-                rate is 21%. Chinese applicants face a pool twice as
-                competitive.
+                2,308 applicants · 252 admitted. Half the general Cambridge rate of 21%.
               </p>
             </li>
             <li className="market-card">
@@ -542,8 +541,7 @@ export default function LandingClient() {
                 <span className="market-stat-l">admit rate</span>
               </div>
               <p className="market-p">
-                1,757 applicants · 74 admitted. The lowest admit rate
-                among all major applicant nationalities at Oxford.
+                1,757 applicants · 74 admitted. Lowest nationality-pool rate at Oxford.
               </p>
             </li>
             <li className="market-card">
@@ -553,9 +551,7 @@ export default function LandingClient() {
                 <span className="market-stat-l">admit rate</span>
               </div>
               <p className="market-p">
-                577 applicants · 153 admitted. The highest rate — but
-                only because the competitive bar within Singapore is
-                already extreme.
+                577 applicants · 153 admitted. Highest rate — but the domestic bar is extreme.
               </p>
             </li>
             <li className="market-card">
@@ -565,8 +561,7 @@ export default function LandingClient() {
                 <span className="market-stat-l">admit rate</span>
               </div>
               <p className="market-p">
-                557 applicants · 98 admitted. Still nearly double the
-                China rate. UniOffer&apos;s ARE understands why.
+                557 applicants · 98 admitted. Nearly double the China pool rate.
               </p>
             </li>
             <li className="market-card">
@@ -576,8 +571,7 @@ export default function LandingClient() {
                 <span className="market-stat-l">applicant pool</span>
               </div>
               <p className="market-p">
-                Among the most competitive international applicant pools
-                at every Ivy League institution.
+                Among the most competitive international pools at every Ivy institution.
               </p>
             </li>
           </ul>
@@ -617,86 +611,62 @@ export default function LandingClient() {
         <section id="features" className="uo-section" aria-labelledby="features-heading">
           <div className="sec-eyebrow">Features</div>
           <h2 id="features-heading" className="sec-h2">
-            12 specialist AI agents. One unified platform. Built for the top 1%.
+            12 specialist agents. One platform.
           </h2>
           <div className="feat-grid">
+            {/* Phase F (16 Apr 2026): feature descriptions radically
+                shortened to ≤12 words per card. The long paragraphs
+                belonged in the product-detail route, not on the landing
+                marketing scan. The 12-agent explanation moves to the
+                "Meet the 12 agents" page (coming soon) — here we want
+                scannable value statements only. */}
             <article className="feat-card">
               <div className="feat-ico" aria-hidden="true">01</div>
               <h3 className="feat-h">12-Agent AI Mesh</h3>
               <p className="feat-p">
-                Twelve specialist agents execute in parallel — essay,
-                strategy, research, interview, test prep, and more. Not a
-                chatbot. A complete expert team working around the clock
-                on your application.
+                Twelve specialists working in parallel. Not a chatbot — a full expert team.
               </p>
             </article>
             <article className="feat-card">
               <div className="feat-ico" aria-hidden="true">02</div>
               <h3 className="feat-h">Student DNA Engine</h3>
               <p className="feat-p">
-                An 8-dimension candidacy profile built from your first
-                session. Every agent output is personalised to your
-                cognitive style, writing voice, and motivation pattern —
-                and stays that way throughout your entire journey.
+                Candidacy profile in 8 dimensions. Every output tuned to your voice.
               </p>
             </article>
             <article className="feat-card">
               <div className="feat-ico" aria-hidden="true">03</div>
               <h3 className="feat-h">Application Readiness Engine</h3>
               <p className="feat-p">
-                Multi-factor preparation strength analysis calibrated to
-                your nationality pool and each university&apos;s
-                published selection criteria. You see clear, actionable
-                readiness indicators — never misleading probability
-                numbers.
+                Preparation strength, calibrated to your nationality pool. No probability numbers.
               </p>
             </article>
             <article className="feat-card">
               <div className="feat-ico" aria-hidden="true">04</div>
               <h3 className="feat-h">Voice Interview Simulator</h3>
               <p className="feat-p">
-                Real-time emotion analysis powered by Hume AI. Oxbridge
-                academic, medical MMI, and US top-college alumni
-                interview modes. After five AI sessions, a human coach
-                refines the final 10% AI cannot reach.
+                Oxbridge, medical MMI, US alumni modes. Hume-powered emotion analysis.
               </p>
             </article>
             <article className="feat-card">
               <div className="feat-ico" aria-hidden="true">05</div>
-              <h3 className="feat-h">Adie — Your Wellbeing Companion</h3>
+              <h3 className="feat-h">Adie — Wellbeing Companion</h3>
               <p className="feat-p">
-                The first admissions platform to embed a dedicated
-                wellbeing companion at every tier. Light-touch care and
-                friendly nudges — reminding you to rest, checking in at
-                the right moments, staying with you through results day.
-                Adie is a peer support tool, not a substitute for
-                professional mental health care.
+                Peer support at every tier. Not a substitute for clinical care.
               </p>
             </article>
             <article className="feat-card">
               <div className="feat-ico" aria-hidden="true">06</div>
               <h3 className="feat-h">Commons — Student Community</h3>
               <p className="feat-p">
-                Every student&apos;s journey becomes collective
-                knowledge. A governed, anonymous space locked to
-                admissions topics — where students share experiences, ask
-                questions, and offer limited peer commentary in a safe
-                and moderated environment.
+                Governed, moderated peer space. Admissions topics only.
               </p>
             </article>
             <article className="feat-card">
               <div className="feat-ico" aria-hidden="true">07</div>
-              <h3 className="feat-h">
-                Live Student Profile + Student Knowledge Base
-              </h3>
+              <h3 className="feat-h">Live Student Profile</h3>
               <p className="feat-p">
-                Powered by your Student DNA and continuously enriched
-                throughout your journey, UniOffer builds and maintains a
-                private personal knowledge base for every student. Your
-                12 agents always know who you are — no re-introduction
-                needed. Parents, counsellors, and partner schools stay
-                informed through your live profile at
-                unioffer.ai/p/[student-id].
+                Private knowledge base. Your circle stays informed throughout your journey.
               </p>
             </article>
           </div>
@@ -890,8 +860,7 @@ export default function LandingClient() {
                 Year plan: 2 months free · £200/year
               </p>
               <p className="price-sub">
-                Your AI admissions foundation. 500 AI credits included monthly.
-                Purchased credits never expire.
+                AI admissions foundation. 500 credits monthly. Purchased credits never expire.
               </p>
               <ul className="price-ul">
                 <li>Up to 5 schools (US or UK track)</li>
@@ -921,8 +890,7 @@ export default function LandingClient() {
                 Year plan: 2 months free · £500/year
               </p>
               <p className="price-sub">
-                Full AI execution across your entire application. 2,000 AI
-                credits monthly. Purchased credits roll over, never expire.
+                Full AI execution, end to end. 2,000 credits monthly. Credits never expire.
               </p>
               <ul className="price-ul">
                 <li>Up to 12 schools (US + UK dual track)</li>
@@ -948,9 +916,7 @@ export default function LandingClient() {
               </div>
               <p className="price-year">AI + Human Expertise</p>
               <p className="price-sub">
-                Private advisory service. For families who want AI precision
-                and expert human judgement at every critical moment. All
-                Premium plans are privately designed.
+                Private advisory. AI precision plus expert human judgement at every step.
               </p>
               <ul className="price-ul">
                 <li>Everything in Plus, plus:</li>
