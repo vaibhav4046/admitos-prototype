@@ -111,22 +111,32 @@
   overflow-x: clip;
 }
 
-.uo-landing[data-theme="dark"] {
-  --uo-bg: #0E1623;                /* brand guide §5.2 */
-  --uo-surface: #14213A;
+.uo-landing[data-theme="dark"],
+:root[data-theme="dark"] .uo-landing {
+  /* V3 canonical: Andy's logo plate #0d2538 lives here and nowhere
+     else (besides app/globals.css). Bumped from the legacy brand-guide
+     §5.2 #0E1623 in V3 because Andy's preview logo plate is exactly
+     #0d2538 — anything else reads as "different shade of navy" and
+     fails the visual-consistency QA at the top of the V3 prompt.
+     The duplicated `:root[data-theme='dark']` selector mirrors the
+     swap when ThemeInit sets data-theme on <html> before hydration,
+     so there is no flash of light before LandingClient mounts. */
+  --uo-bg: #0d2538;                /* Andy logo plate — DO NOT change */
+  --uo-surface: #162130;
+  --uo-elevated: #1b2a3c;
   --uo-border: rgba(255, 255, 255, 0.08);
   --uo-border-med: rgba(255, 255, 255, 0.14);
   --uo-blue: #2E5F96;              /* "slightly lifted" per guide §5.2 Method B */
   /* Lifted crimson for dark mode — brand #A33A3A only reads 2.38:1 on
-     the #14213A surface, which axe + Lighthouse flag as WCAG AA fail.
-     #E66B6B hits 5.4:1 against the dark surface while still reading as
-     the same family. Light mode keeps the spec #A33A3A. */
+     the dark surface, which axe + Lighthouse flag as WCAG AA fail.
+     #E66B6B hits 5.4:1 against the dark surface while still reading
+     as the same family. Light mode keeps the spec #A33A3A. */
   --uo-crimson-fg: #E66B6B;
-  --uo-text-p: #E8EEF5;
-  --uo-text-s: rgba(232, 238, 245, 0.72);
-  --uo-text-m: rgba(232, 238, 245, 0.58);
-  --uo-card: #14213A;
-  --uo-nav-bg: rgba(14, 22, 35, 0.92);
+  --uo-text-p: #eaf1f7;            /* aligned with V3 token --fg */
+  --uo-text-s: rgba(234, 241, 247, 0.72);
+  --uo-text-m: rgba(234, 241, 247, 0.55);
+  --uo-card: #162130;
+  --uo-nav-bg: rgba(13, 37, 56, 0.92);
   --uo-hover: rgba(255, 255, 255, 0.06);
   --uo-btn-primary-fg: #FFFFFF;
   --uo-btn-primary-bg: var(--uo-crimson);

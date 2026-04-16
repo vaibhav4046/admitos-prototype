@@ -147,9 +147,19 @@ export default function LandingClient() {
   }, []);
 
   // ── Theme bootstrap ────────────────────────────────────────────
+  // V3: storage key is `uo-theme` (dash) to match
+  // app/theme-init.tsx, which sets data-theme on <html> before first
+  // paint to prevent FOUC. This component now reads from the attribute
+  // (already set pre-hydration) so the local state never disagrees
+  // with the document root.
   useEffect(() => {
+    const root = document.documentElement.getAttribute("data-theme");
+    if (root === "dark" || root === "light") {
+      setTheme(root);
+      return;
+    }
     try {
-      const saved = window.localStorage.getItem("uo.theme") as Theme | null;
+      const saved = window.localStorage.getItem("uo-theme") as Theme | null;
       if (saved === "dark" || saved === "light") {
         setTheme(saved);
         return;
@@ -164,6 +174,13 @@ export default function LandingClient() {
       setTheme("dark");
     }
   }, []);
+
+  // Mirror local theme back onto <html> so the V3 token cascade
+  // (:root[data-theme='dark'] in globals.css) stays in sync with
+  // the landing-scoped tokens declared in landing.css.
+  useEffect(() => {
+    document.documentElement.setAttribute("data-theme", theme);
+  }, [theme]);
 
   // ── Cookie banner + consent bootstrap ──────────────────────────
   // On first visit, localStorage.uo.cookie is null → show banner, no
@@ -205,7 +222,8 @@ export default function LandingClient() {
     setTheme((prev) => {
       const next: Theme = prev === "dark" ? "light" : "dark";
       try {
-        window.localStorage.setItem("uo.theme", next);
+        // V3 canonical key — read by app/theme-init.tsx on next visit.
+        window.localStorage.setItem("uo-theme", next);
       } catch {
         /* ignore */
       }
