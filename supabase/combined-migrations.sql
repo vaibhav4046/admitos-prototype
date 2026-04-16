@@ -455,7 +455,7 @@ create index audit_event_resource_idx on admissions.audit_event (resource_type, 
 -- Training profile table for the ML training data pipeline.
 --
 -- Each row is one extracted applicant profile from a Reddit/forum post.
--- The Pydantic validator in admitos-training-pipeline ensures every row
+-- The Pydantic validator in unioffer-training-pipeline ensures every row
 -- satisfies these constraints before it hits the DB.
 --
 -- Source: supabase/migrations/DRAFTS.md §7.

@@ -27,15 +27,53 @@ import Image from "next/image";
 import Link from "next/link";
 import { useCallback, useEffect, useRef, useState } from "react";
 
-type Lang = "EN" | "ZH" | "KO" | "JA" | "AR" | "DE";
-const LANG_EN = { code: "EN" as Lang, flag: "🇬🇧", label: "English", active: true };
-const LANGS: { code: Lang; flag: string; label: string; active: boolean }[] = [
+/**
+ * Language switcher — 10-language roadmap per Andy's 16 Apr 2026 spec.
+ *
+ * EN is the only active locale for M1. The remaining 9 display with a
+ * "Coming soon" badge and `aria-disabled="true"`; no i18n payload is
+ * pre-loaded. Native-script labels carry `dir="ltr"` or `dir="rtl"` so
+ * Arabic renders right-to-left inside its row.
+ *
+ * DE / Deutsch was removed from the prior 6-locale list — it was a
+ * placeholder that had no roadmap backing.
+ */
+type Lang =
+  | "en"
+  | "zh-Hans"
+  | "zh-Hant"
+  | "ko"
+  | "ar"
+  | "vi"
+  | "ms"
+  | "th"
+  | "hi"
+  | "ja";
+
+type LangDir = "ltr" | "rtl";
+
+const LANG_EN = {
+  code: "en" as Lang,
+  label: "English",
+  dir: "ltr" as LangDir,
+  active: true,
+};
+const LANGS: {
+  code: Lang;
+  label: string;
+  dir: LangDir;
+  active: boolean;
+}[] = [
   LANG_EN,
-  { code: "ZH", flag: "🇨🇳", label: "中文", active: false },
-  { code: "KO", flag: "🇰🇷", label: "한국어", active: false },
-  { code: "JA", flag: "🇯🇵", label: "日本語", active: false },
-  { code: "AR", flag: "🇦🇪", label: "العربية", active: false },
-  { code: "DE", flag: "🇩🇪", label: "Deutsch", active: false },
+  { code: "zh-Hans", label: "简体中文", dir: "ltr", active: false },
+  { code: "zh-Hant", label: "繁體中文", dir: "ltr", active: false },
+  { code: "ko", label: "한국어", dir: "ltr", active: false },
+  { code: "ar", label: "العربية", dir: "rtl", active: false },
+  { code: "vi", label: "Tiếng Việt", dir: "ltr", active: false },
+  { code: "ms", label: "Bahasa Melayu", dir: "ltr", active: false },
+  { code: "th", label: "ภาษาไทย", dir: "ltr", active: false },
+  { code: "hi", label: "हिन्दी", dir: "ltr", active: false },
+  { code: "ja", label: "日本語", dir: "ltr", active: false },
 ];
 
 type Theme = "light" | "dark";
@@ -73,9 +111,12 @@ function loadAnalytics() {
 
 export default function LandingClient() {
   const [theme, setTheme] = useState<Theme>("light");
-  const [lang, setLang] = useState<Lang>("EN");
+  const [lang, setLang] = useState<Lang>("en");
   const [langOpen, setLangOpen] = useState(false);
-  const [consent, setConsent] = useState<Consent>(null);
+  // Consent getter intentionally dropped — the consent value is written
+  // to state so the analytics-gate effect can inspect React state if
+  // needed later, but no render path reads it directly today.
+  const [, setConsent] = useState<Consent>(null);
   const [showCookie, setShowCookie] = useState(false);
   const [toast, setToast] = useState<string | null>(null);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -280,7 +321,7 @@ export default function LandingClient() {
               <circle cx="8" cy="8" r="6.5" />
               <path d="M8 1.5C8 1.5 5.5 4 5.5 8s2.5 6.5 2.5 6.5M8 1.5C8 1.5 10.5 4 10.5 8S8 14.5 8 14.5M1.5 8h13M2 5h12M2 11h12" />
             </svg>
-            <span>{activeLang.code}</span>
+            <span>{(activeLang.code.split("-")[0] ?? activeLang.code).toUpperCase()}</span>
             <svg
               className={`lang-chev${langOpen ? " open" : ""}`}
               viewBox="0 0 10 6"
@@ -295,6 +336,7 @@ export default function LandingClient() {
                     key={l.code}
                     type="button"
                     role="option"
+                    lang={l.code}
                     aria-selected={l.code === lang}
                     aria-disabled={!l.active}
                     className={`lang-opt${l.code === lang ? " active" : ""}${
@@ -305,9 +347,12 @@ export default function LandingClient() {
                       pickLang(l.code, l.active, l.label);
                     }}
                   >
-                    <span aria-hidden="true">{l.flag}</span>
-                    <span>&nbsp;{l.label}</span>
-                    {!l.active && <span className="lang-soon">Coming soon</span>}
+                    <span dir={l.dir} className="lang-opt-label">
+                      {l.label}
+                    </span>
+                    {!l.active && (
+                      <span className="lang-soon">Coming soon</span>
+                    )}
                   </button>
                 ))}
               </div>
@@ -858,6 +903,7 @@ export default function LandingClient() {
                 Purchased credits never expire.
               </p>
               <ul className="price-ul">
+                <li>Up to 5 schools (US or UK track)</li>
                 <li>Student DNA + Student Knowledge Base</li>
                 <li>AI Orchestrator — weekly action plans and timeline</li>
                 <li>School Intelligence — official CDS and UCAS data</li>
@@ -888,6 +934,7 @@ export default function LandingClient() {
                 credits monthly. Purchased credits roll over, never expire.
               </p>
               <ul className="price-ul">
+                <li>Up to 12 schools (US + UK dual track)</li>
                 <li>Everything in Basic, plus:</li>
                 <li>US + UK Dual-Track Strategy with ED/EA conflict detection</li>
                 <li>Essay Agent Full — unlimited revisions, voice drift protection</li>
@@ -923,7 +970,7 @@ export default function LandingClient() {
                 <li>Unlimited AI Credits</li>
                 <li>Fully bespoke service design</li>
               </ul>
-              <Link href="/signin?mode=signup" className="price-cta">
+              <Link href="/contact-sales" className="price-cta">
                 Contact Sales
               </Link>
             </article>
@@ -1080,6 +1127,11 @@ export default function LandingClient() {
         {/* V3.1 — Adie disclaimer. Non-removable per spec; must appear
             on every landing view. Samaritans 116 123 and NHS 111 are
             the two crisis lines called out in the PDF verbatim. */}
+        {/* Spec: Adie FAB must not appear for logged-out visitors (Andy, 16 Apr 2026).
+            The marketing surface deliberately mounts no floating Adie entry;
+            the Adie FAB lives only under /app/** behind an authenticated
+            session. If a FAB is introduced later, guard on session presence
+            AND exclude the / and /contact-sales routes before rendering. */}
         <aside
           className="foot-adie"
           role="note"
@@ -1250,11 +1302,6 @@ export default function LandingClient() {
           {toast}
         </div>
       )}
-
-      {/* Hidden consent marker for e2e tests / network-tab verification */}
-      <span data-testid="uo-consent-state" hidden>
-        {consent ?? "undecided"}
-      </span>
     </div>
   );
 }

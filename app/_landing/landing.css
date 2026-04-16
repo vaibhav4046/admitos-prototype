@@ -233,7 +233,7 @@
   border: 1px solid var(--uo-border-med);
   border-radius: 10px;
   padding: 5px;
-  min-width: 155px;
+  min-width: 220px;
   box-shadow: 0 8px 28px rgba(0, 0, 0, .10);
   z-index: 999;
 }
@@ -252,6 +252,7 @@
   text-align: left;
   transition: background .1s;
 }
+.uo-landing .lang-opt-label { flex: 1; min-width: 0; }
 .uo-landing .lang-opt:hover { background: var(--uo-hover); }
 .uo-landing .lang-opt.active { color: var(--uo-crimson); font-weight: 500; }
 
@@ -1572,3 +1573,83 @@
   .uo-landing .price-cta,
   .uo-landing .desk-btn { min-height: 40px; }
 }
+
+/* -------------------------------------------------------------------------- */
+/* /contact-sales — Discovery Call placeholder
+   Reuses marketing tokens (Syne display, DM Sans body, --uo-* palette).
+   Production Calendly link swaps in where `.uo-contact-card` body lives. */
+/* -------------------------------------------------------------------------- */
+
+.uo-landing .uo-contact-section {
+  max-width: 720px;
+  margin: 0 auto;
+  padding-block: clamp(72px, 12vh, 140px);
+  padding-inline: clamp(20px, 5vw, 48px);
+  text-align: center;
+}
+
+.uo-landing .uo-contact-back {
+  display: inline-block;
+  margin-bottom: 32px;
+  color: var(--uo-text-s);
+  font-family: var(--uo-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+.uo-landing .uo-contact-back:hover { color: var(--uo-crimson); }
+
+.uo-landing .uo-contact-h1 {
+  font-family: var(--uo-font-display);
+  font-size: clamp(32px, 3vw, 40px);
+  font-weight: 500;
+  line-height: 1.4;
+  letter-spacing: -0.015em;
+  color: var(--uo-text-p);
+  margin: 0 0 20px;
+}
+
+.uo-landing .uo-contact-sub {
+  font-family: var(--uo-font-body);
+  font-size: clamp(16px, 1.3vw, 19px);
+  line-height: 1.6;
+  color: var(--uo-text-s);
+  margin: 0 0 48px;
+}
+
+.uo-landing .uo-contact-card {
+  border: 1px solid var(--uo-border);
+  border-radius: 20px;
+  padding: 40px 32px;
+  background: rgba(0, 0, 0, 0.02);
+}
+[data-theme="dark"] .uo-landing .uo-contact-card {
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.uo-landing .uo-contact-card-label {
+  font-family: var(--uo-font-body);
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--uo-text-s);
+  margin: 0 0 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.uo-landing .uo-contact-card-body {
+  font-family: var(--uo-font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--uo-text-p);
+  margin: 0;
+}
+
+.uo-landing .uo-contact-mailto {
+  color: var(--uo-crimson);
+  font-weight: 500;
+  text-decoration: none;
+  border-bottom: 1px solid currentColor;
+}
+.uo-landing .uo-contact-mailto:hover { opacity: 0.8; }
