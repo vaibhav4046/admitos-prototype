@@ -1,5 +1,3 @@
-'use client';
-
 /**
  * JourneyGraph — Happenstance-style animated node graph.
  *
