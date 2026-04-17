@@ -25,6 +25,7 @@ import { Features } from "./_landing/Features";
 import { Hero } from "./_landing/Hero";
 import { HowItWorks } from "./_landing/HowItWorks";
 import { LandingObservers } from "./_landing/LandingObservers";
+import { OsThemeWatcher } from "./_landing/OsThemeWatcher";
 import { Pricing } from "./_landing/Pricing";
 
 import "./_landing/landing-v3.css";
@@ -70,6 +71,11 @@ export default function LandingPage() {
       <Footer />
       <CookieBanner />
       <LandingObservers />
+      {/* Live OS dark/light sync for the lifetime of the landing view.
+          Pre-hydration script paints the initial theme; this island
+          keeps it in lockstep with the OS if the user flips their
+          system appearance mid-session. No manual toggle on landing. */}
+      <OsThemeWatcher />
     </div>
   );
 }

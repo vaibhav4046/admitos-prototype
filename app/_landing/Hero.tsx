@@ -1,40 +1,30 @@
 "use client";
 
 /**
- * Hero — S1 per UNIOFFER-SPEC-01 v2.2.
+ * Hero — S1 per UNIOFFER-SPEC-01 v2.2 (polished).
  *
  * Composition (top → bottom):
- *   H1 display   — "more than offers, we spark futures." (Alice, 400, display-xl)
+ *   H1 display   — "more than offers, we spark futures." (Alice, 400)
  *   Subhead      — "ai-powered admissions for the ai-native generation."
- *   H-03 prompt  — "What can I do for you?" (display-sm, 64px below subhead)
- *   H-04 input   — <textarea> 720px max, 120px min height, radius-xl
- *   H-04-B send  — circular button bottom-right of textarea, arrow-up icon
- *   H-05 chips   — 5 suggestion chips (university matching, essay editing,
- *                  subject tutoring, application strategies, more)
+ *   H-03 prompt  — "What can I do for you?" (display-sm)
+ *   H-04 input   — auto-grow <textarea> (min 120 / max 320, resize none)
+ *   H-04-B send  — circular accent button, arrow-up icon
+ *   H-05 chips   — 5 suggestion chips (matching / essay / tutoring /
+ *                  strategy / more)
  *
- * Handoff behaviour:
- *   On submit, the textarea value is persisted to
- *     sessionStorage('unioffer-hero-draft')
- *   then the user is navigated to /signup?next=chat. The /signup page
- *   reads that draft and hands it to the Catie agent once authenticated.
+ * Auto-grow behaviour:
+ *   The textarea starts at `rows={1}` so the initial height is driven by
+ *   the CSS `min-height`. On every `input` event we reset `height: auto`
+ *   and then set it to `min(scrollHeight, 320)`. When content exceeds
+ *   320px the browser shows an internal scrollbar. The user can never
+ *   drag-resize (resize: none in CSS) — the box is always exactly as
+ *   tall as the content needs, capped.
  *
- *   Empty-submit → focus textarea, no navigation.
- *   Chip click → fills the textarea with the chip's prompt template,
- *   focuses the textarea, and scrolls the caret to the end. User still
- *   has to press send to commit.
- *
- * Accessibility:
- *   - form has aria-label "Ask UniOffer"
- *   - textarea has visible label via id + aria-labelledby from H-03
- *   - chips are <button type="button"> with aria-describedby explaining
- *     they fill the prompt
- *   - reduced-motion: no entrance transitions
- *
- * LCP discipline:
- *   - H1 is not animated (fast contentful paint)
- *   - Textarea + chips render immediately (no Suspense, no client-only
- *     gate). The "use client" at the top is needed only for the submit
- *     handler + sessionStorage write; no heavy client work above the fold.
+ * Handoff:
+ *   Submit persists the text to sessionStorage('unioffer-hero-draft')
+ *   and navigates to /signup?next=chat. Empty submit focuses the
+ *   textarea. Chip click fills the template, re-runs auto-grow, focuses,
+ *   and places the caret at the end.
  */
 
 import { useCallback, useRef } from "react";
@@ -92,9 +82,25 @@ const CHIPS: readonly Chip[] = [
   },
 ] as const;
 
+/** Height bounds in px. `min` mirrors the CSS min-height so the
+ *  growing logic never collapses below what the layout reserves. */
+const MIN_H = 120;
+const MAX_H = 320;
+
 export function Hero() {
   const router = useRouter();
   const textareaRef = useRef<HTMLTextAreaElement>(null);
+
+  /** Snaps the textarea height to `min(scrollHeight, MAX_H)` so the
+   *  box grows with the content and caps at MAX_H (scrollbar kicks
+   *  in beyond that). Runs on `input` and after chip-fill. */
+  const autoGrow = useCallback(() => {
+    const ta = textareaRef.current;
+    if (!ta) return;
+    ta.style.height = "auto";
+    const next = Math.min(Math.max(ta.scrollHeight, MIN_H), MAX_H);
+    ta.style.height = `${next}px`;
+  }, []);
 
   const handleSubmit = useCallback(
     (e: React.FormEvent<HTMLFormElement>) => {
@@ -107,30 +113,29 @@ export function Hero() {
       try {
         sessionStorage.setItem("unioffer-hero-draft", value);
       } catch {
-        // sessionStorage may be blocked (private mode, embedded browser).
-        // Navigation still proceeds; the signup page will just start
-        // Catie with an empty context.
+        /* sessionStorage blocked — navigation still proceeds. */
       }
       router.push("/signup?next=chat");
     },
     [router]
   );
 
-  const handleChip = useCallback((chip: Chip) => {
-    const ta = textareaRef.current;
-    if (!ta) return;
-    if (chip.id === "more") {
-      // "More" focuses the textarea without a template — invites the
-      // user to type their own prompt.
+  const handleChip = useCallback(
+    (chip: Chip) => {
+      const ta = textareaRef.current;
+      if (!ta) return;
+      if (chip.id === "more") {
+        ta.focus();
+        return;
+      }
+      ta.value = chip.template;
+      autoGrow();
       ta.focus();
-      return;
-    }
-    ta.value = chip.template;
-    ta.focus();
-    // Move caret to the end so the user can keep typing.
-    const len = chip.template.length;
-    ta.setSelectionRange(len, len);
-  }, []);
+      const len = chip.template.length;
+      ta.setSelectionRange(len, len);
+    },
+    [autoGrow]
+  );
 
   return (
     <section className="uo-hero" aria-labelledby="hero-h1">
@@ -165,8 +170,9 @@ export function Hero() {
               className="uo-hero__textarea"
               placeholder="Describe what you need..."
               aria-labelledby="hero-h3"
-              rows={3}
+              rows={1}
               maxLength={2000}
+              onInput={autoGrow}
             />
             <button
               type="submit"

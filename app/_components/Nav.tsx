@@ -1,23 +1,23 @@
 /**
- * Nav — S0 per UNIOFFER-SPEC-01 v2.2, Module 1.
+ * Nav — S0 per UNIOFFER-SPEC-01 v2.2 (landing surface).
  *
- * Sticky, blurred top nav. Server-rendered shell with two client
- * islands (LangSwitcher, ThemeToggle). The brand ships BOTH logo
- * variants; data-theme scoped CSS in landing-v3.css hides the
- * inactive one so the switch is free of client-render flash.
+ * Sticky, blurred top nav. Server-rendered shell with one client island
+ * (LangSwitcher). On landing the theme is OS-driven only — there is NO
+ * manual light/dark toggle here. User-configurable theme lives in the
+ * dashboard surface (time-based auto + manual override), never on the
+ * marketing site.
  *
- * Logo mapping (confirmed):
- *   - /logo-color.svg — light theme (green-cat + navy wordmark)
- *   - /logo-white.svg — dark theme (white wordmark)
+ * Logo mapping (CSS swaps by data-theme — see landing-v3.css):
+ *   /logo-color.svg — light theme (green-cat + navy wordmark)
+ *   /logo-white.svg — dark theme (white wordmark)
  *
- * CTAs (v2.2):
- *   - "Log in" → /signin
- *   - "Get Unioffer" → /signin (opens Google + email auth surface)
- *   - "Contact Sales" lives in pricing and footer, not in the nav
+ * CTAs:
+ *   "Log in"        → /signin
+ *   "Get Unioffer"  → /signin (Google + email auth surface)
+ *   "Contact Sales" lives in pricing + footer, not the nav.
  */
 
 import Link from "next/link";
-import { ThemeToggle } from "./ThemeToggle";
 import { LangSwitcher } from "./LangSwitcher";
 
 export function Nav() {
@@ -50,7 +50,6 @@ export function Nav() {
         </nav>
         <div className="uo-nav__actions">
           <LangSwitcher />
-          <ThemeToggle />
           <Link href="/signin" className="uo-btn uo-btn--ghost">
             Log in
           </Link>

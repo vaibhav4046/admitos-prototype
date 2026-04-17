@@ -113,14 +113,29 @@
   }
 }
 
+/* ── Smooth anchor scrolling ───────────────────────────────────
+   Native smooth-scroll for in-page jumps (Features / How / Pricing
+   links in the nav). Respects OS-level reduced-motion. Combined
+   with per-section `scroll-margin-top` so targets land flush below
+   the sticky nav, not buried under it — fixes the "click anchor,
+   see blank band of padding" bug. */
+html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+}
+
 /* ── Section primitives ───────────────────────────────────────── */
 .uo-section {
-  padding-block: 120px;
-  scroll-margin-top: 96px;
+  /* Was 120px on desktop + 96px scroll-margin = ~216px dead band
+     after anchor jump. Tightened: section pads scale with viewport
+     (72→96px) and scroll-margin sits just under the 72px nav so the
+     eyebrow lands immediately below the nav's bottom edge. */
+  padding-block: clamp(72px, 7vw, 96px);
+  scroll-margin-top: 80px;
   contain: layout paint;
 }
-@media (max-width: 1023px) { .uo-section { padding-block: 96px; } }
-@media (max-width: 767px)  { .uo-section { padding-block: 72px;  } }
+@media (max-width: 1023px) { .uo-section { padding-block: clamp(64px, 8vw, 80px); } }
+@media (max-width: 767px)  { .uo-section { padding-block: 56px; scroll-margin-top: 72px; } }
 
 .uo-eyebrow {
   font-family: var(--font-sans);
@@ -281,7 +296,7 @@
    ═══════════════════════════════════════════════════════════════ */
 .uo-hero {
   padding-block: clamp(64px, 10vw, 140px) clamp(40px, 6vw, 96px);
-  scroll-margin-top: 96px;
+  scroll-margin-top: 80px;
 }
 .uo-hero__inner {
   display: flex;
@@ -326,17 +341,30 @@
   margin-top: 8px;
 }
 .uo-hero__field {
+  /* Single source of focus truth. Previous version stacked a
+     border-color change AND a 4px box-shadow ring, so the user
+     saw a "double green border" on focus — see the chatbot
+     polish feedback. Now only the border changes colour, no
+     ring, no glow. The wrapper is the border; the textarea is
+     borderless and transparent. */
   position: relative;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
   border-radius: 20px;
-  transition: border-color 160ms ease, box-shadow 160ms ease;
+  transition: border-color 160ms ease;
+  overflow: hidden; /* clip the inner scrollbar to the radius */
 }
 .uo-hero__field:focus-within {
   border-color: var(--color-accent);
-  box-shadow: 0 0 0 4px color-mix(in srgb, var(--color-accent) 18%, transparent);
 }
 .uo-hero__textarea {
+  /* JS (Hero.tsx) auto-grows height on input between MIN_H (120)
+     and MAX_H (320). `resize: none` kills the manual drag handle
+     so the box only grows with content — same feel as Manus /
+     ChatGPT composers. `field-sizing: content` is a progressive
+     enhancement on modern Chromium — if the UA supports it, the
+     box sizes itself and the JS handler just acts as the cap. */
+  display: block;
   width: 100%;
   min-height: 120px;
   max-height: 320px;
@@ -347,8 +375,10 @@
   font-family: var(--font-sans);
   font-size: 16px;
   line-height: 1.55;
-  resize: vertical;
+  resize: none;
   outline: none;
+  field-sizing: content;
+  overflow-y: auto;
 }
 .uo-hero__textarea::placeholder { color: var(--color-fg-soft); }
 .uo-hero__send {
