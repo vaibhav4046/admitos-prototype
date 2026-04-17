@@ -12,6 +12,9 @@
  *     stays in step 4 — that's the human-in-the-loop, distinct from
  *     the Features page's "Live Student Profile" surface which is how
  *     the live state is rendered to the student.
+ *
+ * Delta 9: removed the `.uo-eyebrow` "How it works" label — the H2 now
+ * carries the full section weight.
  */
 
 const STEPS = [
@@ -53,7 +56,6 @@ export function HowItWorks() {
       aria-labelledby="how-h2"
     >
       <div className="uo-section__inner">
-        <p className="uo-eyebrow">How it works</p>
         <h2 id="how-h2" className="uo-section__h2">
           From profile to application.
           <br />

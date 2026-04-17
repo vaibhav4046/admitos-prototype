@@ -114,7 +114,6 @@ export function Pricing() {
   return (
     <section id="pricing" className="uo-section" aria-labelledby="price-h2">
       <div className="uo-section__inner">
-        <p className="uo-eyebrow">Pricing</p>
         <h2 id="price-h2" className="uo-section__h2">
           Simple, transparent pricing.
         </h2>

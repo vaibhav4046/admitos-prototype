@@ -8,14 +8,16 @@
  * 7 cards by design, since it describes the platform's ethical
  * posture rather than a product capability.
  *
- * Spec changes from V6:
- *   - 05: Adie → Catie (user-facing rename — the wellbeing agent)
- *   - 06: "Activities + Leadership Programme" → "Commons Student Community"
- *   - 07: "Former Admissions Officer Review" → "Live Student Profile"
- *   - Feature 08 re-framed as "Compliance-First. Wellbeing-First."
- *   - Numbered badges dropped in favour of Lucide icons (spec v2.2)
- *   - Progressive disclosure removed — all 7 cards are visible; the
- *     3-col grid collapses to 1-col on mobile.
+ * Delta 5 copy updates (spec v2.2):
+ *   - 03 Readiness: "calibrated against each university's published
+ *     selection criteria" (was "nationality pool and each university's")
+ *   - 05 Catie: new wellbeing-first body emphasising peer-support
+ *   - 06 Commons: new anonymous / governed framing
+ *   - 07 Live Student Profile: new Student DNA & CEF framing
+ *   - Feat08: "Not features. Founding principles." compliance-first
+ *
+ * Delta 9: removed the `.uo-eyebrow` "Features" label — the H2 now
+ * carries the full section weight.
  *
  * Accessibility:
  *   - section has aria-labelledby pointing at the H2
@@ -63,7 +65,7 @@ const FEATURES: readonly Feat[] = [
     n: "03",
     title: "Application Readiness Engine",
     body:
-      "Multi-factor preparation strength analysis calibrated to your nationality pool and each university's published selection criteria. Counsellors use it to prioritise your preparation. You see clear, actionable readiness indicators — never misleading probability numbers.",
+      "Multi-factor preparation strength analysis calibrated against each university's published selection criteria. Counsellors use it to prioritise your preparation. You see clear, actionable readiness indicators — never misleading probability numbers.",
     icon: Gauge,
   },
   {
@@ -79,7 +81,7 @@ const FEATURES: readonly Feat[] = [
     n: "05",
     title: "Catie — Your Wellbeing Companion",
     body:
-      "The first admissions platform to embed a dedicated wellbeing companion. Catie provides light-touch emotional care, friendly nudges, and a safe space — structurally isolated from your admissions data so your counsellor never sees your private conversations.",
+      "The first admissions platform to embed a dedicated wellbeing companion at every tier. Catie offers light-touch care and friendly nudges — reminding you to rest, checking in at the right moments, and staying with you through results day. Catie is a peer support tool, not a substitute for professional mental health care.",
     icon: HeartHandshake,
   },
   {
@@ -87,7 +89,7 @@ const FEATURES: readonly Feat[] = [
     n: "06",
     title: "Commons Student Community",
     body:
-      "A peer community curated by profile, target schools, and programme. Shared activities, leadership builds, capstone research pairings, and 200+ PhD and professor mentors — your extracurricular arc becomes a coherent story, not a list.",
+      "Every student's journey becomes collective knowledge. A governed, anonymous space locked to admissions topics — where students share experiences, ask questions, and offer limited peer commentary in a safe and moderated environment.",
     icon: Users,
   },
   {
@@ -95,7 +97,7 @@ const FEATURES: readonly Feat[] = [
     n: "07",
     title: "Live Student Profile",
     body:
-      "A continuously updated profile of who you are as a candidate — academics, narrative, activities, readiness. Counsellors and former admissions officers review the same live view you do, so every conversation starts from the truth of where you stand today.",
+      "Powered by Student DNA & CEF, unioffer generates a personal profile page for each student that updates in real time. Parents and counsellors get a complete, always-current view of progress, preparation strength, and upcoming milestones — in one place, with one click.",
     icon: LineChart,
   },
 ] as const;
@@ -103,7 +105,7 @@ const FEATURES: readonly Feat[] = [
 const FEAT08 = {
   title: "Compliance-First. Wellbeing-First.",
   body:
-    "Every AI output is governed by IECA, NACAC, and UCAS ethical frameworks. UniOffer never writes an essay for you. It never fabricates credentials. It never presents AI-generated text as your own. Your voice is protected, your data is encrypted, and every recommendation is traceable. Wellbeing data is physically isolated from admissions data — your counsellor never sees your private conversations with Catie. This is the admissions platform built for the post-AI regulatory landscape.",
+    "Not features. Founding principles. Every agent output, every data decision, and every user interaction is built against the strictest applicable standard — IECA, NACAC, UCAS, UK GDPR, and the Online Safety Act. Compliance and student wellbeing are core company assets, not afterthoughts.",
 };
 
 export function Features() {
@@ -115,7 +117,6 @@ export function Features() {
         aria-labelledby="feat-h2"
       >
         <div className="uo-section__inner">
-          <p className="uo-eyebrow">Features</p>
           <h2 id="feat-h2" className="uo-section__h2">
             12 specialist AI agents. One unified platform.
             <br />

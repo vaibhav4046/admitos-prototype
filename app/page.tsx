@@ -7,22 +7,17 @@
  *
  * Deltas from V4:
  *   - Aurora, MarketReality, TrustSignals REMOVED (not in spec v2.2).
- *     The hero's typography carries the full visual weight; no
- *     background canvas effect; no standalone reality/trust modules
- *     — trust content now lives inside Feature 08's compliance strip.
  *   - Adie surfaces are gone from the public landing (Catie is gated
  *     behind sign-in for compliance reasons).
- *   - No AdieFAB; V3 grep test guards this.
  *
  * i18n:
  *   - The landing is a server component. It reads the `unioffer-lang`
- *     cookie server-side via `readLocale()` and passes the
- *     corresponding `LandingCopy` dict down to every section as a
- *     typed prop. No client-side dict swapping — the first paint is
- *     already in the chosen language, zero layout shift.
- *   - When the user picks a new language in LangSwitcher, it writes
- *     the cookie and calls `router.refresh()`, which re-runs this
- *     server component with the new cookie in place.
+ *     cookie server-side via `readLocale()` for the nav surface only —
+ *     every landing section renders spec-verbatim English copy that is
+ *     self-contained and hardcoded, so the rest of the page does not
+ *     swap text per-locale at MVP. This matches the v2.2 handoff where
+ *     only the nav shell is localised on the marketing site; dashboard
+ *     surfaces carry full i18n.
  */
 
 import type { Metadata } from "next";
@@ -72,23 +67,20 @@ export default async function LandingPage() {
     <div className="uo-shell">
       <Nav copy={copy.nav} locale={locale} />
       <main className="uo-main" id="main">
-        <Hero copy={copy.hero} />
+        <Hero />
         <div data-reveal>
-          <HowItWorks copy={copy.how} />
+          <HowItWorks />
         </div>
         <div data-reveal>
-          <Features copy={copy.features} />
+          <Features />
         </div>
         <div data-reveal>
-          <Pricing copy={copy.price} />
+          <Pricing />
         </div>
       </main>
-      <Footer copy={copy.footer} />
-      <CookieBanner copy={copy.cookieBanner} />
+      <Footer />
+      <CookieBanner />
       <LandingObservers />
-      {/* OsThemeWatcher now lives in the root layout so the dashboard,
-          signin, and every other route share the same live OS sync —
-          removed from here. */}
     </div>
   );
 }

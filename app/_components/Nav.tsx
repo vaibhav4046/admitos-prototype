@@ -19,6 +19,7 @@
 
 import Link from "next/link";
 import { LangSwitcher } from "./LangSwitcher";
+import { NavScrollWatcher } from "./NavScrollWatcher";
 
 interface NavCopy {
   features?: string;
@@ -91,6 +92,7 @@ export function Nav({ copy, locale }: NavProps = {}) {
           </Link>
         </div>
       </div>
+      <NavScrollWatcher />
     </header>
   );
 }
