@@ -618,12 +618,21 @@
 .uo-edge-streak {
   fill: none;
   stroke: url(#uo-streak-grad);
-  stroke-width: 2.5;
+  stroke-width: 3;
   stroke-linecap: round;
   stroke-dasharray: 90 900;
   stroke-dashoffset: 900;
-  filter: url(#uo-glow);
-  animation: uo-streak-flow 3.6s cubic-bezier(.55, .1, .45, .9) infinite;
+  /* SVG glow filter removed — `feGaussianBlur` across 6 animated
+     paths spikes mobile paint cost. The gradient alpha already
+     delivers the streak pop we wanted. */
+  animation: uo-streak-flow 5s cubic-bezier(.55, .1, .45, .9) infinite;
+}
+
+@media (max-width: 720px) {
+  /* Freeze streaks on small viewports — they cost far more there
+     than they pay off, and the static baseline still reads as a
+     graph. */
+  .uo-edge-streak { animation: none; stroke-dashoffset: 0; opacity: .45; }
 }
 
 @keyframes uo-streak-flow {

@@ -61,13 +61,6 @@ export function JourneyGraph() {
             <stop offset="50%" stopColor="rgba(100, 238, 133, 0.95)" />
             <stop offset="100%" stopColor="rgba(100, 238, 133, 0)" />
           </linearGradient>
-          <filter id="uo-glow" x="-50%" y="-50%" width="200%" height="200%">
-            <feGaussianBlur stdDeviation="2.5" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
         </defs>
 
         {/* Static edge baseline */}
