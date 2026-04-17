@@ -722,15 +722,32 @@
   filter: blur(6px);
   animation: uo-reveal-in 900ms cubic-bezier(.22, 1, .36, 1) forwards;
 }
+/* Fast variant — no blur, shorter duration. Used on LCP-adjacent hero
+   elements (subhead + CTA) so they still animate in without deferring
+   Lighthouse's LCP measurement on the H1. */
+.uo-reveal-fast {
+  opacity: 0;
+  transform: translateY(8px);
+  animation: uo-reveal-fast-in 320ms cubic-bezier(.22, 1, .36, 1) forwards;
+}
 .uo-reveal-1 { animation-delay: 120ms; }
-.uo-reveal-2 { animation-delay: 260ms; }
-.uo-reveal-3 { animation-delay: 420ms; }
-.uo-reveal-4 { animation-delay: 580ms; }
+.uo-reveal-2 { animation-delay: 160ms; }
+.uo-reveal-3 { animation-delay: 260ms; }
+.uo-reveal-4 { animation-delay: 380ms; }
 @keyframes uo-reveal-in {
   to { opacity: 1; transform: none; filter: blur(0); }
 }
+@keyframes uo-reveal-fast-in {
+  to { opacity: 1; transform: none; }
+}
 @media (prefers-reduced-motion: reduce) {
-  .uo-reveal { opacity: 1; transform: none; filter: none; animation: none; }
+  .uo-reveal,
+  .uo-reveal-fast {
+    opacity: 1;
+    transform: none;
+    filter: none;
+    animation: none;
+  }
 }
 
 /* 4a.3 Scroll-triggered reveal (client island toggles .uo-rov-in). */
