@@ -6,7 +6,13 @@
  * The connecting SVG dash-draw line animates on scroll-enter via
  * the IntersectionObserver in `LandingObservers` — pure CSS animation
  * triggered by a `.is-visible` class on the section.
+ *
+ * V3.2 hook: the Happenstance-style `<JourneyGraph />` renders above
+ * the card list. Graph is the visual hook (1 → 2 → 4 node topology
+ * with animated streaks); cards keep carrying the copy.
  */
+
+import { JourneyGraph } from "./JourneyGraph";
 
 const STEPS = [
   {
@@ -52,6 +58,7 @@ export function HowItWorks() {
       <h2 id="how-h2" className="uo-section__h2">
         From scattered ambition to a submitted application.
       </h2>
+      <JourneyGraph />
       <ol className="uo-how__list">
         {STEPS.map((s) => (
           <li key={s.n} className="uo-how__step">

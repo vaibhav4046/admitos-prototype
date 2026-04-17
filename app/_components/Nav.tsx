@@ -24,6 +24,7 @@ export function Nav() {
     <header className="uo-nav" role="banner">
       <div className="uo-nav__inner">
         <Link href="/" aria-label="UniOffer home" className="uo-nav__brand">
+          {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG, next/image optimisation not needed */}
           <img
             src="/brand/v2/unioffer-wordmark-on-navy.svg"
             alt=""
@@ -31,6 +32,7 @@ export function Nav() {
             height={28}
             className="uo-brand-img-dark"
           />
+          {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG, next/image optimisation not needed */}
           <img
             src="/brand/v2/unioffer-wordmark-greencat-dark.svg"
             alt=""

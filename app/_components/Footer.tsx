@@ -14,6 +14,7 @@ export function Footer() {
     <footer className="uo-foot" role="contentinfo">
       <div className="uo-foot__grid">
         <div className="uo-foot__brand">
+          {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG, next/image optimisation not needed */}
           <img
             src="/brand/v2/unioffer-wordmark-on-navy.svg"
             alt="UniOffer"
@@ -21,6 +22,7 @@ export function Footer() {
             height={32}
             className="uo-brand-img-dark"
           />
+          {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG, next/image optimisation not needed */}
           <img
             src="/brand/v2/unioffer-wordmark-greencat-dark.svg"
             alt="UniOffer"

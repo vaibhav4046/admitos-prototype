@@ -91,19 +91,21 @@ export function AppHeader({
       <div className="mx-auto flex h-16 max-w-6xl items-center gap-6 px-4 sm:px-6">
         <Link
           href={brandHref}
-          className="group inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
+          className="group inline-flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
           aria-label={`${brand} home`}
         >
+          {/* Canonical V2 lockup on light chrome. The SVG carries the
+              wordmark so we drop the inline <span>. `alt` is the brand
+              name passed in by the caller (usually "UniOffer"). */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src="/brand/unioffer-icon-light@2x.png"
-            alt=""
-            aria-hidden="true"
-            className="h-8 w-auto object-contain transition-transform duration-200 ease-out group-hover:scale-105"
+            src="/brand/v2/unioffer-wordmark-greencat-dark.svg"
+            alt={brand}
+            className="h-8 w-auto transition-transform duration-200 ease-out group-hover:scale-105"
+            width={176}
+            height={32}
+            draggable={false}
           />
-          <span className="text-sm font-semibold tracking-tight text-slate-900">
-            {brand}
-          </span>
         </Link>
 
         <nav aria-label="Main" className="hidden flex-1 sm:block">

@@ -583,3 +583,183 @@
   cursor: pointer;
   box-shadow: var(--shadow-2);
 }
+
+/* ===== JourneyGraph ==================================================
+   Happenstance-style animated node graph. Dark island on the cream
+   landing section. Plate hard-coded (#0a3042) so the component reads
+   identically regardless of parent theme. Streak flow: 6 cubic Bézier
+   edges with staggered stroke-dasharray animation over a muted
+   baseline. Reduced-motion freezes streaks to their end state. */
+
+.uo-journey {
+  margin: 48px auto 0;
+  padding: 48px 32px;
+  max-width: 1160px;
+  background: #0a3042;
+  border-radius: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.18);
+  overflow: hidden;
+}
+
+.uo-journey-svg {
+  display: block;
+  width: 100%;
+  height: auto;
+  max-height: 440px;
+}
+
+.uo-edge-base {
+  fill: none;
+  stroke: rgba(234, 241, 247, 0.10);
+  stroke-width: 1.5;
+}
+
+.uo-edge-streak {
+  fill: none;
+  stroke: url(#uo-streak-grad);
+  stroke-width: 2.5;
+  stroke-linecap: round;
+  stroke-dasharray: 90 900;
+  stroke-dashoffset: 900;
+  filter: url(#uo-glow);
+  animation: uo-streak-flow 3.6s cubic-bezier(.55, .1, .45, .9) infinite;
+}
+
+@keyframes uo-streak-flow {
+  0%   { stroke-dashoffset:  900; opacity: 0; }
+  10%  { opacity: 1; }
+  90%  { opacity: 1; }
+  100% { stroke-dashoffset:  -90; opacity: 0; }
+}
+
+.uo-node {
+  stroke-width: 1.75;
+}
+.uo-node-you {
+  fill: rgba(100, 238, 133, 0.08);
+  stroke: #64ee85;
+}
+.uo-node-mid {
+  fill: #103a4f;
+  stroke: rgba(234, 241, 247, 0.22);
+}
+.uo-node-end {
+  fill: #103a4f;
+  stroke: rgba(234, 241, 247, 0.16);
+}
+.uo-node-label {
+  fill: #b8c6d2;
+  font-family: var(--font-sans);
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: 0.01em;
+}
+.uo-node-label-you { fill: #64ee85; }
+
+.uo-sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .uo-edge-streak { animation: none; stroke-dashoffset: 0; opacity: .5; }
+}
+
+@media (max-width: 720px) {
+  .uo-journey { padding: 28px 16px; border-radius: 18px; }
+  .uo-node-label { font-size: 12px; }
+}
+
+/* ===== Manus motion primitives =======================================
+   Four subtle motion layers: hero-aurora breathe (longer cycle than
+   the ambient .uo-aurora drift), headline blur-up entrance, scroll-
+   triggered section reveal, and button/chip micro-lift. All gated on
+   prefers-reduced-motion. */
+
+/* 4a.1 Hero aurora breathe — opt-in class for the hero backdrop. */
+.uo-hero-aurora {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background:
+    radial-gradient(55% 42% at 18% 12%, rgba(100, 238, 133, 0.14) 0%, transparent 70%),
+    radial-gradient(50% 38% at 82% 88%, rgba(131, 159, 255, 0.10) 0%, transparent 72%);
+  filter: blur(18px);
+  animation: uo-aurora-breathe 22s ease-in-out infinite alternate;
+  opacity: .9;
+}
+@keyframes uo-aurora-breathe {
+  0%   { transform: translate3d(0, 0, 0)       scale(1);    opacity: .9; }
+  50%  { transform: translate3d(2%, -1%, 0)    scale(1.06); opacity: 1;  }
+  100% { transform: translate3d(-1%, 1.5%, 0)  scale(1.02); opacity: .85; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .uo-hero-aurora { animation: none; }
+}
+
+/* 4a.2 Blur-up headline entrance with staggered delays. */
+.uo-reveal {
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(6px);
+  animation: uo-reveal-in 900ms cubic-bezier(.22, 1, .36, 1) forwards;
+}
+.uo-reveal-1 { animation-delay: 120ms; }
+.uo-reveal-2 { animation-delay: 260ms; }
+.uo-reveal-3 { animation-delay: 420ms; }
+.uo-reveal-4 { animation-delay: 580ms; }
+@keyframes uo-reveal-in {
+  to { opacity: 1; transform: none; filter: blur(0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .uo-reveal { opacity: 1; transform: none; filter: none; animation: none; }
+}
+
+/* 4a.3 Scroll-triggered reveal (client island toggles .uo-rov-in). */
+.uo-rov {
+  opacity: 0;
+  transform: translateY(24px);
+  filter: blur(4px);
+  transition:
+    opacity 700ms cubic-bezier(.22, 1, .36, 1),
+    transform 700ms cubic-bezier(.22, 1, .36, 1),
+    filter 700ms cubic-bezier(.22, 1, .36, 1);
+  will-change: opacity, transform;
+}
+.uo-rov-in { opacity: 1; transform: none; filter: none; }
+@media (prefers-reduced-motion: reduce) {
+  .uo-rov { opacity: 1; transform: none; filter: none; transition: none; }
+}
+
+/* 4a.4 Button + chip micro-lift. Matches existing .uo-btn--primary /
+   .uo-btn--ghost / .uo-chip class names. */
+.uo-btn,
+.uo-chip {
+  transition:
+    transform 220ms cubic-bezier(.22, 1, .36, 1),
+    box-shadow 220ms cubic-bezier(.22, 1, .36, 1),
+    background-color 180ms linear,
+    border-color 180ms linear,
+    color 180ms linear;
+}
+.uo-btn--primary:hover,
+.uo-btn--ghost:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.18);
+}
+.uo-chip:hover { transform: translateY(-1px); }
+@media (prefers-reduced-motion: reduce) {
+  .uo-btn, .uo-chip { transition: none; }
+  .uo-btn--primary:hover,
+  .uo-btn--ghost:hover,
+  .uo-chip:hover { transform: none; box-shadow: none; }
+}

@@ -77,19 +77,19 @@ export default function SignInPage() {
         <div className="mb-8 text-center">
           <Link
             href="/"
-            className="inline-flex items-center gap-2 rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
+            className="inline-flex items-center rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
             aria-label="UniOffer home"
           >
+            {/* Canonical V2 lockup — wordmark SVG carries the type.  */}
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/brand/unioffer-icon-light@2x.png"
-              alt=""
-              aria-hidden="true"
-              className="h-9 w-auto object-contain"
+              src="/brand/v2/unioffer-wordmark-greencat-dark.svg"
+              alt="UniOffer"
+              className="h-8 w-auto"
+              width={176}
+              height={32}
+              draggable={false}
             />
-            <span className="text-lg font-semibold tracking-tight text-slate-900">
-              UniOffer
-            </span>
           </Link>
           <p className="mt-3 text-sm text-slate-600">
             The decision-stage operating system for UK university applications.
