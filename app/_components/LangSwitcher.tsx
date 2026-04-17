@@ -1,11 +1,19 @@
 "use client";
 
 /**
- * LangSwitcher — V6
+ * LangSwitcher — UNIOFFER-SPEC-01 v2.2
  *
- * All 10 languages are selectable (no "Coming soon"). Selection persists
- * in localStorage under `uo-lang`. Click-outside and Escape key close
- * the dropdown. The button shows the currently selected language label.
+ * Ten selectable locales — EN, Simplified + Traditional Chinese,
+ * Korean, Arabic, Vietnamese, Malay, Thai, Hindi, Japanese. Selection
+ * persists in localStorage under the spec key `unioffer-lang`, with a
+ * one-shot migration from the legacy V6 key `uo-lang` so returning
+ * users don't lose their preference. Click-outside and Escape close
+ * the dropdown. The button shows the currently selected language's
+ * native label.
+ *
+ * v2.2 note: full i18n routing (middleware + per-locale dictionaries)
+ * is wired in a follow-up — this switcher persists the choice and is
+ * the seam those routes will read from.
  */
 import { useEffect, useState } from "react";
 
@@ -26,10 +34,21 @@ export function LangSwitcher() {
   const [open, setOpen] = useState(false);
   const [selected, setSelected] = useState("en");
 
-  /* Restore persisted language on mount */
+  /* Restore persisted language on mount, with one-shot migration from
+     the legacy key `uo-lang` → `unioffer-lang`. */
   useEffect(() => {
     try {
-      const stored = localStorage.getItem("uo-lang");
+      const K = "unioffer-lang";
+      const LEGACY = "uo-lang";
+      let stored = localStorage.getItem(K);
+      if (!stored) {
+        const legacy = localStorage.getItem(LEGACY);
+        if (legacy) {
+          stored = legacy;
+          localStorage.setItem(K, legacy);
+          localStorage.removeItem(LEGACY);
+        }
+      }
       if (stored) setSelected(stored);
     } catch {
       /* localStorage blocked — acceptable */
@@ -63,7 +82,8 @@ export function LangSwitcher() {
     setSelected(code);
     setOpen(false);
     try {
-      localStorage.setItem("uo-lang", code);
+      localStorage.setItem("unioffer-lang", code);
+      localStorage.removeItem("uo-lang");
     } catch {
       /* localStorage blocked */
     }

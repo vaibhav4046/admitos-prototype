@@ -1,18 +1,19 @@
 /**
- * Nav
+ * Nav — S0 per UNIOFFER-SPEC-01 v2.2, Module 1.
  *
- * Sticky, blurred top nav. Server-rendered shell with three client
- * islands (ThemeToggle, LangSwitcher, MobileMenuButton). The brand
- * mark is the green-cat wordmark in dark, with a green-cat + dark-text
- * variant in light. Both SVGs ship from /public/brand/v2/ and the
- * inactive one is hidden by data-theme scoped CSS so there is no
- * client toggling and no double-render flash.
+ * Sticky, blurred top nav. Server-rendered shell with two client
+ * islands (LangSwitcher, ThemeToggle). The brand ships BOTH logo
+ * variants; data-theme scoped CSS in landing-v3.css hides the
+ * inactive one so the switch is free of client-render flash.
  *
- * CTAs:
+ * Logo mapping (confirmed):
+ *   - /logo-color.svg — light theme (green-cat + navy wordmark)
+ *   - /logo-white.svg — dark theme (white wordmark)
+ *
+ * CTAs (v2.2):
  *   - "Log in" → /signin
- *   - "Get Unioffer" → /signin (opens the Google + email auth surface)
- *   - "Contact Sales" never appears in the nav itself; the enterprise
- *     CTA lives in pricing and footer per Andy's brief.
+ *   - "Get Unioffer" → /signin (opens Google + email auth surface)
+ *   - "Contact Sales" lives in pricing and footer, not in the nav
  */
 
 import Link from "next/link";
@@ -26,19 +27,19 @@ export function Nav() {
         <Link href="/" aria-label="UniOffer home" className="uo-nav__brand">
           {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG, next/image optimisation not needed */}
           <img
-            src="/brand/v2/unioffer-wordmark-on-navy.svg"
-            alt=""
-            width={148}
-            height={28}
-            className="uo-brand-img-dark"
-          />
-          {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG, next/image optimisation not needed */}
-          <img
-            src="/brand/v2/unioffer-wordmark-greencat-dark.svg"
+            src="/logo-color.svg"
             alt=""
             width={148}
             height={28}
             className="uo-brand-img-light"
+          />
+          {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG, next/image optimisation not needed */}
+          <img
+            src="/logo-white.svg"
+            alt=""
+            width={148}
+            height={28}
+            className="uo-brand-img-dark"
           />
           <span className="uo-visually-hidden">UniOffer</span>
         </Link>

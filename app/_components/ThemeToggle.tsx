@@ -4,9 +4,11 @@
  * ThemeToggle
  *
  * The canonical light/dark switch mounted in the top nav. Writes the
- * chosen theme to localStorage under the key `uo-theme` so the
- * pre-hydration script in `app/theme-init.tsx` can read it on the next
- * page load and set `data-theme` on <html> before first paint (no FOUC).
+ * chosen theme to localStorage under the key `unioffer-theme` (per
+ * UNIOFFER-SPEC-01) so the pre-hydration script in `app/theme-init.tsx`
+ * can read it on the next page load and set `data-theme` on <html>
+ * before first paint (no FOUC). Legacy key `uo-theme` is auto-migrated
+ * by theme-init.tsx — this component only ever writes the spec key.
  *
  * Accessibility:
  *   - role=button is implicit on <button>
@@ -41,7 +43,9 @@ export function ThemeToggle() {
     setTheme(next);
     document.documentElement.setAttribute("data-theme", next);
     try {
-      localStorage.setItem("uo-theme", next);
+      localStorage.setItem("unioffer-theme", next);
+      // One-shot cleanup of legacy key so both don't coexist indefinitely.
+      localStorage.removeItem("uo-theme");
     } catch {
       // localStorage blocked (Safari private mode, embedded browsers).
       // The attribute is still set for this session — acceptable.

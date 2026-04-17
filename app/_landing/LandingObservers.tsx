@@ -20,40 +20,60 @@ export function LandingObservers() {
     const targets = Array.from(
       document.querySelectorAll<HTMLElement>("[data-reveal]"),
     );
-    if (targets.length === 0) return;
-
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-    if (reduce) {
-      targets.forEach((el) => el.setAttribute("data-reveal", "in"));
-      return;
+
+    // ── Reveal observer ────────────────────────────────────────
+    let io: IntersectionObserver | null = null;
+    let fallback: ReturnType<typeof setTimeout> | null = null;
+    if (targets.length > 0) {
+      if (reduce) {
+        targets.forEach((el) => el.setAttribute("data-reveal", "in"));
+      } else {
+        io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((e) => {
+              if (e.isIntersecting) {
+                e.target.setAttribute("data-reveal", "in");
+                io?.unobserve(e.target);
+              }
+            });
+          },
+          { rootMargin: "-10% 0px -10% 0px", threshold: 0.05 },
+        );
+        targets.forEach((t) => io!.observe(t));
+        // Reveal anything still hidden after 1.2s to cover End-key
+        // and anchor jumps that skip past the observer window.
+        fallback = setTimeout(() => {
+          targets.forEach((el) => {
+            if (el.getAttribute("data-reveal") !== "in") {
+              el.setAttribute("data-reveal", "in");
+            }
+          });
+        }, 1200);
+      }
     }
 
-    const io = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((e) => {
-          if (e.isIntersecting) {
-            e.target.setAttribute("data-reveal", "in");
-            io.unobserve(e.target);
-          }
-        });
-      },
-      { rootMargin: "-10% 0px -10% 0px", threshold: 0.05 },
-    );
-    targets.forEach((t) => io.observe(t));
-
-    // Fallback: reveal any still-hidden sections after 1.2s so that
-    // instant-scroll (End key, anchor jump) never leaves blank gaps.
-    const fallback = setTimeout(() => {
-      targets.forEach((el) => {
-        if (el.getAttribute("data-reveal") !== "in") {
-          el.setAttribute("data-reveal", "in");
-        }
+    // ── Nav shrink on scroll ───────────────────────────────────
+    // Adds `.is-scrolled` to <header.uo-nav> once we pass 16px so
+    // landing-v3.css can collapse its height from 72px to 64px.
+    const nav = document.querySelector<HTMLElement>("header.uo-nav");
+    let rafId = 0;
+    const onScroll = () => {
+      if (rafId) return;
+      rafId = requestAnimationFrame(() => {
+        rafId = 0;
+        if (!nav) return;
+        if (window.scrollY > 16) nav.classList.add("is-scrolled");
+        else nav.classList.remove("is-scrolled");
       });
-    }, 1200);
+    };
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     return () => {
-      io.disconnect();
-      clearTimeout(fallback);
+      io?.disconnect();
+      if (fallback) clearTimeout(fallback);
+      window.removeEventListener("scroll", onScroll);
     };
   }, []);
 

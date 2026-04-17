@@ -1,23 +1,23 @@
 /**
- * Global stylesheet — V3 canonical tokens (single source of truth).
+ * Global stylesheet — UNIOFFER-SPEC-01 canonical tokens.
  *
  * Layer order:
  *   1. @tailwind base       — Preflight reset + Tailwind variable defaults.
  *   2. @tailwind components — component extraction layer.
  *   3. @tailwind utilities  — text-sm, bg-*, etc.
  *
- * The @layer base block below defines the canonical UniOffer design
- * tokens. Colors, spacing, radii, shadows, and accents live here and
- * nowhere else — any other file that hard-codes hex or px values is a
- * bug. Both light and dark themes are declared; dark is engaged by
- * setting `data-theme="dark"` on <html> (see app/theme-init.tsx, which
- * runs before hydration to prevent FOUC and persist via localStorage).
+ * This file is the SINGLE SOURCE OF TRUTH for design tokens. No other
+ * file hard-codes hex values. Both light and dark themes are declared;
+ * dark is engaged by `data-theme="dark"` on <html> (see theme-init.tsx).
  *
- * #0a3042 is Andy's canonical night bg — sampled from the actual pixel
- * data of public/brand/v2/unioffer-android.png and unioffer-icon-padded.png
- * (rgb 10, 48, 66). The legacy wordmark-on-navy.svg uses an older,
- * lighter navy, but the designer-made plate icons are the source of
- * truth. Never substitute.
+ * #0a3042 is Andy's canonical night bg. #11506e is the HowItWorks dark
+ * bg per spec. #64ee85 is the brand green.
+ *
+ * Typography pairing per spec:
+ *   Display (H1/H2): Alice (serif)
+ *   UI / body:        Inter (sans)
+ *
+ * localStorage key: 'unioffer-theme' (was 'uo-theme' in V6 — migrated).
  */
 
 @tailwind base;
@@ -26,12 +26,22 @@
 
 @layer base {
   :root {
-    /* Typography */
+    /* ── Typography ─────────────────────────────────────────────── */
     --font-serif: var(--font-serif-raw), Georgia, "Times New Roman", serif;
     --font-sans:  var(--font-sans-raw), system-ui, -apple-system, "Segoe UI", sans-serif;
     --font-mono:  "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
 
-    /* Spacing scale */
+    /* Type scale (display + UI) */
+    --fs-display-xl: clamp(44px, 6vw, 72px);
+    --fs-display-lg: clamp(36px, 4.2vw, 56px);
+    --fs-display-md: clamp(28px, 3vw, 40px);
+    --fs-display-sm: clamp(22px, 2.2vw, 32px);
+    --fs-body-lg: 18px;
+    --fs-body-md: 16px;
+    --fs-body-sm: 14px;
+    --fs-eyebrow: 12px;
+
+    /* ── Spacing scale (4pt baseline) ───────────────────────────── */
     --space-1: 4px;
     --space-2: 8px;
     --space-3: 12px;
@@ -43,96 +53,160 @@
     --space-9: 96px;
     --space-10: 128px;
 
-    /* Radii */
+    /* ── Radii ──────────────────────────────────────────────────── */
     --r-sm: 6px;
     --r-md: 10px;
     --r-lg: 14px;
     --r-xl: 20px;
     --r-2xl: 28px;
+    --r-full: 9999px;
 
-    /* Shadows */
+    /* ── Shadows ────────────────────────────────────────────────── */
     --shadow-1: 0 1px 2px rgba(0, 0, 0, 0.06), 0 1px 1px rgba(0, 0, 0, 0.04);
     --shadow-2: 0 8px 24px rgba(0, 0, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.08);
+    --shadow-card: 0 4px 16px rgba(10, 48, 66, 0.08);
+    --shadow-card-hover: 0 12px 32px rgba(10, 48, 66, 0.14);
 
-    /* Accents — shared across themes */
-    --accent:      #7c3aed;
-    --accent-ink:  #ffffff;
-    --accent-soft: #a78bfa;
-    --cat:         #64ee85;
-    /* Brand-green sibling tokens — used for decisive green moments
-       (CTA focus ring, section eyebrow, link underline) without
-       displacing --accent (purple) as the primary CTA fill. */
-    --brand-green:      #64ee85;
-    --brand-green-soft: rgba(100, 238, 133, 0.14);
-    --brand-green-ring: rgba(100, 238, 133, 0.45);
-    --danger:      #ef4444;
-    --warn:        #f59e0b;
-    --ok:          #22c55e;
+    /* ── Brand palette (theme-invariant) ────────────────────────── */
+    --brand-green-1: #64ee85;  /* bright — dark theme default */
+    --brand-green-2: #22c55e;  /* mid */
+    --brand-green-3: #15a34a;  /* deep — light theme default for contrast */
+    --brand-navy-1:  #0a3042;  /* canonical plate — rgb(10, 48, 66) */
+    --brand-navy-2:  #11506e;  /* section tint (HowItWorks dark) */
+    --brand-cream:   #f6f8f9;  /* section tint (light) */
 
-    /* Light (default) — V6: pure white, no cream/tint */
-    --bg:          #ffffff;
-    --bg-surface:  #ffffff;
-    --bg-elevated: #ffffff;
-    --bg-sunken:   #fafafa;
-    --fg:          #1a1a1a;
-    --fg-muted:    #666666;
-    --fg-soft:     #666666;
-    --border:      rgba(0, 0, 0, 0.08);
-    --border-soft: rgba(0, 0, 0, 0.06);
+    /* ── Semantic accent (primary CTA) ──────────────────────────── */
+    --accent:        var(--brand-green-3);
+    --accent-ink:    #ffffff;
+    --accent-soft:   rgba(21, 163, 74, 0.12);
+    --accent-ring:   rgba(21, 163, 74, 0.35);
 
-    /* Legacy aliases — kept so older inline style={{ color: 'var(--color-muted)' }}
-       usages don't break during the v2 → v3 migration. Remove in M2. */
-    --color-bg:       var(--bg);
-    --color-fg:       var(--fg);
-    --color-muted:    var(--fg-muted);
-    --color-border:   var(--border);
-    --color-accent:   var(--accent);
-    --color-wellbeing: #0ea5a6;
+    /* ── Legacy accent-purple aliases (kept for cookie/selection) ─ */
+    --purple-legacy: #7c3aed;
+
+    /* ── Status colors ──────────────────────────────────────────── */
+    --danger:        #ef4444;
+    --warn:          #f59e0b;
+    --ok:            #22c55e;
+
+    /* ── Light theme (default) ──────────────────────────────────── */
+    --color-bg:       #ffffff;
+    --color-surface:  #ffffff;
+    --color-elevated: #ffffff;
+    --color-sunken:   var(--brand-cream);  /* #f6f8f9 for strip bands */
+    --color-fg:       #0a0d12;
+    --color-fg-muted: #5c6672;
+    --color-fg-soft:  #8591a0;
+    --color-border:       rgba(10, 13, 18, 0.08);
+    --color-border-soft:  rgba(10, 13, 18, 0.05);
+    --color-border-strong: rgba(10, 13, 18, 0.16);
+    --color-accent:       #36e961;
+    --color-accent-hover: #64ee85;
+    --color-accent-pressed: #2bc852;
+    --color-accent-faint: #eafbee;
+    --color-accent-text:  #0a3042;
+
+    /* ── Spec Feature-08 / compliance strip (inverts in dark) ──── */
+    --color-strip-bg:   #0a3042;
+    --color-strip-text: #ffffff;
+
+    /* ── Text faint alias (spec --color-text-faint) ────────────── */
+    --color-text-faint: var(--color-fg-soft);
+
+    /* ── Back-compat aliases (V6 token names mapped to new) ────── */
+    --bg:           var(--color-bg);
+    --bg-surface:   var(--color-surface);
+    --bg-elevated:  var(--color-elevated);
+    --bg-sunken:    var(--color-sunken);
+    --fg:           var(--color-fg);
+    --fg-muted:     var(--color-fg-muted);
+    --fg-soft:      var(--color-fg-soft);
+    --border:       var(--color-border);
+    --border-soft:  var(--color-border-soft);
+    --cat:          var(--brand-green-1);
+    --brand-green:       var(--color-accent);
+    --brand-green-soft:  var(--accent-soft);
+    --brand-green-ring:  var(--accent-ring);
+    --color-muted:       var(--color-fg-muted);
+    --color-wellbeing:   #0ea5a6;
   }
 
   /* Explicit light override — matches :root defaults so theme-init.tsx
      setting data-theme="light" wins over any stylesheet inserted later. */
   :root[data-theme="light"] {
-    --bg:          #ffffff;
-    --bg-surface:  #ffffff;
-    --bg-elevated: #ffffff;
-    --bg-sunken:   #fafafa;
-    --fg:          #1a1a1a;
-    --fg-muted:    #666666;
-    --fg-soft:     #666666;
-    --border:      rgba(0, 0, 0, 0.08);
-    --border-soft: rgba(0, 0, 0, 0.06);
-    /* V6: pure white — no cream, no tint */
-    --brand-green:      #15a34a;
-    --brand-green-soft: rgba(21, 163, 74, 0.10);
-    --brand-green-ring: rgba(21, 163, 74, 0.35);
+    --color-bg:       #ffffff;
+    --color-surface:  #ffffff;
+    --color-elevated: #ffffff;
+    --color-sunken:   var(--brand-cream);
+    --color-fg:       #0a3042;
+    --color-fg-muted: #4a6578;
+    --color-fg-soft:  #8a9aa4;
+    --color-text-faint: #8a9aa4;
+    --color-border:   #e2e6e9;
+    --color-border-soft: rgba(10, 13, 18, 0.05);
+    --color-border-strong: #b8c0c5;
+    --color-accent:   #36e961;
+    --color-accent-hover: #64ee85;
+    --color-accent-pressed: #2bc852;
+    --color-accent-faint: #eafbee;
+    --color-accent-text:  #0a3042;
+    --color-strip-bg:   #0a3042;
+    --color-strip-text: #ffffff;
+    --accent:         #36e961;
+    --accent-ink:     #0a3042;
+    --accent-soft:    rgba(54, 233, 97, 0.12);
+    --accent-ring:    rgba(54, 233, 97, 0.35);
   }
 
   :root[data-theme="dark"] {
-    --bg:          #0a3042;  /* canonical plate — rgb(10, 48, 66) — DO NOT change */
-    --bg-surface:  #103a4f;
-    --bg-elevated: #154457;
-    --bg-sunken:   #072635;
-    --fg:          #eaf1f7;
-    --fg-muted:    #b8c6d2;
-    --fg-soft:     #98a8b6;  /* lifted from #7d8f9e — contrast 5.6:1 on --bg */
-    --border:      #1c4255;
-    --border-soft: #15384a;
+    --color-bg:       #0a3042;
+    --color-surface:  #0a3042;
+    --color-elevated: #11506e;
+    --color-sunken:   #11506e;
+    --color-fg:       #ffffff;
+    --color-fg-muted: #a8c5d3;
+    --color-fg-soft:  #6a8a9a;
+    --color-text-faint: #6a8a9a;
+    --color-border:   #1a6380;
+    --color-border-soft: #15384a;
+    --color-border-strong: #2a7a95;
+    --color-accent:   #36e961;
+    --color-accent-hover: #64ee85;
+    --color-accent-pressed: #2bc852;
+    --color-accent-faint: #1a5038;
+    --color-accent-text:  #0a3042;
+    --color-strip-bg:   #ffffff;
+    --color-strip-text: #0a3042;
+    --accent:         #36e961;
+    --accent-ink:     #0a3042;
+    --accent-soft:    rgba(54, 233, 97, 0.16);
+    --accent-ring:    rgba(54, 233, 97, 0.45);
   }
 
   /* System-preference fallback — only applies before theme-init.tsx runs */
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme]) {
-      --bg:          #0a3042;
-      --bg-surface:  #103a4f;
-      --bg-elevated: #154457;
-      --bg-sunken:   #072635;
-      --fg:          #eaf1f7;
-      --fg-muted:    #b8c6d2;
-      --fg-soft:     #98a8b6;
-      --border:      #1c4255;
-      --border-soft: #15384a;
+      --color-bg:       var(--brand-navy-1);
+      --color-surface:  #103a4f;
+      --color-elevated: #154457;
+      --color-sunken:   var(--brand-navy-2);
+      --color-fg:       #eaf1f7;
+      --color-fg-muted: #b8c6d2;
+      --color-fg-soft:  #98a8b6;
+      --color-border:   #1c4255;
+      --color-border-soft: #15384a;
+      --color-accent:   var(--brand-green-1);
+      --accent:         var(--brand-green-1);
+      --accent-ink:     var(--brand-navy-1);
     }
+  }
+
+  /* Arabic RTL — logical properties already handle most cases; this
+     ensures block-level layout flips direction for future AR copy. */
+  :root[dir="rtl"] {
+    /* No token overrides needed — layout uses logical props (margin-inline-*,
+       padding-inline-*, inset-inline-*). Placeholder for future AR-only
+       typographic tweaks (e.g. different font stack). */
   }
 
   html {
@@ -146,17 +220,15 @@
   html,
   body {
     min-height: 100vh;
-    background: var(--bg);
-    color: var(--fg);
+    background: var(--color-bg);
+    color: var(--color-fg);
     font-family: var(--font-sans);
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.24s ease, color 0.24s ease;
   }
 
-  /* V5.2 typography baseline — manus.im benchmark.
-     16px / 1.65 across viewports so body text matches manus proportions
-     instead of reading as a heavy long-form article. */
+  /* Body baseline — 16/1.65 matches manus calm proportions. */
   body {
     font-size: 16px;
     line-height: 1.65;
@@ -168,6 +240,7 @@
   h3 {
     font-family: var(--font-serif);
     letter-spacing: -0.01em;
+    font-weight: 400;
   }
 
   a {
@@ -176,22 +249,19 @@
   }
 
   ::selection {
-    background: var(--accent);
+    background: var(--color-accent);
     color: var(--accent-ink);
   }
 
-  /* Focus-visible fallback for any interactive element missing its own.
-     Uses --accent + --bg as the 2-layer ring so contrast is preserved
-     in both themes. */
+  /* Focus-visible fallback — 2-layer ring so contrast is preserved in both themes. */
   :where(a, button, input, select, textarea, [role="button"]):focus-visible {
     outline: none;
     box-shadow:
-      0 0 0 2px var(--bg),
-      0 0 0 4px var(--accent);
+      0 0 0 2px var(--color-bg),
+      0 0 0 4px var(--color-accent);
     border-radius: 0.375rem;
   }
 
-  /* Anchor-target offset so sticky-nav doesn't hide section headings. */
   html { scroll-padding-top: 72px; }
 
   @media (prefers-reduced-motion: reduce) {
@@ -214,16 +284,15 @@
   .shimmer {
     background: linear-gradient(
       90deg,
-      var(--bg-sunken) 0%,
-      var(--bg-surface) 50%,
-      var(--bg-sunken) 100%
+      var(--color-sunken) 0%,
+      var(--color-surface) 50%,
+      var(--color-sunken) 100%
     );
     background-size: 200% 100%;
     animation: shimmer 1.6s linear infinite;
   }
 
-  /* Theme toggle — sits in the nav between lang switcher and CTAs.
-     Uses currentColor for the SVG so it inherits theme fg. */
+  /* Theme toggle — sits in the nav between lang switcher and CTA. */
   .uo-theme-toggle {
     display: inline-flex;
     align-items: center;
@@ -231,15 +300,15 @@
     width: 36px;
     height: 36px;
     border-radius: var(--r-md);
-    border: 1px solid var(--border);
-    background: var(--bg-surface);
-    color: var(--fg);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-fg);
     cursor: pointer;
     transition: background 180ms ease, border-color 180ms ease, color 180ms ease;
   }
   .uo-theme-toggle:hover {
-    background: var(--bg-elevated);
-    border-color: var(--accent-soft);
+    background: var(--color-elevated);
+    border-color: var(--color-accent);
   }
 
   /* Language switcher — globe + EN, dropdown lists 10 markets. */
@@ -248,19 +317,19 @@
     display: inline-flex; align-items: center; gap: 6px;
     height: 36px; padding: 0 10px;
     border-radius: var(--r-md);
-    border: 1px solid var(--border);
-    background: var(--bg-surface);
-    color: var(--fg);
+    border: 1px solid var(--color-border);
+    background: var(--color-surface);
+    color: var(--color-fg);
     font: inherit; font-size: 13px; font-weight: 500;
     cursor: pointer;
   }
-  .uo-lang__btn:hover { border-color: var(--accent-soft); }
+  .uo-lang__btn:hover { border-color: var(--color-accent); }
   .uo-lang__menu {
-    position: absolute; top: calc(100% + 6px); right: 0;
-    min-width: 200px; max-height: 320px; overflow-y: auto;
+    position: absolute; top: calc(100% + 6px); inset-inline-end: 0;
+    min-width: 220px; max-height: 360px; overflow-y: auto;
     margin: 0; padding: 6px; list-style: none;
-    background: var(--bg-elevated);
-    border: 1px solid var(--border);
+    background: var(--color-elevated);
+    border: 1px solid var(--color-border);
     border-radius: var(--r-md);
     box-shadow: var(--shadow-2);
     z-index: 60;
@@ -269,110 +338,62 @@
     display: flex; align-items: center; justify-content: space-between;
     width: 100%; padding: 8px 10px;
     background: transparent; border: 0; border-radius: var(--r-sm);
-    color: var(--fg); font: inherit; font-size: 14px;
+    color: var(--color-fg); font: inherit; font-size: 14px;
     text-align: left; cursor: pointer;
   }
-  .uo-lang__opt[aria-disabled="true"] { color: var(--fg-soft); cursor: default; }
-  .uo-lang__opt:hover:not([aria-disabled="true"]) { background: var(--bg-sunken); }
-  .uo-lang__opt.is-active { color: var(--accent); font-weight: 600; }
+  .uo-lang__opt[aria-disabled="true"] { color: var(--color-fg-soft); cursor: default; }
+  .uo-lang__opt:hover:not([aria-disabled="true"]) { background: var(--color-sunken); }
+  .uo-lang__opt.is-active { color: var(--color-accent); font-weight: 600; }
   .uo-lang__cs {
     font-size: 11px; text-transform: uppercase;
-    letter-spacing: 0.08em; color: var(--fg-soft);
+    letter-spacing: 0.08em; color: var(--color-fg-soft);
+  }
+  .uo-lang__cs--soon {
+    color: var(--color-fg-soft);
+    font-style: italic;
   }
   .uo-lang__toast {
     position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
-    background: var(--bg-elevated); color: var(--fg);
-    border: 1px solid var(--border); border-radius: var(--r-md);
+    background: var(--color-elevated); color: var(--color-fg);
+    border: 1px solid var(--color-border); border-radius: var(--r-md);
     padding: 10px 16px; box-shadow: var(--shadow-2); z-index: 100;
     font-size: 13px;
   }
 
-  /* Loading screen — manus.im-style UniOffer u-mark with rotating
-     concentric arcs.
-
-     Composition rules:
-       - Two static rings live behind two rotating accent arcs.
-       - Outer arc: --accent (purple), 1.6s clockwise.
-       - Inner arc: --cat (green), 2.4s anti-clockwise — different
-         duration so the rings never sync visually.
-       - Each accent arc is a circle with stroke-dasharray drawn from
-         pathLength=100 so changing the dash chunk changes how much
-         of the ring is the accent stripe.
-       - The "u" glyph is Libre Baskerville for brand cohesion.
-       - prefers-reduced-motion freezes both arcs at their starting
-         transform; the rings + glyph remain visible. */
   /* Cookie banner — UK-GDPR Accept + Reject equal prominence. */
   .uo-cookie {
-    position: fixed; bottom: 16px; left: 16px; right: 16px;
+    position: fixed; bottom: 16px; inset-inline: 16px;
     max-width: 720px; margin: 0 auto;
-    background: var(--bg-elevated); color: var(--fg);
-    border: 1px solid var(--border); border-radius: var(--r-lg);
+    background: var(--color-elevated); color: var(--color-fg);
+    border: 1px solid var(--color-border); border-radius: var(--r-lg);
     box-shadow: var(--shadow-2);
     padding: 16px 20px;
     display: flex; flex-wrap: wrap; gap: 12px; align-items: center;
     z-index: 90;
   }
-  .uo-cookie__txt { flex: 1 1 280px; font-size: 13px; line-height: 1.5; color: var(--fg-muted); }
+  .uo-cookie__txt {
+    flex: 1 1 280px; font-size: 13px; line-height: 1.5;
+    color: var(--color-fg-muted);
+  }
   .uo-cookie__btns { display: inline-flex; gap: 8px; }
   .uo-cookie__btn {
     height: 36px; padding: 0 14px; border-radius: var(--r-md);
-    border: 1px solid var(--border); background: var(--bg-surface);
-    color: var(--fg); font: inherit; font-size: 13px; font-weight: 600;
+    border: 1px solid var(--color-border); background: var(--color-surface);
+    color: var(--color-fg); font: inherit; font-size: 13px; font-weight: 600;
     cursor: pointer;
   }
   .uo-cookie__btn--accept {
-    background: var(--accent); color: var(--accent-ink); border-color: var(--accent);
+    background: var(--color-accent); color: var(--accent-ink);
+    border-color: var(--color-accent);
   }
   .uo-cookie__btn:hover { filter: brightness(1.05); }
-
-  /* Aurora background — three radial blobs + drift. */
-  .uo-aurora {
-    position: fixed; inset: 0; pointer-events: none; z-index: 0;
-    overflow: hidden; contain: strict;
-  }
-  .uo-aurora::before, .uo-aurora::after, .uo-aurora > span {
-    position: absolute; content: ""; border-radius: 50%;
-    filter: blur(90px); opacity: 0.15;
-    will-change: transform, opacity;
-  }
-  .uo-aurora::before {
-    background: radial-gradient(closest-side, var(--cat), transparent);
-    top: -10%; left: -10%; width: 60vw; height: 60vw;
-    animation: uoAuroraDrift 28s ease-in-out infinite alternate;
-  }
-  .uo-aurora::after {
-    background: radial-gradient(closest-side, var(--accent), transparent);
-    bottom: -20%; right: -15%; width: 70vw; height: 70vw;
-    animation: uoAuroraDrift 34s ease-in-out -6s infinite alternate;
-  }
-  .uo-aurora > span {
-    background: radial-gradient(closest-side, #22d3ee, transparent);
-    top: 30%; left: 40%; width: 45vw; height: 45vw;
-    opacity: 0.10;
-    animation: uoAuroraDrift 40s ease-in-out -12s infinite alternate;
-  }
-  :root[data-theme="dark"] .uo-aurora::before,
-  :root[data-theme="dark"] .uo-aurora::after { opacity: 0.15; }
-  :root[data-theme="dark"] .uo-aurora > span { opacity: 0.10; }
-  @keyframes uoAuroraDrift {
-    0%   { transform: translate3d(0, 0, 0) scale(1); }
-    100% { transform: translate3d(6%, -4%, 0) scale(1.08); }
-  }
-  @media (prefers-reduced-motion: reduce) {
-    .uo-aurora::before, .uo-aurora::after, .uo-aurora > span {
-      animation: none;
-    }
-  }
 
   @keyframes shimmer {
     0%   { background-position: 200% 0; }
     100% { background-position: -200% 0; }
   }
 
-  /* ── First-paint loading splash (LoadingScreen client island) ───────
-     Mounted as the first child of <body> in app/layout.tsx. Auto-fades
-     after ~900ms then unmounts. Lives in globals.css (not landing-v3.css)
-     so it works identically across landing, admissions, wellbeing. */
+  /* ── First-paint loading splash (LoadingScreen client island) ─── */
   .uo-loading {
     position: fixed;
     inset: 0;
@@ -381,7 +402,7 @@
     place-items: center;
     grid-auto-flow: row;
     gap: 24px;
-    background: var(--bg);
+    background: var(--color-bg);
     animation: uo-loading-out 0.5s ease-in 0.7s forwards;
     pointer-events: none;
   }
@@ -409,7 +430,7 @@
   }
   .uo-loading-arc {
     fill: none;
-    stroke: var(--cat);
+    stroke: var(--brand-green-1);
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-dasharray: 22 300;
@@ -426,7 +447,7 @@
     font-family: var(--font-serif);
     font-size: 18px;
     letter-spacing: 0.02em;
-    color: var(--fg);
+    color: var(--color-fg);
     opacity: 0.72;
   }
 
@@ -444,10 +465,7 @@
     .uo-loading-arc-2 { animation: none; }
   }
 
-  /* ── Manus-style splash variant (app/loading.tsx) ─────────────────
-     Flat near-black plate, a single centered breathing mark, and a
-     "from UniOffer" lockup pinned near the bottom. No auto-fade: Next
-     unmounts the boundary once the route is ready. */
+  /* ── Manus-style splash variant (app/loading.tsx) ─────────────── */
   .uo-loading--manus {
     background: #050608;
     gap: 0;

@@ -7,9 +7,10 @@
  * page shipped light CSS and hydrated the dark toggle afterwards.
  *
  * Order of precedence for the initial theme:
- *   1. localStorage 'uo-theme' if present (user's last explicit choice)
- *   2. prefers-color-scheme: dark at the OS level
- *   3. fallback to 'dark' (Andy's canonical night site is the default)
+ *   1. localStorage 'unioffer-theme' (canonical key per UNIOFFER-SPEC-01)
+ *   2. legacy localStorage 'uo-theme' (auto-migrated once, then cleared)
+ *   3. prefers-color-scheme: dark at the OS level
+ *   4. fallback to 'light' (UniOffer default per spec)
  *
  * The script is wrapped in try/catch because localStorage can throw in
  * Safari private mode, third-party cookie blocks, and some embedded
@@ -20,9 +21,9 @@
  * script mutates the DOM before React hydrates.
  */
 export function ThemeInit() {
-  // V6: default theme is LIGHT (cream #F7F5F1) for manus.im-style calm.
-  // Dark mode still available via toggle — preference persists in
-  // localStorage. OS preference still honored when no explicit choice.
-  const code = `(function(){try{var t=localStorage.getItem('uo-theme');if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`;
+  // Spec key: `unioffer-theme`. Legacy key `uo-theme` is read once and
+  // migrated on first load — downstream code only ever writes the spec
+  // key. The migration is idempotent: if both keys exist, spec wins.
+  const code = `(function(){try{var K='unioffer-theme',L='uo-theme';var t=localStorage.getItem(K);if(!t){var legacy=localStorage.getItem(L);if(legacy){t=legacy;try{localStorage.setItem(K,legacy);localStorage.removeItem(L);}catch(e){}}}if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`;
   return <script dangerouslySetInnerHTML={{ __html: code }} suppressHydrationWarning />;
 }

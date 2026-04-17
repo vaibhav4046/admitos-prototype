@@ -7,15 +7,16 @@
  * so that wellbeing can never accidentally pick up PostHog or any other
  * admissions-scope telemetry.
  *
- * V3 font stack: Libre Baskerville (serif headings) + Inter (body).
+ * Spec font stack (UNIOFFER-SPEC-01): Alice (display serif) + Inter (body).
  * Exposed as CSS variables `--font-serif-raw` / `--font-sans-raw` which
  * globals.css composes into `--font-serif` / `--font-sans` with the
- * system fallbacks. Syne/DM_Sans/Cormorant from v1 are retired.
+ * system fallbacks. Libre_Baskerville retired in the v2.2 rebuild.
  *
  * Theme:
  *   - <ThemeInit /> is the FIRST child of <head>. It runs synchronously
- *     before first paint, reads localStorage('uo-theme'), and sets
- *     data-theme on <html>. Defaults to dark (Andy canonical).
+ *     before first paint, reads localStorage('unioffer-theme') (with
+ *     one-shot migration from legacy 'uo-theme'), and sets data-theme
+ *     on <html>. Defaults to light (UniOffer canonical).
  *   - suppressHydrationWarning on <html> and <body> is required because
  *     the pre-paint script mutates the DOM before React hydrates.
  */
@@ -23,7 +24,7 @@
 import type { ReactNode } from "react";
 import { Suspense } from "react";
 import type { Metadata } from "next";
-import { Libre_Baskerville, Inter } from "next/font/google";
+import { Alice, Inter } from "next/font/google";
 
 import { RouteProgress } from "@/components/ui";
 
@@ -33,10 +34,12 @@ import "./globals.css";
 
 /* ── Self-hosted Google Fonts via next/font ──────────────────────────
    Font files are inlined at build time; CSS variables are consumed by
-   globals.css (--font-serif / --font-sans) and the landing page.  */
-const serif = Libre_Baskerville({
+   globals.css (--font-serif / --font-sans) and the landing page.
+   Alice is a single-weight (400) transitional serif — the spec pairing
+   partner for Inter. */
+const serif = Alice({
   subsets: ["latin"],
-  weight: ["400", "700"],
+  weight: ["400"],
   variable: "--font-serif-raw",
   display: "swap",
 });

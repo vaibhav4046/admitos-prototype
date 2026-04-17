@@ -28,6 +28,7 @@
     "bullmq": "^5.34.3",
     "ioredis": "^5.4.2",
     "langsmith": "^0.2.15",
+    "lucide-react": "^0.468.0",
     "next": "15.0.8",
     "posthog-js": "^1.195.0",
     "posthog-node": "^4.3.2",

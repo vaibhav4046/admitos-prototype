@@ -1,39 +1,61 @@
 /**
- * Pricing — V4 spec-accurate (Module 6, verbatim).
+ * Pricing — S4 per UNIOFFER-SPEC-01 v2.2, Module 6.
  *
- * Three tiers, exact CEO spec copy — tagline, credits (500 Basic /
- * 2,000 Plus), bullet text, footnote, CTA labels, compliance
- * disclaimer strip.
+ * Three tiers, spec-verbatim copy. The Plus card is featured:
+ *   - -12px vertical offset (desktop only, collapses on tablet)
+ *   - 2px accent border instead of 1px hairline
+ *   - "MOST POPULAR" badge pinned -14px above the top edge,
+ *     centred, uppercase, rounded-full
  *
- * CTA routing:
- *   Basic  → /signin?plan=basic           (label: "Get Started")
- *   Plus   → /signin?plan=plus            (label: "Start Plus")
- *   Premium → /contact-sales              (label: "Contact Sales →")
- * Contact Sales MUST route to /contact-sales (never /signin).
+ * Each bullet uses a Lucide Check icon (14px, strokeWidth 2.5,
+ * accent colour). The compliance/credits disclaimer is rendered
+ * as a full-width muted strip beneath the grid — not inside any
+ * single card — so it applies to all three tiers.
+ *
+ * CTA routing (unchanged):
+ *   Basic   → /signin?plan=basic
+ *   Plus    → /signin?plan=plus
+ *   Premium → /contact-sales   (MUST NOT route to /signin)
  */
 
 import Link from "next/link";
+import { Check } from "lucide-react";
 
-const TIERS = [
+type Tier = {
+  key: string;
+  name: string;
+  price: string;
+  per: string;
+  yearLine: string | null;
+  tagline: string;
+  sub: string | null;
+  bullets: readonly string[];
+  cta: { href: string; label: string };
+  featured: boolean;
+  footnote: string | null;
+  premium?: boolean;
+};
+
+const TIERS: readonly Tier[] = [
   {
     key: "basic",
     name: "Basic",
     price: "£20",
     per: "/ month",
-    yearLine: "Year plan: 2 months free · £200/year",
+    yearLine: "Year plan: 2 months free · £200 / year",
     tagline: "Your AI admissions foundation.",
     sub: "500 AI credits included monthly. Purchased credits never expire.",
     bullets: [
-      "Student DNA — Build your applicant persona across 8 dimensions from day one",
-      "AI Orchestrator — Weekly action plans, deadline tracking, full application timeline",
-      "School Intelligence — Target school research powered by official CDS and UCAS data",
-      "US or UK Application Strategy — School list, ED/EA timing, preparation priorities — up to 5 schools (US or UK track)",
-      "Essay Agent — Brainstorming, structure, and first draft generation that protects your authentic voice",
-      "Application Readiness — Clear, qualitative readiness indicators. What to focus on next, always visible",
+      "Student DNA — 8-dimension applicant persona from day one",
+      "AI Orchestrator — weekly plans, deadline tracking, full timeline",
+      "School Intelligence — target-school research from CDS and UCAS data",
+      "US or UK application strategy — up to 5 schools (single track)",
+      "Essay Agent — brainstorming, structure, first draft with voice protection",
+      "Application Readiness — qualitative readiness indicators, always visible",
       "Interview Prep — AI voice simulation, 2 sessions per month",
-      "Adie — Your wellbeing companion. Light-touch care and friendly nudges, available at every tier",
-      "Commons — Full community access. Anonymous, governed, locked to admissions topics",
-      "Live Student Profile — Your progress page, updated in real time. Parents and counsellors stay in sync with one link",
+      "Catie — wellbeing companion at every tier, no extra cost",
+      "Commons — anonymous, governed community access",
+      "Live Student Profile — one shared link for student, parents, counsellor",
     ],
     cta: { href: "/signin?plan=basic", label: "Get Started" },
     featured: false,
@@ -44,20 +66,20 @@ const TIERS = [
     name: "Plus",
     price: "£50",
     per: "/ month",
-    yearLine: "Year plan: 2 months free · £500/year",
+    yearLine: "Year plan: 2 months free · £500 / year",
     tagline: "Full AI execution across your entire application.",
-    sub: "2,000 AI credits monthly. Purchased credits roll over, never expire.",
+    sub: "2,000 AI credits monthly. Top-up credits roll over and never expire.",
     bullets: [
       "Everything in Basic, plus:",
-      "US + UK Dual-Track Strategy — Both markets in parallel. ED/EA conflict detection, balanced school list across two systems — up to 12 schools (US + UK dual track)",
-      "Essay Agent — Full — Unlimited revisions, cross-essay narrative consistency, writing style drift detection anchored to your persona",
-      "Voice Interview + Hume AI — 5 sessions per month with real-time emotion analysis — confidence, clarity, and anxiety tracked across every answer",
-      "Test Prep Agent — Adaptive diagnostic, predicted score curve, topic-by-topic priority planning",
-      "Activities + Leadership Programme — Common App 10-slot optimisation, leadership narrative construction, extracurricular arc built as a story, not a list",
-      "Capstone Research Programme — Mentor matching from 200+ PhD and professor network, research project support from topic selection to publication pipeline",
-      "Application Readiness + What-if — Scenario planning. See exactly how a higher SAT score or a new activity changes your readiness for each target school",
-      "Adie Advanced — Voice responses, weekly personalised wellbeing report, 30-day mood trend",
-      "Top-up credits — Purchase additional credits anytime when you need to go deeper",
+      "US + UK dual-track strategy — up to 12 schools, ED / EA conflict detection",
+      "Essay Agent Full — unlimited revisions, cross-essay narrative consistency, voice-drift detection",
+      "Voice Interview + Hume AI — 5 sessions/month with real-time emotion analysis",
+      "Test Prep Agent — adaptive diagnostic, predicted curve, topic-priority plan",
+      "Commons — Common App 10-slot optimisation, leadership arc, extracurricular depth",
+      "Capstone Research — 200+ PhD and professor mentor network, topic to publication",
+      "Readiness What-if — scenario planning across target schools",
+      "Catie Advanced — voice responses, weekly wellbeing report, 30-day mood trend",
+      "Top-up credits — purchase additional credits anytime",
     ],
     cta: { href: "/signin?plan=plus", label: "Start Plus" },
     featured: true,
@@ -70,18 +92,19 @@ const TIERS = [
     per: "AI + Human Expertise",
     yearLine: null,
     tagline:
-      "Private advisory service. For families who want AI precision and expert human judgement at every critical moment. All Premium plans are privately designed.",
+      "Private advisory. AI precision with expert human judgement at every critical moment. All Premium plans are privately designed.",
     sub: null,
     bullets: [
       "Everything in Plus, plus:",
-      "Former Admissions Officer Review — Every essay, every activity, every narrative reviewed through the lens of a real admissions reader before you submit",
-      "Private Counsellor Sessions — One-to-one expert guidance from former admissions officers at Cambridge, Oxford, and Ivy League institutions",
-      "Unlimited AI credits — No caps. Use every agent, every tool, every feature without limits",
-      "Priority Support — Direct line to the UniOffer advisory team, 24-hour response guarantee",
-      "Family Dashboard — Dedicated parent/guardian view with progress summaries and counsellor notes",
+      "Former Admissions Officer Review — every essay, activity, narrative reviewed before submission",
+      "Private Counsellor Sessions — one-to-one with former officers at Cambridge, Oxford, Ivy",
+      "Unlimited AI credits — no caps on any agent or feature",
+      "Priority Support — direct line to advisory team, 24-hour response",
+      "Family Dashboard — parent / guardian view with progress and counsellor notes",
     ],
     cta: { href: "/contact-sales", label: "Contact Sales →" },
     featured: false,
+    premium: true,
     footnote:
       "Premium plans are privately designed in consultation with our advisory team. Pricing reflects the scope of human expert involvement and is discussed during your initial call.",
   },
@@ -90,62 +113,70 @@ const TIERS = [
 export function Pricing() {
   return (
     <section id="pricing" className="uo-section" aria-labelledby="price-h2">
-      <p className="uo-eyebrow">Pricing</p>
-      <h2 id="price-h2" className="uo-section__h2">
-        Plans built for every stage of your journey.
-      </h2>
-      <p className="uo-section__lede">
-        Start free with Basic essentials. Upgrade when you&rsquo;re ready for
-        full AI execution or private expert advisory.
-      </p>
+      <div className="uo-section__inner">
+        <p className="uo-eyebrow">Pricing</p>
+        <h2 id="price-h2" className="uo-section__h2">
+          Simple, transparent pricing.
+        </h2>
+        <p className="uo-section__lede">
+          Start with AI. Upgrade when you&rsquo;re ready for human expertise.
+        </p>
 
-      <div className="uo-price-grid">
-        {TIERS.map((t) => (
-          <article
-            key={t.key}
-            className={`uo-price-card${t.featured ? " is-featured" : ""}`}
-          >
-            {t.featured && (
-              <p className="uo-price__flag">Most popular</p>
-            )}
-            <h3 className="uo-price__name">{t.name}</h3>
-            <p className="uo-price__amt">
-              <span className="uo-price__num">{t.price}</span>{" "}
-              <span className="uo-price__per">{t.per}</span>
-            </p>
-            {t.yearLine && (
-              <p className="uo-price__year">{t.yearLine}</p>
-            )}
-            {t.tagline && (
-              <p className="uo-price__tagline">{t.tagline}</p>
-            )}
-            {t.sub && <p className="uo-price__sub">{t.sub}</p>}
-            <ul className="uo-price__ul">
-              {t.bullets.map((b) => (
-                <li key={b}>{b}</li>
-              ))}
-            </ul>
-            {t.footnote && (
-              <p className="uo-price__footnote">{t.footnote}</p>
-            )}
-            <Link
-              href={t.cta.href}
-              className={`uo-price__cta${t.featured ? " is-featured" : ""}`}
+        <div className="uo-price-grid">
+          {TIERS.map((t) => (
+            <article
+              key={t.key}
+              className={[
+                "uo-price-card",
+                t.featured ? "is-featured" : "",
+                t.premium ? "is-premium" : "",
+              ]
+                .filter(Boolean)
+                .join(" ")}
             >
-              {t.cta.label}
-            </Link>
-          </article>
-        ))}
-      </div>
+              {t.featured && (
+                <p className="uo-price-card__badge">Most Popular</p>
+              )}
+              <h3 className="uo-price__name">{t.name}</h3>
+              <p className="uo-price__amt">
+                <span className="uo-price__num">{t.price}</span>{" "}
+                <span className="uo-price__per">{t.per}</span>
+              </p>
+              {t.yearLine && <p className="uo-price__year">{t.yearLine}</p>}
+              <p className="uo-price__tagline">{t.tagline}</p>
+              {t.sub && <p className="uo-price__sub">{t.sub}</p>}
+              <ul className="uo-price__ul">
+                {t.bullets.map((b) => (
+                  <li key={b}>
+                    <Check size={14} strokeWidth={2.5} aria-hidden="true" />
+                    <span>{b}</span>
+                  </li>
+                ))}
+              </ul>
+              {t.footnote && (
+                <p className="uo-price__footnote">{t.footnote}</p>
+              )}
+              <Link
+                href={t.cta.href}
+                className={`uo-price__cta${t.featured ? " is-featured" : ""}`}
+              >
+                {t.cta.label}
+              </Link>
+            </article>
+          ))}
+        </div>
 
-      <p className="uo-pricing__disclaimer">
-        UniOffer uses a credit-based system. AI credits are consumed when you
-        interact with agents. Basic includes 500 credits/month; Plus includes
-        2,000 credits/month. Purchased top-up credits never expire. Premium
-        plans include unlimited credits. All plans include Adie wellbeing
-        support at no additional cost. Prices shown in GBP. Annual plans
-        include two months free.
-      </p>
+        <div className="uo-price-compliance">
+          <p>
+            UniOffer uses a credit-based system. AI credits are consumed
+            when you interact with agents. Basic includes 500 credits/month;
+            Plus includes 2,000 credits/month. Purchased top-up credits
+            never expire. Premium plans include unlimited credits. All
+            plans include Catie wellbeing support at no additional cost.
+            Prices shown in GBP. Annual plans include two months free.
+          </p>
+        </div>
+      </div>
     </section>
   );
 }

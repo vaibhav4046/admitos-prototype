@@ -1,16 +1,18 @@
 /**
- * / — UniOffer marketing landing (V4 spec-accurate RSC tree).
+ * / — UniOffer marketing landing (UNIOFFER-SPEC-01 v2.2 RSC tree).
  *
- * Section order locked to CEO spec (03_Landing_Page_V3.1.pdf):
- *   Hero → MarketReality → HowItWorks → Features (+ Feature 08 strip)
- *   → TrustSignals → Pricing (+ compliance disclaimer) → Footer
+ * Section order per spec v2.2 (03_Landing_Page_V3.1.pdf, revision 2.2):
+ *   S0 Nav → S1 Hero → S3 HowItWorks → S2 Features (+ Feature 08 strip)
+ *   → S4 Pricing → S5 Footer
  *
- * AdiePreview, Timeline, SocialProof REMOVED — not in spec. Adie is
- * gated behind sign-in per compliance policy (no wellbeing companion
- * surface on unauthenticated marketing page).
- *
- * AdieFAB intentionally NOT imported here — Andy item 7. The V3 grep
- * test guards this file at PR review.
+ * Deltas from V4:
+ *   - Aurora, MarketReality, TrustSignals REMOVED (not in spec v2.2).
+ *     The hero's typography carries the full visual weight; no
+ *     background canvas effect; no standalone reality/trust modules
+ *     — trust content now lives inside Feature 08's compliance strip.
+ *   - Adie surfaces are gone from the public landing (Catie is gated
+ *     behind sign-in for compliance reasons).
+ *   - No AdieFAB; V3 grep test guards this.
  */
 
 import type { Metadata } from "next";
@@ -19,14 +21,11 @@ import { CookieBanner } from "./_components/CookieBanner";
 import { Footer } from "./_components/Footer";
 import { Nav } from "./_components/Nav";
 
-import { Aurora } from "./_landing/Aurora";
 import { Features } from "./_landing/Features";
 import { Hero } from "./_landing/Hero";
 import { HowItWorks } from "./_landing/HowItWorks";
 import { LandingObservers } from "./_landing/LandingObservers";
-import { MarketReality } from "./_landing/MarketReality";
 import { Pricing } from "./_landing/Pricing";
-import { TrustSignals } from "./_landing/TrustSignals";
 
 import "./_landing/landing-v3.css";
 
@@ -55,21 +54,14 @@ export const metadata: Metadata = {
 export default function LandingPage() {
   return (
     <div className="uo-shell">
-      <Aurora />
       <Nav />
       <main className="uo-main" id="main">
         <Hero />
-        <div data-reveal>
-          <MarketReality />
-        </div>
         <div data-reveal>
           <HowItWorks />
         </div>
         <div data-reveal>
           <Features />
-        </div>
-        <div data-reveal>
-          <TrustSignals />
         </div>
         <div data-reveal>
           <Pricing />
