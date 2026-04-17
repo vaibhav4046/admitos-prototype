@@ -1,212 +1,112 @@
 /**
- * Admissions dashboard — the at-a-glance home for signed-in students.
+ * Admissions dashboard — Manus-style "What can I do for you?" home.
  *
- * Three-tile layout per the M1 spec:
- *
- *   1. Candidate Engagement Form  — primary action, always present
- *   2. Essay drafts               — wakes up after CEF submit
- *   3. Counsellor notes           — wakes up after first 1:1
- *
- * This file is a server component. The interactive bits (autosave
- * status, real-time CEF progress) belong to dedicated client
- * children — keep this file boring so it doesn't trigger the
- * "use client" boundary up the tree.
- *
- * The data fetching is stubbed for M1 Week 1: we render placeholder
- * statuses. The real query will land in M1 Week 2 once the CEF DDL
- * is unblocked.
- *
- * Polish notes for the M1 visual pass:
- *   - The CEF tile is `featured` so it visually outweighs the other
- *     two — that's the action we want every student to take next.
- *   - All three cards have a hover lift via `shadow-card` →
- *     `shadow-cardHover` and a 200ms `ease-out` transition. The
- *     entire `<Link>` is the click target so the hit area matches
- *     the visual element.
- *   - The "Status:" line uses a colour-coded `<Badge>` so the
- *     activation state of each tile is legible at a glance.
- *   - The wellbeing-isolation footer is now a tinted callout, not a
- *     stray paragraph at the bottom of the page.
+ * Server component. Reads the session to personalise the greeting,
+ * reads the `unioffer-lang` cookie to resolve the active locale, then
+ * hands off to the shell + composer client islands. Every string on
+ * the dashboard surface — sidebar labels, topbar chip, composer
+ * placeholder, chips, carousel — flows down as typed copy props so
+ * the language choice the user made on the landing (or in the
+ * dashboard settings modal) is honoured from the first paint.
  */
 
+import type { Metadata } from "next";
 import Link from "next/link";
 
-import {
-  Badge,
-  Button,
-  Card,
-  CardBody,
-  PageHeader,
-} from "@/components/ui";
+import { getCurrentUser } from "@/services/auth/server";
+import { displayNameFromEmail } from "@/lib/utils";
 
-type TileStatus = "ready" | "active" | "locked" | "empty";
+import { getDashboardCopy } from "@/app/_i18n";
+import { readLocale } from "@/app/_i18n/server";
 
-interface DashboardTile {
-  href: string;
-  eyebrow: string;
-  title: string;
-  body: string;
-  cta: string;
-  status: TileStatus;
-  featured?: boolean;
-}
+import { Composer } from "./_components/Composer";
+import { DashboardShell } from "./_components/DashboardShell";
 
-const TILES: readonly DashboardTile[] = [
-  {
-    href: "/cef/1",
-    eyebrow: "Step 4 of 7",
-    title: "Candidate Engagement Form",
-    body: "A guided seven-step intake form. Autosaved at every step — close the tab whenever you like.",
-    cta: "Resume CEF",
-    status: "ready",
-    featured: true,
-  },
-  {
-    href: "/cef/6",
-    eyebrow: "Draft 3 in review",
-    title: "Essay drafts",
-    body: "Upload a draft to receive structured five-dimension feedback. A counsellor reviews every set of comments before they reach you.",
-    cta: "Open essays",
-    status: "active",
-  },
-  {
-    href: "/counsellor",
-    eyebrow: "Last note: 2 days ago",
-    title: "Counsellor notes",
-    body: "Read the latest notes from your UniOffer counsellor. Updated within 24 hours of each session.",
-    cta: "Read notes",
-    status: "active",
-  },
-];
-
-const STATUS_LABEL: Record<TileStatus, { label: string; tone: React.ComponentProps<typeof Badge>["tone"] }> = {
-  ready: { label: "In progress", tone: "info" },
-  active: { label: "Updated", tone: "success" },
-  locked: { label: "Locked", tone: "neutral" },
-  empty: { label: "Nothing yet", tone: "neutral" },
+export const metadata: Metadata = {
+  title: "Dashboard — UniOffer",
 };
 
-export default function AdmissionsDashboardPage() {
+export default async function DashboardHomePage() {
+  const [authed, locale] = await Promise.all([getCurrentUser(), readLocale()]);
+  const copy = getDashboardCopy(locale);
+
+  const user = authed
+    ? {
+        displayName: displayNameFromEmail(authed.email) || authed.email,
+        email: authed.email,
+      }
+    : null;
+
+  const firstName = user?.displayName.split(" ")[0] ?? "";
+  const greeting = user
+    ? copy.home.greetingNamed.replace("{name}", firstName)
+    : copy.home.greeting;
+
+  const chips = [
+    { key: "essay", label: copy.home.chips.essay, icon: "✍️" },
+    { key: "schoolList", label: copy.home.chips.schoolList, icon: "🏫" },
+    { key: "odds", label: copy.home.chips.odds, icon: "📊" },
+    { key: "timeline", label: copy.home.chips.timeline, icon: "🗓️" },
+    { key: "activities", label: copy.home.chips.activities, icon: "✨" },
+  ];
+
   return (
-    <div className="space-y-10">
-      <PageHeader
-        eyebrow="Dashboard"
-        title="Welcome back"
-        description="Pick up where you left off, or jump straight to a draft."
-        actions={
-          <Link
-            href="/cef/1"
-            className="inline-flex rounded-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
-          >
-            <Button variant="primary">Resume CEF →</Button>
+    <DashboardShell copy={copy} locale={locale} user={user}>
+      <section className="uo-dash-home">
+        <div className="uo-dash-planpill">
+          <span>{copy.home.planFree}</span>
+          <span aria-hidden="true" style={{ opacity: 0.4 }}>|</span>
+          <Link className="uo-dash-planpill-link" href="/#pricing" prefetch>
+            {copy.home.planUpgrade}
           </Link>
-        }
-      />
+        </div>
 
-      <section aria-labelledby="tiles-heading">
-        <h2 id="tiles-heading" className="sr-only">
-          Application surfaces
-        </h2>
-        <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {TILES.map((tile) => {
-            const isReady = tile.status === "ready";
-            const status = STATUS_LABEL[tile.status];
-            return (
-              <Link
-                key={tile.href}
-                href={tile.href}
-                className="group block rounded-xl focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-900 focus-visible:ring-offset-2"
-                aria-label={`${tile.title} — ${status.label}`}
-              >
-                <Card
-                  className={
-                    "h-full shadow-card transition-all duration-200 ease-out group-hover:-translate-y-0.5 group-hover:shadow-cardHover " +
-                    (tile.featured
-                      ? "border-slate-900/10 ring-1 ring-slate-900/5"
-                      : "")
-                  }
-                >
-                  <CardBody className="flex h-full flex-col gap-4 p-6">
-                    <div className="flex items-start justify-between gap-3">
-                      <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                        {tile.eyebrow}
-                      </p>
-                      <Badge tone={status.tone}>{status.label}</Badge>
-                    </div>
-                    <div>
-                      <h3 className="text-base font-semibold tracking-tight text-slate-900">
-                        {tile.title}
-                      </h3>
-                      <p className="mt-2 text-sm leading-relaxed text-slate-600">
-                        {tile.body}
-                      </p>
-                    </div>
-                    <p
-                      className={
-                        "mt-auto text-sm font-medium " +
-                        (isReady
-                          ? "text-slate-900 group-hover:underline group-hover:decoration-2 group-hover:underline-offset-4"
-                          : "text-slate-500")
-                      }
-                    >
-                      {tile.cta} <span aria-hidden="true">→</span>
-                    </p>
-                  </CardBody>
-                </Card>
-              </Link>
-            );
-          })}
+        <h1 className="uo-dash-h1">{greeting}</h1>
+
+        <Composer copy={copy.composer} />
+
+        <div
+          className="uo-dash-connect"
+          role="status"
+          aria-label={copy.home.connectTools}
+        >
+          <span className="uo-dash-connect-left">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+              <path d="M10 14a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71 M14 10a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.72-1.71" />
+            </svg>
+            {copy.home.connectTools}
+          </span>
+          <span className="uo-dash-connect-icons">
+            <span title="Drive">D</span>
+            <span title="Gmail">M</span>
+            <span title="Notion">N</span>
+            <span title="Figma">F</span>
+            <span title="GitHub">G</span>
+          </span>
+        </div>
+
+        <div className="uo-dash-quick-row" aria-label={copy.home.suggestionsAria}>
+          {chips.map((c) => (
+            <button key={c.key} type="button" className="uo-dash-quickchip">
+              <span aria-hidden="true">{c.icon}</span>
+              <span>{c.label}</span>
+            </button>
+          ))}
+        </div>
+
+        <div className="uo-dash-carousel" aria-label={copy.home.carousel.ariaLabel}>
+          <div>
+            <h3>{copy.home.carousel.heading}</h3>
+            <p>{copy.home.carousel.body}</p>
+          </div>
+          <div className="uo-dash-carousel-art" aria-hidden="true">
+            <span style={{ background: "#1ea3d6" }}>✈</span>
+            <span style={{ background: "#0084ff" }}>ᴹ</span>
+            <span style={{ background: "#06c755" }}>L</span>
+            <span style={{ background: "#25d366" }}>W</span>
+          </div>
         </div>
       </section>
-
-      <section aria-labelledby="next-actions-heading">
-        <div className="mb-3 flex items-end justify-between">
-          <h2
-            id="next-actions-heading"
-            className="text-sm font-semibold uppercase tracking-wider text-slate-500"
-          >
-            Recommended next actions
-          </h2>
-        </div>
-        <Card>
-          <CardBody className="p-0">
-            <ul className="divide-y divide-slate-200">
-              {[
-                { what: "Tighten paragraph 2 of your personal statement (AI essay coach)", when: "5 min · /cef/6" },
-                { what: "Add 2 more activities to reach the recommended 5+", when: "10 min · /cef/4" },
-                { what: "Confirm your IELTS overall score (currently 7.5)", when: "1 min · /cef/3" },
-                { what: "Book your next counsellor 1:1 — slot opens 18 Apr", when: "2 min · /counsellor" },
-              ].map((row, i) => (
-                <li key={i} className="flex items-center justify-between gap-4 px-5 py-3">
-                  <p className="text-sm text-slate-800">{row.what}</p>
-                  <span className="shrink-0 text-xs text-slate-500">{row.when}</span>
-                </li>
-              ))}
-            </ul>
-          </CardBody>
-        </Card>
-      </section>
-
-      <aside
-        aria-label="Wellbeing isolation notice"
-        className="rounded-xl border border-slate-200 bg-slate-50 px-5 py-4 text-xs leading-relaxed text-slate-600"
-      >
-        <p>
-          <span className="font-semibold text-slate-900">
-            Your privacy is structurally protected.
-          </span>{" "}
-          Anything you write here is stored encrypted at rest. The wellbeing
-          companion (
-          <Link
-            href="/adie"
-            className="font-medium text-slate-700 underline decoration-slate-300 underline-offset-2 hover:text-slate-900 hover:decoration-slate-500"
-          >
-            Adie
-          </Link>
-          ) lives in a separate area and never feeds into your admissions
-          record — your counsellor cannot read your conversations there.
-        </p>
-      </aside>
-    </div>
+    </DashboardShell>
   );
 }

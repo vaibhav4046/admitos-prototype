@@ -12,6 +12,17 @@
  * globals.css composes into `--font-serif` / `--font-sans` with the
  * system fallbacks. Libre_Baskerville retired in the v2.2 rebuild.
  *
+ * i18n at the root:
+ *   - We read the `unioffer-lang` cookie on the server and set
+ *     `<html lang=…>` and `<html dir=…>` to match the chosen dict.
+ *     Arabic flips the entire document to RTL; every other supported
+ *     locale stays LTR.
+ *   - This is safe for the whole app (not just landing) because every
+ *     locale's html-lang is well-formed, and dir only flips to "rtl"
+ *     on ar. Non-landing routes that don't translate yet simply
+ *     render their English copy inside an "rtl" container if the
+ *     user has picked Arabic — readable, cosmetic misalignment only.
+ *
  * Theme:
  *   - <ThemeInit /> is the FIRST child of <head>. It runs synchronously
  *     before first paint, reads localStorage('unioffer-theme') (with
@@ -29,6 +40,9 @@ import { Alice, Inter } from "next/font/google";
 import { RouteProgress } from "@/components/ui";
 
 import { LoadingScreen } from "./_components/LoadingScreen";
+import { getCopy } from "./_i18n";
+import { readLocale } from "./_i18n/server";
+import { OsThemeWatcher } from "./_landing/OsThemeWatcher";
 import { ThemeInit } from "./theme-init";
 import "./globals.css";
 
@@ -59,10 +73,18 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default async function RootLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  const locale = await readLocale();
+  const copy = getCopy(locale);
+
   return (
     <html
-      lang="en"
+      lang={copy.htmlLang}
+      dir={copy.dir}
       className={`${serif.variable} ${sans.variable}`}
       suppressHydrationWarning
     >
@@ -81,6 +103,11 @@ export default function RootLayout({ children }: { children: ReactNode }) {
         <Suspense fallback={null}>
           <RouteProgress />
         </Suspense>
+        {/* Live OS dark/light sync for the whole app (landing + dashboard
+            + signin). Pre-hydration script paints the initial theme;
+            this island keeps it in lockstep with the OS for users who
+            haven't set an explicit pref via ThemeToggle. */}
+        <OsThemeWatcher />
         {children}
       </body>
     </html>

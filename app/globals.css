@@ -311,6 +311,65 @@
     border-color: var(--color-accent);
   }
 
+  /* ── Primary button — pill CTA used by signin, contact-sales, landing.
+     Ink-on-accent for AAA contrast; flex keeps label + trailing icon on
+     a single line at every width. ───────────────────────────────────── */
+  .uo-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 20px;
+    background: var(--color-accent);
+    color: var(--color-accent-text);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1;
+    border-radius: 999px;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: filter 180ms ease, transform 180ms ease, box-shadow 180ms ease;
+    white-space: nowrap;
+  }
+  .uo-btn-primary:hover {
+    filter: brightness(1.04);
+    transform: translateY(-1px);
+    box-shadow: 0 10px 24px -12px rgba(54, 233, 97, 0.55);
+  }
+  .uo-btn-primary:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-ring);
+  }
+
+  /* Ghost app-level button — outline pill used as secondary action. */
+  .uo-app-btn-ghost {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 20px;
+    background: transparent;
+    color: var(--color-fg);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1;
+    border-radius: 999px;
+    border: 1px solid var(--color-border);
+    cursor: pointer;
+    transition: background 180ms ease, border-color 180ms ease;
+    white-space: nowrap;
+  }
+  .uo-app-btn-ghost:hover {
+    background: var(--color-sunken);
+    border-color: var(--color-border-strong);
+  }
+  .uo-app-btn-ghost:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px var(--accent-ring);
+  }
+
   /* Language switcher — globe + EN, dropdown lists 10 markets. */
   .uo-lang { position: relative; display: inline-flex; }
   .uo-lang__btn {
@@ -392,6 +451,14 @@
     0%   { background-position: 200% 0; }
     100% { background-position: -200% 0; }
   }
+
+  /* Logo swap: show one variant per theme. Used on landing Nav/Footer,
+     signin page, dashboard sidebar, wellbeing header. Markup ships
+     BOTH variants; CSS hides the inactive one. Global so every surface
+     gets the instant swap on data-theme flip. */
+  :root[data-theme="light"] .uo-brand-img-dark,
+  :root:not([data-theme]) .uo-brand-img-dark { display: none; }
+  :root[data-theme="dark"] .uo-brand-img-light { display: none; }
 
   /* ── First-paint loading splash (LoadingScreen client island) ─── */
   .uo-loading {
