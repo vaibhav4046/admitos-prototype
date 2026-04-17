@@ -40,7 +40,21 @@ export function LandingObservers() {
       { rootMargin: "-10% 0px -10% 0px", threshold: 0.05 },
     );
     targets.forEach((t) => io.observe(t));
-    return () => io.disconnect();
+
+    // Fallback: reveal any still-hidden sections after 1.2s so that
+    // instant-scroll (End key, anchor jump) never leaves blank gaps.
+    const fallback = setTimeout(() => {
+      targets.forEach((el) => {
+        if (el.getAttribute("data-reveal") !== "in") {
+          el.setAttribute("data-reveal", "in");
+        }
+      });
+    }, 1200);
+
+    return () => {
+      io.disconnect();
+      clearTimeout(fallback);
+    };
   }, []);
 
   return null;

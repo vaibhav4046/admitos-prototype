@@ -10,7 +10,7 @@
  *
  * CTAs:
  *   - "Log in" → /signin
- *   - "Get UniOffer" → /signin (opens the Google + email auth surface)
+ *   - "Get Unioffer" → /signin (opens the Google + email auth surface)
  *   - "Contact Sales" never appears in the nav itself; the enterprise
  *     CTA lives in pricing and footer per Andy's brief.
  */
@@ -46,9 +46,6 @@ export function Nav() {
           <Link href="/#features">Features</Link>
           <Link href="/#how-it-works">How it works</Link>
           <Link href="/#pricing">Pricing</Link>
-          <Link href="/contact-sales" prefetch>
-            Sales
-          </Link>
         </nav>
         <div className="uo-nav__actions">
           <LangSwitcher />
@@ -57,7 +54,7 @@ export function Nav() {
             Log in
           </Link>
           <Link href="/signin" className="uo-btn uo-btn--primary">
-            Start free
+            Get Unioffer
           </Link>
         </div>
       </div>

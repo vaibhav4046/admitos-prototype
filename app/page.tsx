@@ -1,17 +1,16 @@
 /**
- * / — UniOffer marketing landing (V3 RSC tree).
+ * / — UniOffer marketing landing (V4 spec-accurate RSC tree).
  *
- * Single canonical site at `/`. Server-rendered shell with the
- * minimum number of client islands needed to power the typing
- * placeholder (HeroComposer), the cookie banner, the language
- * switcher, the theme toggle, and the scroll-reveal observer.
+ * Section order locked to CEO spec (03_Landing_Page_V3.1.pdf):
+ *   Hero → MarketReality → HowItWorks → Features (+ Feature 08 strip)
+ *   → TrustSignals → Pricing (+ compliance disclaimer) → Footer
  *
- * Lives outside the `(admissions)` and `(wellbeing)` route groups so
- * neither route group's PostHog/Sentry providers ever hydrate on the
- * marketing surface. `app/layout.tsx` is the only ancestor.
+ * AdiePreview, Timeline, SocialProof REMOVED — not in spec. Adie is
+ * gated behind sign-in per compliance policy (no wellbeing companion
+ * surface on unauthenticated marketing page).
  *
- * AdieFAB is intentionally NOT imported here — Andy item 7. The
- * V3 grep test guards this file at PR review.
+ * AdieFAB intentionally NOT imported here — Andy item 7. The V3 grep
+ * test guards this file at PR review.
  */
 
 import type { Metadata } from "next";
@@ -27,19 +26,18 @@ import { HowItWorks } from "./_landing/HowItWorks";
 import { LandingObservers } from "./_landing/LandingObservers";
 import { MarketReality } from "./_landing/MarketReality";
 import { Pricing } from "./_landing/Pricing";
-import { SocialProof } from "./_landing/SocialProof";
-import { Timeline } from "./_landing/Timeline";
+import { TrustSignals } from "./_landing/TrustSignals";
 
 import "./_landing/landing-v3.css";
 
 export const metadata: Metadata = {
-  title: "UniOffer — More Than Offers. We Spark Futures.",
+  title: "UniOffer — The Operating System for University Applications",
   description:
-    "12 AI agents and former admissions officers, working together on the single most consequential application of your life. IECA · NACAC · UCAS compliant.",
+    "12 AI agents. One platform. Build your competitive candidacy, execute your full application, and access expert human guidance — from your first essay to your final submission.",
   openGraph: {
     title: "UniOffer — AI-Native University Admissions Platform",
     description:
-      "Pool-aware school lists, voice-protected essay drafting, Hume-AI interview reps, and a wellbeing companion that respects you. Built with former Cambridge, Oxford, and Ivy admissions officers.",
+      "The world's first compliance-first, wellbeing-first AI platform for top university applications. IECA · NACAC · UCAS compliant.",
     url: "https://unioffer.ai",
     siteName: "UniOffer",
     images: [{ url: "/brand/og-image.jpg" }],
@@ -49,7 +47,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "UniOffer — AI-Native University Admissions Platform",
     description:
-      "Pool-aware school lists, voice-protected essay drafting, Hume-AI interview reps, and a wellbeing companion that respects you.",
+      "The world's first compliance-first, wellbeing-first AI platform for top university applications. IECA · NACAC · UCAS compliant.",
     images: ["/brand/og-image.jpg"],
   },
 };
@@ -71,13 +69,10 @@ export default function LandingPage() {
           <Features />
         </div>
         <div data-reveal>
+          <TrustSignals />
+        </div>
+        <div data-reveal>
           <Pricing />
-        </div>
-        <div data-reveal>
-          <Timeline />
-        </div>
-        <div data-reveal>
-          <SocialProof />
         </div>
       </main>
       <Footer />

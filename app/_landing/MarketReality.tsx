@@ -1,68 +1,82 @@
 /**
- * MarketReality
+ * MarketReality — V4 spec-accurate (Module 2, verbatim).
  *
- * Five nationality-pool stat cards Andy keeps on every deck —
- * China→Cambridge 10.9%, India→Oxford 4.2%, Singapore→Cambridge 26.5%,
- * Hong Kong→Cambridge 17.6%, South Korea→Top US "Extreme". The point
- * is not the exact number — it's that pooled-acceptance rates are
- * structurally lower than headline rates, which is what Adie's
- * candidacy work is built around.
- *
- * Per Andy's no-numerical-percent rule, the figures are spelled out
- * narratively where possible; canonical figures from his decks stay
- * verbatim because they're what counsellors quote.
+ * Five pool cards. Copy is EXACT — CEO rejected prior paraphrases.
+ * Korean card renders in a wider span because its card has no raw
+ * applicants/offers split.
  */
+
+import Link from "next/link";
 
 const STATS = [
   {
     pool: "China → Cambridge",
-    figure: "10.9%",
-    note: "headline rate hides a much smaller pool-specific quota",
+    split: "2,308 applicants · 252 admitted",
+    rate: "10.9%",
+    note: "The general Cambridge rate is 21%. Chinese applicants face a pool twice as competitive.",
   },
   {
     pool: "India → Oxford",
-    figure: "4.2%",
-    note: "Oxbridge pooling rules + STEM saturation make this brutal",
+    split: "1,757 applicants · 74 admitted",
+    rate: "4.2%",
+    note: "The lowest admit rate among all major applicant nationalities at Oxford.",
   },
   {
     pool: "Singapore → Cambridge",
-    figure: "26.5%",
-    note: "favourable but only with NUS / Hwa Chong-tier profiles",
+    split: "577 applicants · 153 admitted",
+    rate: "26.5%",
+    note: "The highest rate — but only because the competitive bar within Singapore is already extreme.",
   },
   {
     pool: "Hong Kong → Cambridge",
-    figure: "17.6%",
-    note: "DSE 5** profiles, EE-heavy applicants",
+    split: "557 applicants · 98 admitted",
+    rate: "17.6%",
+    note: "Still nearly double the China rate. UniOffer's ARE understands why.",
   },
   {
-    pool: "South Korea → Top US",
-    figure: "Extreme",
-    note: "Ivy + T10 admit rates collapse in the Korean applicant pool",
+    pool: "South Korea → Top US Universities",
+    split: null,
+    rate: "Highest-risk pool",
+    note: "Among the most competitive international applicant pools at every Ivy League institution.",
   },
 ];
 
 export function MarketReality() {
   return (
     <section
+      id="market-reality"
       className="uo-section uo-market"
       aria-labelledby="market-h2"
     >
       <p className="uo-eyebrow">Market reality</p>
       <h2 id="market-h2" className="uo-section__h2">
-        Headline acceptance rates lie about your pool.
+        The competition is not who you think it is.
       </h2>
       <p className="uo-section__lede">
-        UniOffer is calibrated against the nationality-specific admit pools
-        that actually decide your odds — not the all-applicants average.
+        International applicants don&rsquo;t compete against all applicants.
+        You compete within your own nationality pool — at admit rates that
+        are 2 to 3 times harder than the headline numbers suggest.
       </p>
       <div className="uo-stat-grid">
         {STATS.map((s) => (
           <article key={s.pool} className="uo-stat">
             <p className="uo-stat__pool">{s.pool}</p>
-            <p className="uo-stat__figure">{s.figure}</p>
+            <p className="uo-stat__figure">{s.rate}</p>
+            {s.split && <p className="uo-stat__split">{s.split}</p>}
             <p className="uo-stat__note">{s.note}</p>
           </article>
         ))}
+      </div>
+
+      <div className="uo-market__cta-lede">
+        <p>
+          These numbers come from published UCAS and Common Data Set records.
+          UniOffer&rsquo;s Application Readiness Engine calibrates to your
+          specific pool — so you always know where you stand.
+        </p>
+        <Link href="/#features" className="uo-btn uo-btn--primary uo-market__cta">
+          See how UniOffer helps →
+        </Link>
       </div>
     </section>
   );

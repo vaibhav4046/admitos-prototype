@@ -20,6 +20,9 @@
  * script mutates the DOM before React hydrates.
  */
 export function ThemeInit() {
-  const code = `(function(){try{var t=localStorage.getItem('uo-theme');if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'dark';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','dark');}})();`;
+  // V6: default theme is LIGHT (cream #F7F5F1) for manus.im-style calm.
+  // Dark mode still available via toggle — preference persists in
+  // localStorage. OS preference still honored when no explicit choice.
+  const code = `(function(){try{var t=localStorage.getItem('uo-theme');if(!t){t=matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light';}document.documentElement.setAttribute('data-theme',t);}catch(e){document.documentElement.setAttribute('data-theme','light');}})();`;
   return <script dangerouslySetInnerHTML={{ __html: code }} suppressHydrationWarning />;
 }

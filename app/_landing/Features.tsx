@@ -1,63 +1,93 @@
 /**
- * Features
+ * Features — V4 spec-accurate (Module 4, verbatim).
  *
- * Six cards, each a single agent or capability. Card hover lifts 2px
- * with shadow-2 + border accent. All animation honors
- * `prefers-reduced-motion`.
+ * Seven feature cards (01–07) rendered as a grid with progressive
+ * disclosure (4 open + 3 behind "Show 3 more"). Feature 08 renders
+ * as a full-width dark compliance strip BELOW the grid — distinct
+ * from the 7 cards, as CEO spec requires.
+ *
+ * No icons, no emojis — numbered badges (01–07) only, typographic.
  */
+
+import { FeatureGrid } from "./FeatureGrid";
 
 const FEATURES = [
   {
-    title: "School-List Agent",
+    n: "01",
+    title: "12-Agent AI Mesh",
     body:
-      "Pool-adjusted reach / target / likely list. Knows the difference between Stanford-from-Korea and Stanford-from-anywhere.",
+      "Twelve specialist agents execute in parallel — essay, strategy, research, interview, test prep, and more. Not a chatbot. A complete expert team working around the clock on your application.",
   },
   {
-    title: "Essay Agent",
+    n: "02",
+    title: "Student DNA Engine",
     body:
-      "Voice-drift protection so revisions never sand you down to generic-applicant-tone.",
+      "An 8-dimension candidacy profile built from your first session. Every agent output is personalised to your cognitive style, writing voice, and motivation pattern — and stays that way throughout your entire journey.",
   },
   {
-    title: "Interview Coach",
+    n: "03",
+    title: "Application Readiness Engine",
     body:
-      "Hume-AI voice rounds with feedback on hesitation, hedging, and the answer behind your answer.",
+      "Multi-factor preparation strength analysis calibrated to your nationality pool and each university's published selection criteria. Counsellors use it to prioritise your preparation. You see clear, actionable readiness indicators — never misleading probability numbers.",
   },
   {
-    title: "Application Readiness",
+    n: "04",
+    title: "Voice Interview Simulator",
     body:
-      "One dashboard. Every component scored against the requirements your specific schools weigh.",
+      "Real-time emotion analysis powered by Hume AI. Oxbridge academic, medical MMI, and US top college alumni interview modes. After five AI sessions, a human coach refines the final 10% AI cannot reach.",
   },
   {
-    title: "Adie wellbeing",
+    n: "05",
+    title: "Adie — Your Wellbeing Companion",
     body:
-      "Compliance-first companion. PHI-isolated. Referral pathways for crisis. Samaritans-aware.",
+      "The first admissions platform to embed a dedicated wellbeing companion. Adie provides light-touch emotional care, friendly nudges, and a safe space — structurally isolated from your admissions data so your counsellor never sees your private conversations.",
   },
   {
-    title: "Counsellor sync",
+    n: "06",
+    title: "Activities + Leadership Programme",
     body:
-      "Your in-person counsellor sees the same dashboard. UniOffer never replaces them — it gives them leverage.",
+      "Common App 10-slot optimisation, leadership narrative construction, and extracurricular arc design. Your activities are positioned as a coherent story, not a list — and your capstone research programme connects you to 200+ PhD and professor mentors.",
+  },
+  {
+    n: "07",
+    title: "Former Admissions Officer Review",
+    body:
+      "Before you submit, a dual-perspective review: AI checks narrative integrity, voice drift, and quantitative readiness. Then a former Cambridge, Oxford, or Ivy admissions officer provides the strategic lens that AI cannot replicate.",
   },
 ];
 
+const FEAT08 = {
+  title: "Compliance-First Architecture",
+  body:
+    "Every AI output is governed by IECA, NACAC, and UCAS ethical frameworks. UniOffer never writes an essay for you. It never fabricates credentials. It never presents AI-generated text as your own. Your voice is protected, your data is encrypted, and every recommendation is traceable. This is the admissions platform built for the post-AI regulatory landscape.",
+};
+
 export function Features() {
   return (
-    <section
-      id="features"
-      className="uo-section uo-features"
-      aria-labelledby="features-h2"
-    >
-      <p className="uo-eyebrow">Features</p>
-      <h2 id="features-h2" className="uo-section__h2">
-        Twelve agents. One application. Your voice intact.
-      </h2>
-      <div className="uo-feat-grid">
-        {FEATURES.map((f) => (
-          <article key={f.title} className="uo-feat-card">
-            <h3 className="uo-feat__title">{f.title}</h3>
-            <p className="uo-feat__body">{f.body}</p>
-          </article>
-        ))}
+    <>
+      <section
+        id="features"
+        className="uo-section"
+        aria-labelledby="feat-h2"
+      >
+        <p className="uo-eyebrow">Features</p>
+        <h2 id="feat-h2" className="uo-section__h2">
+          Meet the 12 agents behind your application.
+        </h2>
+        <p className="uo-section__lede">
+          Each agent is a specialist. Together, they cover every dimension of
+          a competitive university application — strategy, essays, interviews,
+          test prep, activities, research, and wellbeing.
+        </p>
+        <FeatureGrid features={FEATURES} visibleCount={4} />
+      </section>
+
+      <div className="uo-feat08" role="complementary" aria-label="Compliance">
+        <div className="uo-feat08__inner">
+          <h2 className="uo-feat08__h2">{FEAT08.title}</h2>
+          <p className="uo-feat08__body">{FEAT08.body}</p>
+        </div>
       </div>
-    </section>
+    </>
   );
 }

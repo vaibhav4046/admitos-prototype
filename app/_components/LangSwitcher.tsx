@@ -1,47 +1,76 @@
 "use client";
 
 /**
- * LangSwitcher
+ * LangSwitcher — V6
  *
- * Andy's spec: 10 languages in priority order (UK admissions feeder
- * markets), English active, the other 9 rendered as "Coming soon" with
- * `aria-disabled` so screen readers announce them as non-interactive
- * but they remain visible. Andy's checklist item 5: the EU locale
- * is intentionally absent from the priority list.
- *
- * The current locale is always `en` in M1; switching is purely a
- * marketing signal until the i18n layer lands in M2.
- *
- * Click on `en` is a no-op. Click on a coming-soon entry shows a brief
- * inline toast — no analytics, no router push.
+ * All 10 languages are selectable (no "Coming soon"). Selection persists
+ * in localStorage under `uo-lang`. Click-outside and Escape key close
+ * the dropdown. The button shows the currently selected language label.
  */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export const LANGS = [
-  { code: "en", label: "English",        active: true  },
-  { code: "zh", label: "简体中文",        active: false },
-  { code: "zt", label: "繁體中文",        active: false },
-  { code: "ko", label: "한국어",          active: false },
-  { code: "ar", label: "العربية",         active: false },
-  { code: "vi", label: "Tiếng Việt",     active: false },
-  { code: "ms", label: "Bahasa Melayu",  active: false },
-  { code: "th", label: "ภาษาไทย",        active: false },
-  { code: "hi", label: "हिन्दी",           active: false },
-  { code: "ja", label: "日本語",          active: false },
+const LANGS = [
+  { code: "en", label: "EN" },
+  { code: "zh", label: "简体中文" },
+  { code: "zt", label: "繁體中文" },
+  { code: "ko", label: "한국어" },
+  { code: "ar", label: "العربية" },
+  { code: "vi", label: "Tiếng Việt" },
+  { code: "ms", label: "Bahasa Melayu" },
+  { code: "th", label: "ภาษาไทย" },
+  { code: "hi", label: "हिन्दी" },
+  { code: "ja", label: "日本語" },
 ] as const;
 
 export function LangSwitcher() {
   const [open, setOpen] = useState(false);
-  const [toast, setToast] = useState<string | null>(null);
+  const [selected, setSelected] = useState("en");
 
-  const handlePick = (code: string, active: boolean, label: string) => {
-    if (active) {
-      setOpen(false);
-      return;
+  /* Restore persisted language on mount */
+  useEffect(() => {
+    try {
+      const stored = localStorage.getItem("uo-lang");
+      if (stored) setSelected(stored);
+    } catch {
+      /* localStorage blocked — acceptable */
     }
-    setToast(`${label} — coming soon`);
-    window.setTimeout(() => setToast(null), 2200);
+  }, []);
+
+  /* Click-outside-to-close */
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest(".uo-lang")) {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("click", handler);
+    return () => document.removeEventListener("click", handler);
+  }, [open]);
+
+  /* Escape key to close */
+  useEffect(() => {
+    if (!open) return;
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [open]);
+
+  const handlePick = (code: string) => {
+    setSelected(code);
+    setOpen(false);
+    try {
+      localStorage.setItem("uo-lang", code);
+    } catch {
+      /* localStorage blocked */
+    }
   };
+
+  const currentLabel =
+    LANGS.find((l) => l.code === selected)?.label ?? "EN";
 
   return (
     <div className="uo-lang">
@@ -66,7 +95,7 @@ export function LangSwitcher() {
           <circle cx="12" cy="12" r="10" />
           <path d="M2 12h20M12 2a15 15 0 0 1 0 20M12 2a15 15 0 0 0 0 20" />
         </svg>
-        <span>EN</span>
+        <span>{currentLabel}</span>
       </button>
       {open && (
         <ul className="uo-lang__menu" role="listbox">
@@ -75,19 +104,16 @@ export function LangSwitcher() {
               <button
                 type="button"
                 role="option"
-                aria-selected={l.active}
-                aria-disabled={!l.active}
-                className={`uo-lang__opt${l.active ? " is-active" : ""}`}
-                onClick={() => handlePick(l.code, l.active, l.label)}
+                aria-selected={l.code === selected}
+                className={`uo-lang__opt${l.code === selected ? " is-active" : ""}`}
+                onClick={() => handlePick(l.code)}
               >
                 <span>{l.label}</span>
-                {!l.active && <span className="uo-lang__cs">Coming soon</span>}
               </button>
             </li>
           ))}
         </ul>
       )}
-      {toast && <div className="uo-lang__toast" role="status">{toast}</div>}
     </div>
   );
 }

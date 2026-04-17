@@ -59,20 +59,26 @@
     --accent-ink:  #ffffff;
     --accent-soft: #a78bfa;
     --cat:         #64ee85;
+    /* Brand-green sibling tokens — used for decisive green moments
+       (CTA focus ring, section eyebrow, link underline) without
+       displacing --accent (purple) as the primary CTA fill. */
+    --brand-green:      #64ee85;
+    --brand-green-soft: rgba(100, 238, 133, 0.14);
+    --brand-green-ring: rgba(100, 238, 133, 0.45);
     --danger:      #ef4444;
     --warn:        #f59e0b;
     --ok:          #22c55e;
 
-    /* Light (default) */
-    --bg:          #f7f5f1;
+    /* Light (default) — V6: pure white, no cream/tint */
+    --bg:          #ffffff;
     --bg-surface:  #ffffff;
     --bg-elevated: #ffffff;
-    --bg-sunken:   #efece6;
-    --fg:          #0e1a24;
-    --fg-muted:    #4a5b6b;
-    --fg-soft:     #6b7a8a;
-    --border:      #e6e1d8;
-    --border-soft: #ede8dd;
+    --bg-sunken:   #fafafa;
+    --fg:          #1a1a1a;
+    --fg-muted:    #666666;
+    --fg-soft:     #666666;
+    --border:      rgba(0, 0, 0, 0.08);
+    --border-soft: rgba(0, 0, 0, 0.06);
 
     /* Legacy aliases — kept so older inline style={{ color: 'var(--color-muted)' }}
        usages don't break during the v2 → v3 migration. Remove in M2. */
@@ -87,15 +93,19 @@
   /* Explicit light override — matches :root defaults so theme-init.tsx
      setting data-theme="light" wins over any stylesheet inserted later. */
   :root[data-theme="light"] {
-    --bg:          #f7f5f1;
+    --bg:          #ffffff;
     --bg-surface:  #ffffff;
     --bg-elevated: #ffffff;
-    --bg-sunken:   #efece6;
-    --fg:          #0e1a24;
-    --fg-muted:    #4a5b6b;
-    --fg-soft:     #6b7a8a;
-    --border:      #e6e1d8;
-    --border-soft: #ede8dd;
+    --bg-sunken:   #fafafa;
+    --fg:          #1a1a1a;
+    --fg-muted:    #666666;
+    --fg-soft:     #666666;
+    --border:      rgba(0, 0, 0, 0.08);
+    --border-soft: rgba(0, 0, 0, 0.06);
+    /* V6: pure white — no cream, no tint */
+    --brand-green:      #15a34a;
+    --brand-green-soft: rgba(21, 163, 74, 0.10);
+    --brand-green-ring: rgba(21, 163, 74, 0.35);
   }
 
   :root[data-theme="dark"] {
@@ -130,6 +140,7 @@
     -webkit-tap-highlight-color: transparent;
     text-rendering: optimizeLegibility;
     scroll-behavior: smooth;
+    scroll-padding-top: 80px;
   }
 
   html,
@@ -141,6 +152,15 @@
     font-feature-settings: "ss01", "cv11";
     -webkit-font-smoothing: antialiased;
     transition: background-color 0.24s ease, color 0.24s ease;
+  }
+
+  /* V5.2 typography baseline — manus.im benchmark.
+     16px / 1.65 across viewports so body text matches manus proportions
+     instead of reading as a heavy long-form article. */
+  body {
+    font-size: 16px;
+    line-height: 1.65;
+    -moz-osx-font-smoothing: grayscale;
   }
 
   h1,
@@ -172,13 +192,7 @@
   }
 
   /* Anchor-target offset so sticky-nav doesn't hide section headings. */
-  [id="features"],
-  [id="how-it-works"],
-  [id="pricing"],
-  [id="timeline"],
-  [id="proof"] {
-    scroll-margin-top: 80px;
-  }
+  html { scroll-padding-top: 72px; }
 
   @media (prefers-reduced-motion: reduce) {
     *,
@@ -428,5 +442,60 @@
     .uo-loading-cat,
     .uo-loading-ring,
     .uo-loading-arc-2 { animation: none; }
+  }
+
+  /* ── Manus-style splash variant (app/loading.tsx) ─────────────────
+     Flat near-black plate, a single centered breathing mark, and a
+     "from UniOffer" lockup pinned near the bottom. No auto-fade: Next
+     unmounts the boundary once the route is ready. */
+  .uo-loading--manus {
+    background: #050608;
+    gap: 0;
+    grid-template-rows: 1fr auto;
+    place-items: stretch;
+    animation: none;
+  }
+  .uo-loading--manus .uo-loading-stage {
+    display: grid;
+    place-items: center;
+    min-height: 0;
+  }
+  .uo-loading-cat--manus {
+    width: 72px;
+    height: 72px;
+    filter: grayscale(1) brightness(1.35) contrast(0.9);
+    opacity: 0.92;
+    animation: uo-manus-breathe 2.4s ease-in-out infinite;
+    will-change: transform, opacity;
+  }
+  .uo-loading-lockup {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 0 0 64px;
+    color: #a4aab3;
+  }
+  .uo-loading-from {
+    font-family: var(--font-sans);
+    font-size: 13px;
+    letter-spacing: 0.01em;
+    opacity: 0.75;
+  }
+  .uo-loading-brand {
+    font-family: var(--font-serif);
+    font-size: 20px;
+    letter-spacing: 0.01em;
+    color: #e4e7ec;
+    opacity: 0.95;
+  }
+
+  @keyframes uo-manus-breathe {
+    0%, 100% { transform: scale(1);    opacity: 0.78; }
+    50%      { transform: scale(1.08); opacity: 1;    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .uo-loading-cat--manus { animation: none; opacity: 0.9; }
   }
 }
