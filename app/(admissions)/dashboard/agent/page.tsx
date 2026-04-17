@@ -6,6 +6,8 @@
  * all state lives on the sidebar / settings modal layer.
  */
 
+import Link from "next/link";
+
 import { getCurrentUser } from "@/services/auth/server";
 import { displayNameFromEmail } from "@/lib/utils";
 
@@ -23,7 +25,7 @@ const CAPS = [
       </svg>
     ),
     title: "Brand-consistent AI identity",
-    body: "Trained on your voice and the UK/US admissions canon, integrated with your tools.",
+    body: "Trained on your voice and the UK/US admissions canon — wired into every tool you already use.",
   },
   {
     icon: (
@@ -32,8 +34,8 @@ const CAPS = [
         <path d="M8 21h8M12 17v4" />
       </svg>
     ),
-    title: "Persistent memory & computer",
-    body: "24/7 cloud assistant that keeps full context of your application across every session.",
+    title: "Persistent memory and cloud desk",
+    body: "A cloud assistant that never forgets — full application context carries across every session.",
   },
   {
     icon: (
@@ -42,8 +44,8 @@ const CAPS = [
         <path d="M3 21h18M6 21v-7M18 21v-7M10 21v-7M14 21v-7" />
       </svg>
     ),
-    title: "Custom skills",
-    body: "Equip your agent with expert knowledge in essay strategy, test prep, and school research.",
+    title: "Specialist skills",
+    body: "Twelve agents trained on essay strategy, test prep, school research, interview prep, and more.",
   },
   {
     icon: (
@@ -51,8 +53,8 @@ const CAPS = [
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2Z" />
       </svg>
     ),
-    title: "Works in your messenger",
-    body: "Available on Telegram, Line, and Slack. WhatsApp and Messenger coming soon.",
+    title: "In every messenger",
+    body: "Telegram, Line, and Slack today. WhatsApp and Messenger queued for M2.",
   },
 ];
 
@@ -104,14 +106,14 @@ export default async function AgentPage() {
           ))}
         </div>
 
-        <button type="button" className="uo-dash-agent-cta">
+        <Link href="/dashboard" className="uo-dash-agent-cta">
           <span aria-hidden="true" style={{ display: "inline-flex", gap: 4 }}>
             <span style={{ display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: 999, background: "#1ea3d6", fontSize: 11, color: "#fff" }}>✈</span>
             <span style={{ display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: 999, background: "#06c755", fontSize: 11, color: "#fff" }}>L</span>
             <span style={{ display: "inline-grid", placeItems: "center", width: 22, height: 22, borderRadius: 999, background: "#4a154b", fontSize: 11, color: "#fff" }}>#</span>
           </span>
           Get started
-        </button>
+        </Link>
 
         <div className="uo-dash-agent-coming">
           <span>Coming soon</span>

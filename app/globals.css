@@ -129,6 +129,29 @@
     --brand-green-ring:  var(--accent-ring);
     --color-muted:       var(--color-fg-muted);
     --color-wellbeing:   #0ea5a6;
+
+    /* ── Spec-name aliases (UNIOFFER-SPEC-01 v1.2) ──────────────────
+       The spec uses different token names than our internal palette.
+       These aliases let spec-compliant CSS reference the canonical
+       names without forcing a rename across every file. One source of
+       truth (above), two namespaces. */
+    --font-display:      var(--font-serif);
+    --font-ui:           var(--font-sans);
+    --color-text:        var(--color-fg);
+    --color-text-muted:  var(--color-fg-muted);
+    --color-surface-alt: var(--color-sunken);
+    --radius-base:       var(--r-sm);    /* 6px */
+    --radius-md:         var(--r-md);    /* 10px */
+    --radius-lg:         var(--r-lg);    /* 14px */
+    --radius-xl:         var(--r-xl);    /* 20px */
+    --radius-full:       var(--r-full);  /* 9999px */
+    --shadow-sm:         var(--shadow-1);
+    --shadow-md:         var(--shadow-card);
+    --shadow-lg:         var(--shadow-2);
+    --dur-base:          200ms;
+    --dur-fast:          120ms;
+    --ease-default:      cubic-bezier(0.4, 0, 0.2, 1);
+    --color-danger:      var(--danger);
   }
 
   /* Explicit light override — matches :root defaults so theme-init.tsx
@@ -457,130 +480,19 @@
      BOTH variants; CSS hides the inactive one. Global so every surface
      gets the instant swap on data-theme flip. */
   :root[data-theme="light"] .uo-brand-img-dark,
-  :root:not([data-theme]) .uo-brand-img-dark { display: none; }
-  :root[data-theme="dark"] .uo-brand-img-light { display: none; }
-
-  /* ── First-paint loading splash (LoadingScreen client island) ─── */
-  .uo-loading {
-    position: fixed;
-    inset: 0;
-    z-index: 100;
-    display: grid;
-    place-items: center;
-    grid-auto-flow: row;
-    gap: 24px;
-    background: var(--color-bg);
-    animation: uo-loading-out 0.5s ease-in 0.7s forwards;
-    pointer-events: none;
+  :root:not([data-theme="dark"]) .uo-brand-img-dark {
+    display: none;
   }
-  .uo-loading-mark {
-    position: relative;
-    width: 120px;
-    height: 120px;
-    display: grid;
-    place-items: center;
+  :root[data-theme="dark"] .uo-brand-img-light,
+  :root:not([data-theme="light"]) .uo-brand-img-light {
+    display: none;
   }
-  .uo-loading-cat {
-    width: 64px;
-    height: 64px;
-    animation: uo-cat-breathe 2s ease-in-out infinite;
-    will-change: transform, opacity;
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme]) .uo-brand-img-light { display: none; }
+    :root:not([data-theme]) .uo-brand-img-dark { display: inline; }
   }
-  .uo-loading-ring {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    transform: rotate(0deg);
-    transform-origin: center;
-    animation: uo-ring-rotate 3.2s linear infinite;
-  }
-  .uo-loading-arc {
-    fill: none;
-    stroke: var(--brand-green-1);
-    stroke-width: 1.5;
-    stroke-linecap: round;
-    stroke-dasharray: 22 300;
-    opacity: 0.7;
-  }
-  .uo-loading-arc-2 {
-    stroke-width: 1;
-    stroke-dasharray: 14 280;
-    opacity: 0.4;
-    animation: uo-ring-rotate-rev 4.1s linear infinite;
-    transform-origin: center;
-  }
-  .uo-loading-label {
-    font-family: var(--font-serif);
-    font-size: 18px;
-    letter-spacing: 0.02em;
-    color: var(--color-fg);
-    opacity: 0.72;
-  }
-
-  @keyframes uo-cat-breathe {
-    0%, 100% { transform: scale(1);    opacity: 0.85; }
-    50%      { transform: scale(1.06); opacity: 1;    }
-  }
-  @keyframes uo-ring-rotate     { to { transform: rotate(360deg);  } }
-  @keyframes uo-ring-rotate-rev { to { transform: rotate(-360deg); } }
-  @keyframes uo-loading-out     { to { opacity: 0; visibility: hidden; } }
-
-  @media (prefers-reduced-motion: reduce) {
-    .uo-loading-cat,
-    .uo-loading-ring,
-    .uo-loading-arc-2 { animation: none; }
-  }
-
-  /* ── Manus-style splash variant (app/loading.tsx) ─────────────── */
-  .uo-loading--manus {
-    background: #050608;
-    gap: 0;
-    grid-template-rows: 1fr auto;
-    place-items: stretch;
-    animation: none;
-  }
-  .uo-loading--manus .uo-loading-stage {
-    display: grid;
-    place-items: center;
-    min-height: 0;
-  }
-  .uo-loading-cat--manus {
-    width: 72px;
-    height: 72px;
-    filter: grayscale(1) brightness(1.35) contrast(0.9);
-    opacity: 0.92;
-    animation: uo-manus-breathe 2.4s ease-in-out infinite;
-    will-change: transform, opacity;
-  }
-  .uo-loading-lockup {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 10px;
-    padding: 0 0 64px;
-    color: #a4aab3;
-  }
-  .uo-loading-from {
-    font-family: var(--font-sans);
-    font-size: 13px;
-    letter-spacing: 0.01em;
-    opacity: 0.75;
-  }
-  .uo-loading-brand {
-    font-family: var(--font-serif);
-    font-size: 20px;
-    letter-spacing: 0.01em;
-    color: #e4e7ec;
-    opacity: 0.95;
-  }
-
-  @keyframes uo-manus-breathe {
-    0%, 100% { transform: scale(1);    opacity: 0.78; }
-    50%      { transform: scale(1.08); opacity: 1;    }
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .uo-loading-cat--manus { animation: none; opacity: 0.9; }
+  @media (prefers-color-scheme: light) {
+    :root:not([data-theme]) .uo-brand-img-dark { display: none; }
+    :root:not([data-theme]) .uo-brand-img-light { display: inline; }
   }
 }

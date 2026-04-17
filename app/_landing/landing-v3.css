@@ -225,11 +225,19 @@ html { scroll-behavior: smooth; }
   position: sticky;
   top: 0;
   z-index: 50;
-  background: color-mix(in srgb, var(--color-bg) 82%, transparent);
+  /* Delta 12 / spec v1.2: S0 nav background is rgba(255,255,255,0.80)
+     in light + blur, rgba(10,48,66,0.80) in dark + blur. color-mix
+     with --color-bg gives us that in both themes without branching. */
+  background: color-mix(in srgb, var(--color-bg) 80%, transparent);
   backdrop-filter: saturate(140%) blur(14px);
   -webkit-backdrop-filter: saturate(140%) blur(14px);
-  border-bottom: 1px solid color-mix(in srgb, var(--color-border) 60%, transparent);
-  transition: height 180ms ease, background 180ms ease;
+  /* Delta 8: bottom border only appears AFTER scrolling past 40px. In
+     the top-of-page state the nav floats borderless. */
+  border-bottom: 1px solid transparent;
+  transition:
+    height var(--dur-base, 200ms) var(--ease-default, cubic-bezier(0.4, 0, 0.2, 1)),
+    background var(--dur-base, 200ms) var(--ease-default, cubic-bezier(0.4, 0, 0.2, 1)),
+    border-color var(--dur-base, 200ms) var(--ease-default, cubic-bezier(0.4, 0, 0.2, 1));
 }
 .uo-nav__inner {
   display: flex;
@@ -237,6 +245,10 @@ html { scroll-behavior: smooth; }
   justify-content: space-between;
   gap: 24px;
   height: 72px;
+  transition: height var(--dur-base, 200ms) var(--ease-default, cubic-bezier(0.4, 0, 0.2, 1));
+}
+.uo-nav.is-scrolled {
+  border-bottom-color: var(--color-border);
 }
 .uo-nav.is-scrolled .uo-nav__inner { height: 64px; }
 
@@ -451,8 +463,8 @@ html { scroll-behavior: smooth; }
   grid-template-columns: repeat(3, 1fr);
   gap: 24px;
 }
-@media (max-width: 1023px) { .uo-features__grid { grid-template-columns: repeat(2, 1fr); } }
-@media (max-width: 639px)  { .uo-features__grid { grid-template-columns: 1fr; } }
+@media (max-width: 1023px) { .uo-features__grid { grid-template-columns: repeat(2, 1fr); gap: 20px; } }
+@media (max-width: 639px)  { .uo-features__grid { grid-template-columns: 1fr; gap: 16px; } }
 
 .uo-feat-card {
   position: relative;
@@ -663,10 +675,13 @@ html { scroll-behavior: smooth; }
   color: var(--accent-ink, #0a3042);
   font-family: var(--font-sans);
   font-size: 11px;
-  font-weight: 700;
-  letter-spacing: 0.14em;
+  font-weight: 600;
+  letter-spacing: 0.1em;
   text-transform: uppercase;
-  padding: 6px 12px;
+  height: 28px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
   border-radius: 999px;
   margin: 0;
   white-space: nowrap;
@@ -814,7 +829,7 @@ html { scroll-behavior: smooth; }
   flex-direction: column;
   gap: 32px;
 }
-.uo-foot__brand img { height: 32px; width: auto; display: block; }
+.uo-foot__brand img { height: 28px; width: auto; display: block; }
 .uo-foot__meta {
   display: flex;
   flex-direction: column;

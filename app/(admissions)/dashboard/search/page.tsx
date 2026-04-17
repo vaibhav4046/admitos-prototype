@@ -30,7 +30,7 @@ const ROWS: TaskRow[] = [
     emoji: "🎓",
     title: "Oxford PPE — personal statement draft 2",
     preview:
-      "First 75 words open on the moment curiosity about markets tipped into philosophy. Adie flagged two evidence-heavy paragraphs as thin on argument.",
+      "First 75 words open on the moment curiosity about markets tipped into philosophy. Catie flagged two evidence-heavy paragraphs as thin on argument.",
     date: "2026/4/14",
   },
   {
@@ -41,10 +41,27 @@ const ROWS: TaskRow[] = [
       "12 schools ranked by pool-adjusted admit rate. LSE Gov leads your cohort ahead of Oxford PPE. Stanford SCPD flagged as reach.",
     date: "2026/4/10",
   },
+  {
+    href: "/dashboard/library",
+    emoji: "🗓️",
+    title: "6-month timeline — 15-Oct early submission",
+    preview:
+      "A2 pinned the UCAS deadline, Common App ED round, and Cambridge interview slot. Two gaps flagged for counsellor review.",
+    date: "2026/4/6",
+  },
 ];
 
-export default async function SearchPage() {
-  const [authed, locale] = await Promise.all([getCurrentUser(), readLocale()]);
+export default async function SearchPage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ q?: string }>;
+}) {
+  const [authed, locale, params] = await Promise.all([
+    getCurrentUser(),
+    readLocale(),
+    searchParams ?? Promise.resolve({ q: undefined } as { q?: string }),
+  ]);
+  const query = (params?.q ?? "").trim();
   const copy = getDashboardCopy(locale);
   const user = authed
     ? {
@@ -53,18 +70,35 @@ export default async function SearchPage() {
       }
     : null;
 
+  const filtered = query
+    ? ROWS.filter((r) =>
+        (r.title + " " + r.preview).toLowerCase().includes(query.toLowerCase()),
+      )
+    : ROWS;
+
   return (
     <DashboardShell copy={copy} locale={locale} title={copy.sidebar.search} user={user}>
       <section className="uo-dash-lib" aria-label="Search tasks">
-        <div className="uo-dash-lib-toolbar">
+        <form
+          role="search"
+          className="uo-dash-lib-toolbar"
+          action="/dashboard/search"
+          method="get"
+        >
           <div className="uo-dash-lib-search" style={{ width: "100%", maxWidth: 560 }}>
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="7" />
               <path d="m21 21-4.3-4.3" />
             </svg>
-            <input placeholder="Search tasks..." aria-label="Search tasks" autoFocus />
+            <input
+              name="q"
+              defaultValue={query}
+              placeholder="Search tasks..."
+              aria-label="Search tasks"
+              autoFocus
+            />
           </div>
-        </div>
+        </form>
 
         <div className="uo-dash-lib-group">
           <div className="uo-dash-lib-group-head">
@@ -88,22 +122,46 @@ export default async function SearchPage() {
 
         <div className="uo-dash-lib-group">
           <div className="uo-dash-lib-group-head">
-            <span className="uo-dash-lib-group-title">Older</span>
+            <span className="uo-dash-lib-group-title">
+              {query ? `Results for "${query}"` : "Older"}
+            </span>
+            {query && (
+              <span className="uo-dash-lib-group-date">
+                {filtered.length} match{filtered.length === 1 ? "" : "es"}
+              </span>
+            )}
           </div>
-          <div className="uo-dash-lib-grid">
-            {ROWS.map((r) => (
-              <Link href={r.href} key={r.title} className="uo-dash-libcard">
-                <div className="uo-dash-libcard-head">
-                  <span className="uo-dash-libcard-title">
-                    <span aria-hidden="true">{r.emoji}</span>
-                    {r.title}
-                  </span>
-                  <span className="uo-dash-lib-group-date">{r.date}</span>
-                </div>
-                <p className="uo-dash-libcard-preview">{r.preview}</p>
+          {filtered.length === 0 ? (
+            <p
+              style={{
+                margin: 0,
+                padding: "28px 16px",
+                color: "var(--dash-fg-soft)",
+                fontSize: 14,
+              }}
+            >
+              No tasks match your query. Try a different keyword or{" "}
+              <Link href="/dashboard" style={{ color: "var(--dash-fg)" }}>
+                start a new task
               </Link>
-            ))}
-          </div>
+              .
+            </p>
+          ) : (
+            <div className="uo-dash-lib-grid">
+              {filtered.map((r) => (
+                <Link href={r.href} key={r.title} className="uo-dash-libcard">
+                  <div className="uo-dash-libcard-head">
+                    <span className="uo-dash-libcard-title">
+                      <span aria-hidden="true">{r.emoji}</span>
+                      {r.title}
+                    </span>
+                    <span className="uo-dash-lib-group-date">{r.date}</span>
+                  </div>
+                  <p className="uo-dash-libcard-preview">{r.preview}</p>
+                </Link>
+              ))}
+            </div>
+          )}
         </div>
       </section>
     </DashboardShell>

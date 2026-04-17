@@ -20,11 +20,44 @@
 import Link from "next/link";
 import { LangSwitcher } from "./LangSwitcher";
 
-export function Nav() {
+interface NavCopy {
+  features?: string;
+  how?: string;
+  pricing?: string;
+  login?: string;
+  getStarted?: string;
+  ariaPrimary?: string;
+  ariaHome?: string;
+}
+
+interface NavProps {
+  /**
+   * Localized labels for nav links and CTAs. Optional so existing
+   * callers that want the default English strings keep rendering
+   * without any prop wiring.
+   */
+  copy?: NavCopy;
+  /**
+   * Server-resolved locale so the LangSwitcher hydrates in the right
+   * state without a client-only flash of English.
+   */
+  locale?: string;
+}
+
+export function Nav({ copy, locale }: NavProps = {}) {
+  const labels = {
+    features: copy?.features ?? "Features",
+    how: copy?.how ?? "How it works",
+    pricing: copy?.pricing ?? "Pricing",
+    login: copy?.login ?? "Log in",
+    getStarted: copy?.getStarted ?? "Get Unioffer",
+    ariaPrimary: copy?.ariaPrimary ?? "Primary",
+    ariaHome: copy?.ariaHome ?? "UniOffer home",
+  };
   return (
     <header className="uo-nav" role="banner">
       <div className="uo-nav__inner">
-        <Link href="/" aria-label="UniOffer home" className="uo-nav__brand">
+        <Link href="/" aria-label={labels.ariaHome} className="uo-nav__brand">
           {/* eslint-disable-next-line @next/next/no-img-element -- static brand SVG, next/image optimisation not needed */}
           <img
             src="/logo-color.svg"
@@ -43,18 +76,18 @@ export function Nav() {
           />
           <span className="uo-visually-hidden">UniOffer</span>
         </Link>
-        <nav className="uo-nav__links" aria-label="Primary">
-          <Link href="/#features">Features</Link>
-          <Link href="/#how-it-works">How it works</Link>
-          <Link href="/#pricing">Pricing</Link>
+        <nav className="uo-nav__links" aria-label={labels.ariaPrimary}>
+          <Link href="/#features">{labels.features}</Link>
+          <Link href="/#how-it-works">{labels.how}</Link>
+          <Link href="/#pricing">{labels.pricing}</Link>
         </nav>
         <div className="uo-nav__actions">
-          <LangSwitcher />
+          <LangSwitcher currentLocale={locale} />
           <Link href="/signin" className="uo-btn uo-btn--ghost">
-            Log in
+            {labels.login}
           </Link>
           <Link href="/signin" className="uo-btn uo-btn--primary">
-            Get Unioffer
+            {labels.getStarted}
           </Link>
         </div>
       </div>

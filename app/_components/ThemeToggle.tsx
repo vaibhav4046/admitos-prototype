@@ -28,6 +28,17 @@ import { useEffect, useState } from "react";
 
 type Theme = "light" | "dark";
 
+/**
+ * Cross-component theme broadcast key.
+ *
+ * Dashboard SettingsModal (and any future surface that wants to flip
+ * the theme without clicking this toggle directly) dispatches a
+ * `CustomEvent` with this name on `window`. This component subscribes
+ * to the same event so the icon stays in sync when another surface
+ * flips the theme.
+ */
+export const THEME_EVENT = "unioffer:theme";
+
 export function ThemeToggle() {
   const [theme, setTheme] = useState<Theme>("light");
   const [mounted, setMounted] = useState(false);
@@ -36,6 +47,17 @@ export function ThemeToggle() {
     const current = document.documentElement.getAttribute("data-theme");
     setTheme(current === "light" ? "light" : "dark");
     setMounted(true);
+  }, []);
+
+  /* Listen for external flips (SettingsModal, ?theme= URL param, etc.)
+     so the icon mirrors whatever <html data-theme> now reads. */
+  useEffect(() => {
+    const onExternal = () => {
+      const current = document.documentElement.getAttribute("data-theme");
+      setTheme(current === "light" ? "light" : "dark");
+    };
+    window.addEventListener(THEME_EVENT, onExternal);
+    return () => window.removeEventListener(THEME_EVENT, onExternal);
   }, []);
 
   const flip = () => {
@@ -49,6 +71,13 @@ export function ThemeToggle() {
     } catch {
       // localStorage blocked (Safari private mode, embedded browsers).
       // The attribute is still set for this session — acceptable.
+    }
+    // Broadcast so sibling listeners (Settings modal appearance radio,
+    // future os-theme-watcher, etc.) stay in sync.
+    try {
+      window.dispatchEvent(new CustomEvent(THEME_EVENT, { detail: next }));
+    } catch {
+      /* CustomEvent unsupported — acceptable */
     }
   };
 

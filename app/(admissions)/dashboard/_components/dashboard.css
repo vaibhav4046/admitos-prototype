@@ -702,6 +702,7 @@
   font-size: 15px;
   border: 0;
   cursor: pointer;
+  text-decoration: none;
   box-shadow: 0 10px 28px rgba(var(--dash-accent-rgb), 0.35);
   transition: transform 220ms cubic-bezier(.22,1,.36,1), box-shadow 240ms ease;
 }
@@ -764,6 +765,11 @@
 .uo-dash-lib-filter:hover {
   background: rgba(var(--dash-accent-rgb), 0.08);
   border-color: rgba(var(--dash-accent-rgb), 0.3);
+  color: var(--dash-fg);
+}
+.uo-dash-lib-filter[aria-pressed="true"] {
+  background: rgba(var(--dash-accent-rgb), 0.14);
+  border-color: rgba(var(--dash-accent-rgb), 0.35);
   color: var(--dash-fg);
 }
 .uo-dash-lib-search {
@@ -1135,6 +1141,17 @@
   .uo-dash-lib { padding: 8px 20px 72px; }
   .uo-dash-agent { padding: 44px 20px 80px; }
   .uo-dash-lib-search { min-width: 100%; }
+  .uo-dash-capgrid { grid-template-columns: 1fr; }
+  .uo-dash-agent-orbits { width: 320px; height: 230px; }
+  .uo-dash-agent-orb.o1 { left: 44px; }
+  .uo-dash-agent-orb.o2 { left: 135px; }
+  .uo-dash-agent-orb.o3 { left: 228px; }
+  .uo-dash-agent-orb.o5 { left: 268px; }
+  .uo-dash-lib-toolbar { flex-direction: column; align-items: stretch; }
+  .uo-dash-lib-toolbar-left { justify-content: stretch; }
+  .uo-dash-lib-filter { flex: 1; justify-content: center; }
+  .uo-dash-lib-grid { grid-template-columns: 1fr; }
+  .uo-dash-agent-title { font-size: clamp(26px, 6vw, 34px); }
 }
 
 @media (prefers-reduced-motion: reduce) {

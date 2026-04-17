@@ -29,13 +29,18 @@ interface LibGroup {
 
 const GROUPS: LibGroup[] = [
   {
-    title: "Oxford PPE — Personal Statement draft 2",
+    title: "Oxford PPE — personal statement draft 2",
     date: "2026/4/14",
     entries: [
       {
-        title: "Personal statement — draft 2",
+        title: "personal-statement.draft-2.md",
         preview:
-          "The first 75 words arrive as a single provocation. You open with the moment curiosity about markets tipped into philosophy — not with a summary of your CV. Adie flagged two paragraphs that are strong on evidence but thin on argument.",
+          "Opens with the moment curiosity about markets tipped into philosophy — not a CV summary. Catie flagged paragraphs 2 and 4 as evidence-heavy but light on argument. Trim 48 words before the next counsellor pass.",
+      },
+      {
+        title: "voice-check.md",
+        preview:
+          "A0 ran a drift check against your Session 1 transcripts. Sentence rhythm matches; three phrases reading as borrowed academic register — flagged inline for a human rewrite.",
       },
     ],
   },
@@ -49,7 +54,7 @@ const GROUPS: LibGroup[] = [
           "12 schools ranked by pool-adjusted admit rate for your cohort. LSE Gov leads the board ahead of Oxford PPE. Stanford SCPD is a reach; UC Berkeley Letters + Science sits at safety+.",
       },
       {
-        title: "Why-LSE outline",
+        title: "why-lse.outline.md",
         preview:
           "Three-beat structure: academic fit (Pickering's quant-heavy syllabus), community (SU Gov Soc debates), trajectory (LSE → civil-service fast-stream → think-tank).",
       },
@@ -60,9 +65,14 @@ const GROUPS: LibGroup[] = [
     date: "2026/4/2",
     entries: [
       {
-        title: "notes.md",
+        title: "session-6.notes.md",
         preview:
           "You are on pace for a 15-Oct early submission. Focus the next two weeks on tightening activity paragraph 3 and booking the Cambridge interview-prep slot with Dr. Sato.",
+      },
+      {
+        title: "interview-prep.plan.md",
+        preview:
+          "Three mock rounds queued: Cambridge-style PPE challenge, LSE policy case, and an unstructured curveball. A6 logs every session to the Commons so your counsellor sees the same footage you do.",
       },
     ],
   },
@@ -101,24 +111,24 @@ export default async function LibraryPage() {
     <DashboardShell copy={copy} locale={locale} title={copy.sidebar.library} user={user}>
       <section className="uo-dash-lib">
         <div className="uo-dash-lib-toolbar">
-          <div className="uo-dash-lib-toolbar-left">
-            <button type="button" className="uo-dash-lib-filter">
+          <div className="uo-dash-lib-toolbar-left" role="group" aria-label="Filter library">
+            <button type="button" className="uo-dash-lib-filter" aria-pressed="true">
               {FILTER_ICON} All
               <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m6 9 6 6 6-6" />
               </svg>
             </button>
-            <button type="button" className="uo-dash-lib-filter">
+            <button type="button" className="uo-dash-lib-filter" aria-pressed="false">
               {STAR_ICON} My favourites
             </button>
           </div>
-          <div className="uo-dash-lib-search">
+          <form role="search" className="uo-dash-lib-search" action="/dashboard/search">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
               <circle cx="11" cy="11" r="7" />
               <path d="m21 21-4.3-4.3" />
             </svg>
-            <input placeholder="Search files" aria-label="Search files" />
-          </div>
+            <input name="q" placeholder="Search files" aria-label="Search files" />
+          </form>
         </div>
 
         {GROUPS.map((g) => (

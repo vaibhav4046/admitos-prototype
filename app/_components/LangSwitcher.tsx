@@ -30,9 +30,20 @@ const LANGS = [
   { code: "ja", label: "日本語" },
 ] as const;
 
-export function LangSwitcher() {
+interface LangSwitcherProps {
+  /**
+   * Server-resolved locale (read from the `unioffer-lang` cookie on the
+   * server). When provided, the switcher hydrates in the correct state
+   * so there's no client-side "flash of English" on first paint. Optional
+   * because landing surfaces that read `document.documentElement.lang`
+   * via useEffect still work without passing it.
+   */
+  currentLocale?: string;
+}
+
+export function LangSwitcher({ currentLocale }: LangSwitcherProps = {}) {
   const [open, setOpen] = useState(false);
-  const [selected, setSelected] = useState("en");
+  const [selected, setSelected] = useState(currentLocale ?? "en");
 
   /* Restore persisted language on mount, with one-shot migration from
      the legacy key `uo-lang` → `unioffer-lang`. */
